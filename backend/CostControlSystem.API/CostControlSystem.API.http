@@ -1,0 +1,6 @@
+@CostControlSystem.API_HostAddress = http://localhost:5023
+
+GET {{CostControlSystem.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="CostControlSystem.API/CostControlSystem.API.csproj" Id="e4800d89-4bb5-4297-a08d-55effe7a416c" />
+  <Project Path="CostControlSystem.Application/CostControlSystem.Application.csproj" Id="0d0a4320-3cd8-437d-86a1-f70a7c2b2ebb" />
+  <Project Path="CostControlSystem.Domain/CostControlSystem.Domain.csproj" Id="bc7faeeb-1df5-4f38-8cba-6165e4e68054" />
+  <Project Path="CostControlSystem.Infrastructure/CostControlSystem.Infrastructure.csproj" Id="c8bf4f89-35a8-4dc1-9be0-2f88498bdcdb" />
+  <Project Path="CostControlSystem.Shared/CostControlSystem.Shared.csproj" Id="0670ba8d-b8ca-420b-96a2-7883f4ef59ff" />
+</Solution>
