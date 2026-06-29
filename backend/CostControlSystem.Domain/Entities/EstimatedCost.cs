@@ -7,7 +7,7 @@ public partial class EstimatedCost
 {
     public int Id { get; set; }
 
-    public int BoqitemId { get; set; }
+    public int BOQItemId { get; set; }
 
     public decimal EstimatedUnitCost { get; set; }
 
@@ -15,5 +15,5 @@ public partial class EstimatedCost
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual Boqitem Boqitem { get; set; } = null!;
+    public virtual BOQItem BOQItem { get; set; } = null!;
 }

@@ -19,7 +19,7 @@ public partial class Project
 
     public int CreatedBy { get; set; }
 
-    public virtual ICollection<Boqitem> Boqitems { get; set; } = new List<Boqitem>();
+    public virtual ICollection<BOQItem> BOQItems { get; set; } = new List<BOQItem>();
 
     public virtual User CreatedByNavigation { get; set; } = null!;
 

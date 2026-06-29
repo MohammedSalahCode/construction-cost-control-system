@@ -9,7 +9,7 @@ public partial class ProgressEntry
 
     public int ProjectId { get; set; }
 
-    public int BoqitemId { get; set; }
+    public int BOQItemId { get; set; }
 
     public decimal QuantityDone { get; set; }
 
@@ -25,7 +25,7 @@ public partial class ProgressEntry
 
     public virtual User? ApprovedByNavigation { get; set; }
 
-    public virtual Boqitem Boqitem { get; set; } = null!;
+    public virtual BOQItem BOQItem { get; set; } = null!;
 
     public virtual User CreatedByNavigation { get; set; } = null!;
 

@@ -9,7 +9,7 @@ public partial class Expense
 
     public int ProjectId { get; set; }
 
-    public int? BoqitemId { get; set; }
+    public int? BOQItemId { get; set; }
 
     public decimal Amount { get; set; }
 
@@ -29,7 +29,7 @@ public partial class Expense
 
     public virtual User? ApprovedByNavigation { get; set; }
 
-    public virtual Boqitem? Boqitem { get; set; }
+    public virtual BOQItem? BOQItem { get; set; }
 
     public virtual User CreatedByNavigation { get; set; } = null!;
 

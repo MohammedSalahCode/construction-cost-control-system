@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CostControlSystem.Domain.Entities;
 
-public partial class Boqitem
+public partial class BOQItem
 {
     public int Id { get; set; }
 
