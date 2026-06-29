@@ -26,7 +26,7 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
               .HasMaxLength(150);
 
 
-        entity.HasOne(d => d.CreatedByNavigation)
+        entity.HasOne(d => d.CreatedByUser)
               .WithMany(p => p.Projects)
               .HasForeignKey(d => d.CreatedBy)
               .OnDelete(DeleteBehavior.ClientSetNull)

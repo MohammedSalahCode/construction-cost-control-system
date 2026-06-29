@@ -19,13 +19,13 @@ public partial class User
 
     public DateTime CreatedAt { get; set; }
 
-    public virtual ICollection<Expense> ExpenseApprovedByNavigations { get; set; } = new List<Expense>();
+    public virtual ICollection<Expense> ApprovedExpenses { get; set; } = new List<Expense>();
 
-    public virtual ICollection<Expense> ExpenseCreatedByNavigations { get; set; } = new List<Expense>();
+    public virtual ICollection<Expense> CreatedExpenses { get; set; } = new List<Expense>();
 
-    public virtual ICollection<ProgressEntry> ProgressEntryApprovedByNavigations { get; set; } = new List<ProgressEntry>();
+    public virtual ICollection<ProgressEntry> ApprovedProgressEntries { get; set; } = new List<ProgressEntry>();
 
-    public virtual ICollection<ProgressEntry> ProgressEntryCreatedByNavigations { get; set; } = new List<ProgressEntry>();
+    public virtual ICollection<ProgressEntry> CreatedProgressEntries { get; set; } = new List<ProgressEntry>();
 
     public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
 

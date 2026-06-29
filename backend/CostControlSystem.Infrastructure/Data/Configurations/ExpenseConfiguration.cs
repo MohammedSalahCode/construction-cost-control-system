@@ -44,8 +44,8 @@ public class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
         entity.HasIndex(e => e.Status, "IX_Expenses_Status");
 
 
-        entity.HasOne(d => d.ApprovedByNavigation)
-              .WithMany(p => p.ExpenseApprovedByNavigations)
+        entity.HasOne(d => d.ApprovedByUser)
+              .WithMany(p => p.ApprovedExpenses)
               .HasForeignKey(d => d.ApprovedBy)
               .HasConstraintName("FK_Expenses_ApprovedBy");
 
@@ -54,8 +54,8 @@ public class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
               .HasForeignKey(d => d.BOQItemId)
               .HasConstraintName("FK_Expenses_BOQItems");
 
-        entity.HasOne(d => d.CreatedByNavigation)
-              .WithMany(p => p.ExpenseCreatedByNavigations)
+        entity.HasOne(d => d.CreatedByUser)
+              .WithMany(p => p.CreatedExpenses)
               .HasForeignKey(d => d.CreatedBy)
               .OnDelete(DeleteBehavior.ClientSetNull)
               .HasConstraintName("FK_Expenses_CreatedBy");

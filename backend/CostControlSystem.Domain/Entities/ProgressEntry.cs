@@ -23,11 +23,11 @@ public partial class ProgressEntry
 
     public DateTime? ApprovedAt { get; set; }
 
-    public virtual User? ApprovedByNavigation { get; set; }
+    public virtual User? ApprovedByUser { get; set; }
 
     public virtual BOQItem BOQItem { get; set; } = null!;
 
-    public virtual User CreatedByNavigation { get; set; } = null!;
+    public virtual User CreatedByUser { get; set; } = null!;
 
     public virtual Project Project { get; set; } = null!;
 }

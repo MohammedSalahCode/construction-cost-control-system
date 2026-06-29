@@ -21,7 +21,7 @@ public partial class Project
 
     public virtual ICollection<BOQItem> BOQItems { get; set; } = new List<BOQItem>();
 
-    public virtual User CreatedByNavigation { get; set; } = null!;
+    public virtual User CreatedByUser { get; set; } = null!;
 
     public virtual ICollection<Expense> Expenses { get; set; } = new List<Expense>();
 

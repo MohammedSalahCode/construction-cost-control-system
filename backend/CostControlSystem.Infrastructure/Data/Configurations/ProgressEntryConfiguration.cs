@@ -36,8 +36,8 @@ public class ProgressEntryConfiguration : IEntityTypeConfiguration<ProgressEntry
         entity.HasIndex(e => e.ProjectId, "IX_ProgressEntries_ProjectId");
 
 
-        entity.HasOne(d => d.ApprovedByNavigation)
-              .WithMany(p => p.ProgressEntryApprovedByNavigations)
+        entity.HasOne(d => d.ApprovedByUser)
+              .WithMany(p => p.ApprovedProgressEntries)
               .HasForeignKey(d => d.ApprovedBy)
               .HasConstraintName("FK_ProgressEntries_ApprovedBy");
 
@@ -47,8 +47,8 @@ public class ProgressEntryConfiguration : IEntityTypeConfiguration<ProgressEntry
               .OnDelete(DeleteBehavior.ClientSetNull)
               .HasConstraintName("FK_ProgressEntries_BOQItems");
 
-        entity.HasOne(d => d.CreatedByNavigation)
-              .WithMany(p => p.ProgressEntryCreatedByNavigations)
+        entity.HasOne(d => d.CreatedByUser)
+              .WithMany(p => p.CreatedProgressEntries)
               .HasForeignKey(d => d.CreatedBy)
               .OnDelete(DeleteBehavior.ClientSetNull)
               .HasConstraintName("FK_ProgressEntries_CreatedBy");
