@@ -4,12 +4,15 @@ using CostControlSystem.Domain.Entities;
 
 namespace CostControlSystem.Application.TechnicalServices.Security
 {
+
     public interface ITokenService
     {
-        string GenerateAccessToken(User user);
+
+        AccessTokenResult GenerateAccessToken(User user);
 
         string GenerateRefreshToken();
 
         string HashRefreshToken(string refreshToken);
+
     }
 }

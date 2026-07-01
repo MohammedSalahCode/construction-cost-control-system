@@ -19,7 +19,7 @@ namespace CostControlSystem.Application.TechnicalServices.Security
             _jwtSettings = jwtSettings.Value;
         }
 
-        public string GenerateAccessToken(User user)
+        public AccessTokenResult GenerateAccessToken(User user)
         {
 
             var claims = new List<Claim>
@@ -32,18 +32,23 @@ namespace CostControlSystem.Application.TechnicalServices.Security
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
 
-            var signingCredentials = new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256);
+            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
+            var expiresAt = DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationMinutes);
 
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessTokenExpirationMinutes),
+                expires: expiresAt,
                 signingCredentials: signingCredentials
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new AccessTokenResult
+            {
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                ExpiresAt = expiresAt
+            };
         }
 
         public string GenerateRefreshToken()
