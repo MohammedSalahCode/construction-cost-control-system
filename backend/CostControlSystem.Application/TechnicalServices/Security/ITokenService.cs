@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CostControlSystem.Application.TechnicalServices.Security.Models;
 using CostControlSystem.Domain.Entities;
 
 namespace CostControlSystem.Application.TechnicalServices.Security
@@ -10,9 +9,7 @@ namespace CostControlSystem.Application.TechnicalServices.Security
 
         AccessTokenResult GenerateAccessToken(User user);
 
-        string GenerateRefreshToken();
-
-        string HashRefreshToken(string refreshToken);
+        RefreshTokenResult GenerateRefreshToken(bool rememberMe);
 
     }
 }

@@ -39,29 +39,26 @@ namespace CostControlSystem.Application.Auth.Services
             }
 
 
-            var tokenResult = _tokenService.GenerateAccessToken(user);
-            var refreshToken = _tokenService.GenerateRefreshToken();
+            var accessTokenResult = _tokenService.GenerateAccessToken(user);
 
-            var refreshTokenHash = _tokenService.HashRefreshToken(refreshToken);
+            var refreshTokenResult = _tokenService.GenerateRefreshToken(request.RememberMe);
 
             var refreshTokenEntity = new RefreshToken
             {
                 UserId = user.Id,
-                TokenHash = refreshTokenHash,
-                ExpiresAt = DateTime.UtcNow.AddDays(7),
+                TokenHash = refreshTokenResult.RefreshTokenHash,
+                ExpiresAt = refreshTokenResult.ExpiresAt,
                 IsRevoked = false
             };
-
 
             _context.RefreshTokens.Add(refreshTokenEntity);
             await _context.SaveChangesAsync();
 
-
             return new LoginResponseDto
             {
-                AccessToken = tokenResult.AccessToken,
-                RefreshToken = refreshToken,
-                ExpiresAt = tokenResult.ExpiresAt
+                AccessToken = accessTokenResult.AccessToken,
+                RefreshToken = refreshTokenResult.RefreshToken,
+                ExpiresAt = accessTokenResult.ExpiresAt
             };
         }
 

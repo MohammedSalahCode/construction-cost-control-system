@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CostControlSystem.Application.TechnicalServices.Security
 {
@@ -20,5 +15,11 @@ namespace CostControlSystem.Application.TechnicalServices.Security
 
         [Range(1, int.MaxValue)]
         public int AccessTokenExpirationMinutes { get; set; }
+
+        [Range(1, 365)]
+        public int RefreshTokenExpirationDays { get; set; }
+
+        [Range(1, 365)]
+        public int RememberMeRefreshTokenExpirationDays { get; set; }
     }
 }

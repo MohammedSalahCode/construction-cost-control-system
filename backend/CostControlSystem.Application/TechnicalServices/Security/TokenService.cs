@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using CostControlSystem.Application.TechnicalServices.Security.Models;
 
 namespace CostControlSystem.Application.TechnicalServices.Security
 {
@@ -51,22 +52,27 @@ namespace CostControlSystem.Application.TechnicalServices.Security
             };
         }
 
-        public string GenerateRefreshToken()
+        public RefreshTokenResult GenerateRefreshToken(bool rememberMe)
         {
             byte[] randomBytes = new byte[32];
-
             RandomNumberGenerator.Fill(randomBytes);
+            string refreshToken = Convert.ToBase64String(randomBytes);
 
-            return Convert.ToBase64String(randomBytes);
-        }
-
-        public string HashRefreshToken(string refreshToken)
-        {
             byte[] tokenBytes = Encoding.UTF8.GetBytes(refreshToken);
-
             byte[] hashBytes = SHA256.HashData(tokenBytes);
+            string refreshTokenHash = Convert.ToHexString(hashBytes);
 
-            return Convert.ToHexString(hashBytes);
+            int expirationDays =
+                rememberMe
+                    ? _jwtSettings.RememberMeRefreshTokenExpirationDays
+                    : _jwtSettings.RefreshTokenExpirationDays;
+
+            return new RefreshTokenResult
+            {
+                RefreshToken = refreshToken,
+                RefreshTokenHash = refreshTokenHash,
+                ExpiresAt = DateTime.UtcNow.AddDays(expirationDays)
+            };
         }
     }
 }

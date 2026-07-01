@@ -1,5 +1,4 @@
-﻿
-namespace CostControlSystem.Application.TechnicalServices.Security
+﻿namespace CostControlSystem.Application.TechnicalServices.Security.Models
 {
     public class AccessTokenResult
     {
