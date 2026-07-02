@@ -11,6 +11,6 @@ namespace CostControlSystem.Application.Auth.Interfaces
 
         Task LogoutAsync(LogoutRequestDto request);
 
-        Task<CurrentUserResponseDto> GetCurrentUserAsync();
+        Task<CurrentUserResponseDto> GetCurrentUserAsync(int userId);
     }
 }

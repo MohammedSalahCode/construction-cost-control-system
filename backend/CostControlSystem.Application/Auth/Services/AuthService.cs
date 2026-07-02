@@ -38,6 +38,10 @@ namespace CostControlSystem.Application.Auth.Services
                 throw new UnauthorizedException("Invalid credentials.");
             }
 
+            if (!user.IsActive)
+            {
+                throw new UnauthorizedException("User account is inactive.");
+            }
 
             var accessTokenResult = _tokenService.GenerateAccessToken(user);
 
@@ -85,17 +89,17 @@ namespace CostControlSystem.Application.Auth.Services
 
             if (refreshToken.IsRevoked)
             {
-                throw new UnauthorizedException("Refresh token has been revoked.");
+                throw new UnauthorizedException("Invalid refresh token.");
             }
 
             if (refreshToken.ExpiresAt <= DateTime.UtcNow)
             {
-                throw new UnauthorizedException("Refresh token has expired.");
+                throw new UnauthorizedException("Invalid refresh token.");
             }
 
             if (!refreshToken.User.IsActive)
             {
-                throw new UnauthorizedException("User account is inactive.");
+                throw new UnauthorizedException("Invalid refresh token.");
             }
 
             var accessTokenResult =
@@ -132,14 +136,53 @@ namespace CostControlSystem.Application.Auth.Services
             };
         }
 
-        public Task LogoutAsync(LogoutRequestDto request)
+        public async Task LogoutAsync(LogoutRequestDto request)
         {
-            throw new NotImplementedException();
+            var refreshTokenHash =
+                _tokenService.HashRefreshToken(request.RefreshToken);
+
+            var refreshToken = await _context.RefreshTokens
+                .FirstOrDefaultAsync(rt => rt.TokenHash == refreshTokenHash);
+
+            if (refreshToken == null)
+            {
+                return;
+            }
+
+            if (refreshToken.IsRevoked)
+            {
+                return;
+            }
+
+            refreshToken.IsRevoked = true;
+            refreshToken.RevokedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
         }
 
-        public Task<CurrentUserResponseDto> GetCurrentUserAsync()
+        public async Task<CurrentUserResponseDto> GetCurrentUserAsync(int userId)
         {
-            throw new NotImplementedException();
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User not found.");
+            }
+
+            if (!user.IsActive)
+            {
+                throw new UnauthorizedException("User account is inactive.");
+            }
+
+            return new CurrentUserResponseDto
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Role = user.Role.Name,
+            };
         }
     }
 }
