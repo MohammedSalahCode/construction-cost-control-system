@@ -68,9 +68,68 @@ namespace CostControlSystem.Application.Auth.Services
             };
         }
 
-        public Task<RefreshTokenResponseDto> RefreshTokenAsync(RefreshTokenRequestDto request)
+        public async Task<RefreshTokenResponseDto> RefreshTokenAsync(RefreshTokenRequestDto request)
         {
-            throw new NotImplementedException();
+            var refreshTokenHash =
+                _tokenService.HashRefreshToken(request.RefreshToken);
+
+            var refreshToken = await _context.RefreshTokens
+                .Include(rt => rt.User)
+                .ThenInclude(u => u.Role)
+                .FirstOrDefaultAsync(rt => rt.TokenHash == refreshTokenHash);
+
+            if (refreshToken == null)
+            {
+                throw new UnauthorizedException("Invalid refresh token.");
+            }
+
+            if (refreshToken.IsRevoked)
+            {
+                throw new UnauthorizedException("Refresh token has been revoked.");
+            }
+
+            if (refreshToken.ExpiresAt <= DateTime.UtcNow)
+            {
+                throw new UnauthorizedException("Refresh token has expired.");
+            }
+
+            if (!refreshToken.User.IsActive)
+            {
+                throw new UnauthorizedException("User account is inactive.");
+            }
+
+            var accessTokenResult =
+                _tokenService.GenerateAccessToken(refreshToken.User);
+
+            var newRefreshToken =
+                _tokenService.GenerateRefreshToken();
+
+            var newRefreshTokenHash =
+                _tokenService.HashRefreshToken(newRefreshToken);
+
+            var newRefreshTokenExpiration =
+                _tokenService.GetRefreshTokenExpiration(false);
+
+            refreshToken.IsRevoked = true;
+            refreshToken.RevokedAt = DateTime.UtcNow;
+
+
+            var newRefreshTokenEntity = new RefreshToken
+            {
+                UserId = refreshToken.UserId,
+                TokenHash = newRefreshTokenHash,
+                ExpiresAt = newRefreshTokenExpiration,
+                IsRevoked = false
+            };
+
+            _context.RefreshTokens.Add(newRefreshTokenEntity);
+            await _context.SaveChangesAsync();
+
+            return new RefreshTokenResponseDto
+            {
+                AccessToken = accessTokenResult.AccessToken,
+                RefreshToken = newRefreshToken
+            };
         }
 
         public Task LogoutAsync(LogoutRequestDto request)
