@@ -9,7 +9,10 @@ namespace CostControlSystem.Application.TechnicalServices.Security
 
         AccessTokenResult GenerateAccessToken(User user);
 
-        RefreshTokenResult GenerateRefreshToken(bool rememberMe);
+        string GenerateRefreshToken();
 
+        string HashRefreshToken(string refreshToken);
+
+        DateTime GetRefreshTokenExpiration(bool rememberMe);
     }
 }

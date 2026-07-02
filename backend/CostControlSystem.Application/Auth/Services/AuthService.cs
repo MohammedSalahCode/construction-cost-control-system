@@ -41,13 +41,19 @@ namespace CostControlSystem.Application.Auth.Services
 
             var accessTokenResult = _tokenService.GenerateAccessToken(user);
 
-            var refreshTokenResult = _tokenService.GenerateRefreshToken(request.RememberMe);
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            var refreshTokenHash = _tokenService.HashRefreshToken(refreshToken);
+
+            var refreshTokenExpiration =
+                _tokenService.GetRefreshTokenExpiration(request.RememberMe);
+
 
             var refreshTokenEntity = new RefreshToken
             {
                 UserId = user.Id,
-                TokenHash = refreshTokenResult.RefreshTokenHash,
-                ExpiresAt = refreshTokenResult.ExpiresAt,
+                TokenHash = refreshTokenHash,
+                ExpiresAt = refreshTokenExpiration,
                 IsRevoked = false
             };
 
@@ -57,7 +63,7 @@ namespace CostControlSystem.Application.Auth.Services
             return new LoginResponseDto
             {
                 AccessToken = accessTokenResult.AccessToken,
-                RefreshToken = refreshTokenResult.RefreshToken,
+                RefreshToken = refreshToken,
                 ExpiresAt = accessTokenResult.ExpiresAt
             };
         }

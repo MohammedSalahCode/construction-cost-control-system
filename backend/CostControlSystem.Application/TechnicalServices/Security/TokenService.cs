@@ -52,27 +52,32 @@ namespace CostControlSystem.Application.TechnicalServices.Security
             };
         }
 
-        public RefreshTokenResult GenerateRefreshToken(bool rememberMe)
+        public string GenerateRefreshToken()
         {
             byte[] randomBytes = new byte[32];
+
             RandomNumberGenerator.Fill(randomBytes);
-            string refreshToken = Convert.ToBase64String(randomBytes);
 
+            return Convert.ToBase64String(randomBytes);
+        }
+
+        public string HashRefreshToken(string refreshToken)
+        {
             byte[] tokenBytes = Encoding.UTF8.GetBytes(refreshToken);
-            byte[] hashBytes = SHA256.HashData(tokenBytes);
-            string refreshTokenHash = Convert.ToHexString(hashBytes);
 
+            byte[] hashBytes = SHA256.HashData(tokenBytes);
+
+            return Convert.ToHexString(hashBytes);
+        }
+
+        public DateTime GetRefreshTokenExpiration(bool rememberMe)
+        {
             int expirationDays =
                 rememberMe
                     ? _jwtSettings.RememberMeRefreshTokenExpirationDays
                     : _jwtSettings.RefreshTokenExpirationDays;
 
-            return new RefreshTokenResult
-            {
-                RefreshToken = refreshToken,
-                RefreshTokenHash = refreshTokenHash,
-                ExpiresAt = DateTime.UtcNow.AddDays(expirationDays)
-            };
+            return DateTime.UtcNow.AddDays(expirationDays);
         }
     }
 }
