@@ -132,7 +132,8 @@ namespace CostControlSystem.Application.Auth.Services
             return new RefreshTokenResponseDto
             {
                 AccessToken = accessTokenResult.AccessToken,
-                RefreshToken = newRefreshToken
+                RefreshToken = newRefreshToken,
+                ExpiresAt = accessTokenResult.ExpiresAt
             };
         }
 
