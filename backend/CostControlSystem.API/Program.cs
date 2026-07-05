@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using CostControlSystem.API.Middleware;
 using CostControlSystem.Application.Auth.Interfaces;
 using CostControlSystem.Application.Auth.Services;
 using CostControlSystem.Application.TechnicalServices.Security;
@@ -113,6 +114,7 @@ var app = builder.Build();
 // Middleware Pipeline
 // ===============================
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
