@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using CostControlSystem.API.Configuration;
 using CostControlSystem.API.Middleware;
 using CostControlSystem.Application.Auth.Interfaces;
 using CostControlSystem.Application.Auth.Services;
@@ -20,6 +21,22 @@ builder.Services
     .Bind(builder.Configuration.GetSection("JwtSettings"))
     .ValidateDataAnnotations()
     .ValidateOnStart();
+
+// CORS
+var corsSettings = builder.Configuration
+    .GetSection("Cors")
+    .Get<CorsSettings>()
+    ?? throw new InvalidOperationException("Cors configuration is missing.");
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+    {
+        policy.WithOrigins(corsSettings.AllowedOrigins)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 
 // ===============================
@@ -123,6 +140,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Frontend");
 
 app.UseAuthentication();
 
