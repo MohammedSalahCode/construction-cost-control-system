@@ -1,0 +1,173 @@
+/* ==========================================================
+   Construction Cost Control System
+   Application Styles
+========================================================== */
+
+
+@font-face {
+    font-family: "IBM Plex Sans Arabic";
+    src: url("../assets/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-v15-arabic_latin-regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IBM Plex Sans Arabic";
+    src: url("../assets/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-v15-arabic_latin-500.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IBM Plex Sans Arabic";
+    src: url("../assets/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-v15-arabic_latin-600.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "IBM Plex Sans Arabic";
+    src: url("../assets/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-v15-arabic_latin-700.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+html[lang="ar"],
+html[lang="ar"] body {
+    font-family: "IBM Plex Sans Arabic", "Helvetica Neue", Arial, sans-serif;
+}
+
+:root {
+    --cui-primary: #2563a8;
+    --cui-primary-rgb: 37, 99, 168;
+}
+
+.btn-primary {
+    --cui-btn-bg: #2563a8;
+    --cui-btn-border-color: #2563a8;
+    --cui-btn-hover-bg: #1f5089;
+    --cui-btn-hover-border-color: #1c497d;
+    --cui-btn-focus-shadow-rgb: 37, 99, 168;
+    --cui-btn-active-bg: #1c497d;
+    --cui-btn-active-border-color: #194371;
+    --cui-btn-disabled-bg: #2563a8;
+    --cui-btn-disabled-border-color: #2563a8;
+}
+
+
+[data-coreui-theme=dark] .btn-primary {
+    --cui-btn-bg: #3373c0;
+    --cui-btn-border-color: #3373c0;
+    --cui-btn-hover-bg: #2c63a3;
+    --cui-btn-hover-border-color: #285a93;
+    --cui-btn-focus-shadow-rgb: 51, 115, 192;
+    --cui-btn-active-bg: #285a93;
+    --cui-btn-active-border-color: #245084;
+    --cui-btn-disabled-bg: #3373c0;
+    --cui-btn-disabled-border-color: #3373c0;
+}
+
+
+/* ==========================================================
+   Layout
+========================================================== */
+
+
+
+/* ==========================================================
+   Sidebar
+========================================================== */
+
+.sidebar-brand {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-brand-full {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    font-weight: 500;
+}
+
+.sidebar-dark {
+    background-color: #212631;
+    background-image: linear-gradient(180deg, #232736 0%, #1f293d 100%);
+}
+
+.sidebar-brand {
+    color: #e1e0e0eb;
+}
+
+
+/* ================
+   Project Selector
+=================== */
+
+/* Behavior */
+
+/* Default state - Warning */
+.sidebar-project-selector {
+    background-color: rgba(255, 193, 7, 0.1);
+    border: 1px solid #f9b11573 ;
+    border-radius: 8px;
+    margin: 12px;
+    margin-top: 20px;
+    padding: 12px !important;
+}
+.sidebar-project-selector .dropdown-toggle {
+    background-color: #f9b115;
+    border-color: #f9b115;
+    color: #000;
+}
+
+
+/* Selected project state - Success  */
+.sidebar-project-selector.project-selected {
+    background-color: rgb(25 135 84 / 17%);
+    border: 1px solid #1b9e3e78 !important;
+}
+.sidebar-project-selector.project-selected .dropdown-toggle {
+    background-color: #1b9e3e;
+    border-color: #1b9e3e;
+    color: #fff;
+}
+
+
+/* Responsive behavior */
+.sidebar-project-selector .project-selector-narrow {
+    display: none;
+}
+.sidebar.sidebar-narrow .project-selector-full,
+.sidebar.sidebar-narrow-unfoldable:not(:hover) .project-selector-full {
+    display: none;
+}
+.sidebar.sidebar-narrow .project-selector-narrow,
+.sidebar.sidebar-narrow-unfoldable:not(:hover) .project-selector-narrow {
+    display: block;
+}
+
+
+/* ==========================================================
+   Dashboard
+========================================================== */
+
+
+
+/* ==========================================================
+   KPI Cards
+========================================================== */
+
+
+
+/* ==========================================================
+   Reports
+========================================================== */
