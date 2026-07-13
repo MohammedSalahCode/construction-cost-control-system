@@ -1,0 +1,219 @@
+<div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
+
+    <div class="sidebar-header border-bottom">
+
+        <div class="sidebar-brand">
+            <div class="sidebar-brand-full">
+                <i class="cil-bar-chart fs-4"></i>
+                <span data-i18n="app.name">Cost Control System</span>
+            </div>
+
+            <span class="sidebar-brand-narrow">
+                <i class="cil-bar-chart fs-4"></i>
+            </span>
+        </div>
+
+        <button class="btn-close d-lg-none"
+                type="button"
+                data-coreui-theme="dark"
+                aria-label="Close"
+                onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+        </button>
+
+    </div>
+
+    <!-- Project Selector -->
+<div class="sidebar-project-selector px-3 py-3" id="projectSelectorContainer">
+
+    <div class="project-selector-full">
+
+        <div class="small text-body-secondary mb-1" data-i18n="layout.sidebar.currentProject">
+            Current Project
+        </div>
+
+        <div class="dropdown">
+           <button class="btn dropdown-toggle w-100 text-start"
+                id="projectSelectorButton"
+                type="button"
+                data-coreui-toggle="dropdown"
+                aria-expanded="false">
+
+                <span id="projectSelectorLabel" data-i18n="layout.sidebar.selectProject">
+                    Select Project
+                </span>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-dark w-100">
+                <li>
+                    <button class="dropdown-item" data-project-id="1" data-project-name="Factory Project">
+                        Factory Project
+                    </button>
+                </li>
+
+                <li>
+                    <button class="dropdown-item" type="button" data-project-id="2" data-project-name="Residential Tower">
+                        Residential Tower
+                    </button>
+                </li>
+
+                <li>
+                    <button class="dropdown-item" type="button" data-project-id="3" data-project-name="Airport Expansion">
+                        Airport Expansion
+                    </button>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="project-selector-narrow text-center">
+        <i class="icon cil-building"></i>
+    </div>
+
+</div>
+
+    <ul class="sidebar-nav"
+        data-coreui="navigation"
+        data-simplebar>
+
+        <!-- MAIN -->
+
+        <li class="nav-title" data-i18n="layout.sidebar.main">
+            Main
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="dashboard.html">
+                <span class="nav-icon">
+                     <i class="icon cil-speedometer"></i>                    
+                </span>
+
+                <span data-i18n="layout.sidebar.dashboard">
+                    Dashboard
+                </span>
+            </a>
+        </li>
+
+        <!-- PROJECT MANAGEMENT -->
+
+        <li class="nav-title"
+            data-i18n="layout.sidebar.projectManagement">
+            Project Management
+        </li>
+
+        <li class="nav-group">
+            <a class="nav-link nav-group-toggle" href="#">
+                <span class="nav-icon">
+                    <i class="icon cil-folder-open"></i>
+                </span>
+
+                <span data-i18n="layout.sidebar.projects">
+                    Projects
+                </span>
+            </a>
+
+            <ul class="nav-group-items compact">
+                <li class="nav-item">
+
+                    <a class="nav-link" href="#">
+                        <span class="nav-icon">
+                            <i class="icon cil-list"></i>
+                        </span>
+
+                        <span data-i18n="layout.sidebar.boq">
+                            BOQ
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="nav-icon">
+                            <i class="icon cil-chart-line"></i>
+                        </span>
+
+                        <span data-i18n="layout.sidebar.progress">
+                            Progress
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- COST CONTROL -->
+
+        <li class="nav-title" data-i18n="layout.sidebar.costControl">
+            Cost Control
+        </li>
+
+
+        <li class="nav-group">
+
+            <a class="nav-link nav-group-toggle" href="#">
+                <span class="nav-icon">
+                    <i class="icon cil-wallet"></i>
+                </span>
+
+                <span data-i18n="layout.sidebar.finance">
+                    Finance
+                </span>
+            </a>
+
+            <ul class="nav-group-items compact">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="nav-icon">
+                            <i class="icon cil-money"></i>
+                        </span>
+
+                        <span data-i18n="layout.sidebar.expenses">
+                            Expenses
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="nav-icon">
+                            <i class="icon cil-calculator"></i>
+                        </span>
+
+                        <span data-i18n="layout.sidebar.costAnalysis">
+                            Cost Analysis
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+        </li>
+
+        <!-- REPORTING -->
+
+        <li class="nav-title" data-i18n="layout.sidebar.reporting">
+            Reporting
+        </li>
+
+        <li class="nav-item">
+
+            <a class="nav-link" href="#">
+                <span class="nav-icon">
+                    <i class="icon cil-description"></i>
+                </span>
+
+                <span data-i18n="layout.sidebar.reports">
+                    Reports
+                </span>
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="sidebar-footer border-top d-none d-md-flex">
+
+        <button class="sidebar-toggler"
+                type="button"
+                data-coreui-toggle="unfoldable">
+        </button>
+    </div>
+</div>

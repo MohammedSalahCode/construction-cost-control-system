@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
   <base href="../../">
   <meta charset="utf-8">
@@ -11,6 +10,7 @@
   <meta name="theme-color" content="#ffffff">
   <!-- Main styles for this application-->
   <link href="css/style.css" rel="stylesheet">
+  <link href="css/app.css" rel="stylesheet">
   <script src="js/color-modes.js"></script>
 </head>
 <body>
@@ -89,6 +89,10 @@
   <script>
     const tooltipTriggerList = document.querySelectorAll('[data-coreui-toggle="tooltip"]');
     const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new coreui.Tooltip(tooltipTriggerEl));
+  </script>
+  <script type="module">
+  import { initializeLocalization } from "../../shared/localization/i18n.js";
+  initializeLocalization();
   </script>
   <script type="module" src="modules/auth/auth.js"></script>
 </body>
