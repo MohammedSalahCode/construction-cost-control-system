@@ -1,9 +1,9 @@
 ﻿using CostControlSystem.Application.Auth.DTOs.Requests;
 using CostControlSystem.Application.Auth.DTOs.Responses;
 using CostControlSystem.Application.Auth.Interfaces;
+using CostControlSystem.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace CostControlSystem.API.Controllers
 {
@@ -59,19 +59,9 @@ namespace CostControlSystem.API.Controllers
         [Authorize]
         public async Task<ActionResult<CurrentUserResponseDto>> Me()
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            int currentUserId = User.GetCurrentUserId();
 
-            if (userIdClaim == null)
-            {
-                return Unauthorized();
-            }
-
-            if (!int.TryParse(userIdClaim.Value, out var userId))
-            {
-                return Unauthorized();
-            }
-
-            var response = await _authService.GetCurrentUserAsync(userId);
+            var response = await _authService.GetCurrentUserAsync(currentUserId);
 
             return Ok(response);
         }

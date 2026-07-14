@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc;
 using CostControlSystem.API.Configuration;
+using CostControlSystem.API.Factories;
 using CostControlSystem.API.Middleware;
 using CostControlSystem.Application.Auth.Interfaces;
 using CostControlSystem.Application.Auth.Services;
@@ -50,6 +52,36 @@ builder.Services.AddDbContext<CostControlSystemDbContext>(options =>
 });
 
 
+// Controllers
+builder.Services.AddControllers();
+
+
+// ===============================
+// API Behavior
+// ===============================
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState
+            .Where(x => x.Value!.Errors.Count > 0)
+            .ToDictionary(
+                x => x.Key,
+                x => x.Value!.Errors
+                    .Select(e => e.ErrorMessage)
+                    .ToArray());
+
+        var response = ErrorResponseFactory.Create(
+            StatusCodes.Status400BadRequest,
+            "Validation failed.",
+            errors);
+
+        return new BadRequestObjectResult(response);
+    };
+});
+
+
 // ===============================
 // Authentication
 // ===============================
@@ -58,6 +90,33 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.Events = new JwtBearerEvents
+        {
+            OnChallenge = async context =>
+            {
+                context.HandleResponse();
+
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+                var response = ErrorResponseFactory.Create(
+                    StatusCodes.Status401Unauthorized,
+                    "Authentication is required.");
+
+                await context.Response.WriteAsJsonAsync(response);
+            },
+
+            OnForbidden = async context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
+
+                var response = ErrorResponseFactory.Create(
+                    StatusCodes.Status403Forbidden,
+                    "You do not have permission to perform this action.");
+
+                await context.Response.WriteAsJsonAsync(response);
+            }
+        };
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -89,9 +148,6 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 // Technical Services
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<PasswordHasherService>();
-
-// Presentation
-builder.Services.AddControllers();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

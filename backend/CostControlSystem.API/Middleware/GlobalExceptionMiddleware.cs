@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using CostControlSystem.API.Models;
+﻿using CostControlSystem.API.Factories;
 using CostControlSystem.Application.Exceptions;
 
 namespace CostControlSystem.API.Middleware
@@ -24,17 +23,23 @@ namespace CostControlSystem.API.Middleware
             }
             catch (NotFoundException ex)
             {
-                await HandleExceptionAsync(
-                    context,
-                    StatusCodes.Status404NotFound,
-                    ex.Message);
+                await HandleExceptionAsync(context, StatusCodes.Status404NotFound, ex.Message);
             }
             catch (UnauthorizedException ex)
             {
-                await HandleExceptionAsync(
-                    context,
-                    StatusCodes.Status401Unauthorized,
-                    ex.Message);
+                await HandleExceptionAsync(context, StatusCodes.Status401Unauthorized, ex.Message);
+            }
+            catch (BusinessRuleException ex)
+            {
+                await HandleExceptionAsync(context, StatusCodes.Status400BadRequest, ex.Message);
+            }
+            catch (ForbiddenException ex)
+            {
+                await HandleExceptionAsync(context, StatusCodes.Status403Forbidden, ex.Message);
+            }
+            catch (ConflictException ex)
+            {
+                await HandleExceptionAsync(context, StatusCodes.Status409Conflict, ex.Message);
             }
             catch (Exception ex)
             {
@@ -54,13 +59,9 @@ namespace CostControlSystem.API.Middleware
 
             context.Response.StatusCode = statusCode;
 
-            var response = new ErrorResponse
-            {
-                Status = statusCode,
-                Message = message
-            };
+            var response = ErrorResponseFactory.Create(statusCode, message);
 
-            await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+            await context.Response.WriteAsJsonAsync(response);
         }
 
     }
