@@ -34,7 +34,7 @@ export function applyTranslations() {
 }
 
 
-function getTranslation(key) {
+export function getTranslation(key) {
 
     const language = getLanguage();
 

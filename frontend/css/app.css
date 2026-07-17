@@ -47,6 +47,13 @@ html[lang="ar"] body {
     --cui-primary-rgb: 37, 99, 168;
 }
 
+.sidebar-nav {
+    --cui-sidebar-nav-link-padding-y: 0.45rem;
+    --cui-sidebar-nav-title-padding-y: 0.4rem;
+    --cui-sidebar-nav-title-margin-top: 0.5rem;
+    --cui-sidebar-nav-link-icon-margin: 0.6rem;
+}
+
 .btn-primary {
     --cui-btn-bg: #2563a8;
     --cui-btn-border-color: #2563a8;
@@ -73,6 +80,37 @@ html[lang="ar"] body {
 }
 
 
+.btn-outline-primary {
+    --cui-btn-color: #2563a8;
+    --cui-btn-border-color: #2563a8;
+    --cui-btn-hover-color: #fff;
+    --cui-btn-hover-bg: #2563a8;
+    --cui-btn-hover-border-color: #2563a8;
+    --cui-btn-focus-shadow-rgb: 37, 99, 168;
+    --cui-btn-active-color: #fff;
+    --cui-btn-active-bg: #1f5089;
+    --cui-btn-active-border-color: #1c497d;
+    --cui-btn-disabled-color: #2563a8;
+    --cui-btn-disabled-bg: transparent;
+    --cui-btn-disabled-border-color: #2563a8;
+    --cui-gradient: none;
+}
+
+[data-coreui-theme="dark"] .btn-outline-primary {
+    --cui-btn-color: #3373c0;
+    --cui-btn-border-color: #3373c0;
+    --cui-btn-hover-bg: #3373c0;
+    --cui-btn-hover-border-color: #3373c0;
+    --cui-btn-focus-shadow-rgb: 51, 115, 192;
+    --cui-btn-active-color: #fff;
+    --cui-btn-active-bg: #2c63a3;
+    --cui-btn-active-border-color: #285a93;
+    --cui-btn-disabled-color: #3373c0;
+    --cui-btn-disabled-bg: transparent;
+    --cui-btn-disabled-border-color: #3373c0;
+    --cui-gradient: none;
+}
+
 /* ==========================================================
    Layout
 ========================================================== */
@@ -85,6 +123,7 @@ html[lang="ar"] body {
 
 .sidebar-brand {
     width: 100%;
+    color: rgb(255 255 255 / 80%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,11 +139,21 @@ html[lang="ar"] body {
 
 .sidebar-dark {
     background-color: #212631;
-    background-image: linear-gradient(180deg, #232736 0%, #1f293d 100%);
+    background-image: linear-gradient(45deg, #36435b 0%, #1e2030 100%);
+    
 }
 
-.sidebar-brand {
-    color: #e1e0e0eb;
+.sidebar-nav .nav-link {
+    color: rgb(255 255 255 / 80%);
+}
+
+.sidebar-nav .nav-link.active {
+    box-shadow: inset 3px 0 0 #2563A8;
+    background-color: rgba(255, 255, 255, .0375);
+}
+
+.sidebar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, .0375);
 }
 
 
