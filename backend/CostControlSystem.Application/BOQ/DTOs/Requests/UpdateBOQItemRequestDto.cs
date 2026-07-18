@@ -6,6 +6,7 @@ namespace CostControlSystem.Application.BOQ.DTOs.Requests
     {
         [Required]
         [StringLength(20)]
+        [RegularExpression(@"^\d+(\.\d+)*$", ErrorMessage = "Invalid BOQ item number format.")]
         public string ItemNumber { get; set; } = string.Empty;
 
         [Required]

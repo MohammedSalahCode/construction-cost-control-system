@@ -91,10 +91,10 @@ namespace CostControlSystem.Application.BOQ.Services
             }
 
 
-            var isLocked = await _context.BOQItems
+            var boqIsLocked = await _context.BOQItems
                 .AnyAsync(item => item.ProjectId == projectId && item.IsLocked);
 
-            if (isLocked)
+            if (boqIsLocked)
             {
                 throw new BusinessRuleException("The BOQ is locked and cannot be modified.");
             }
@@ -153,12 +153,10 @@ namespace CostControlSystem.Application.BOQ.Services
             }
 
 
-            var isLocked = await _context.BOQItems
-                .AnyAsync(item =>
-                    item.ProjectId == boqItem.ProjectId &&
-                    item.IsLocked);
+            var boqIsLocked = await _context.BOQItems
+                .AnyAsync(item => item.ProjectId == boqItem.ProjectId && item.IsLocked);
 
-            if (isLocked)
+            if (boqIsLocked)
             {
                 throw new BusinessRuleException("The BOQ is locked and cannot be modified.");
             }
@@ -264,7 +262,7 @@ namespace CostControlSystem.Application.BOQ.Services
                 .Where(item => item.ProjectId == projectId)
                 .ToListAsync();
 
-            if (boqItems.Count == 0)
+            if (!boqItems.Any())
             {
                 throw new BusinessRuleException("Cannot lock BOQ because it has no items.");
             }

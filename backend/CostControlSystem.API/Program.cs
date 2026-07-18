@@ -9,6 +9,8 @@ using CostControlSystem.API.Factories;
 using CostControlSystem.API.Middleware;
 using CostControlSystem.Application.Auth.Interfaces;
 using CostControlSystem.Application.Auth.Services;
+using CostControlSystem.Application.BOQ.Interfaces;
+using CostControlSystem.Application.BOQ.Services;
 using CostControlSystem.Application.Projects.Interfaces;
 using CostControlSystem.Application.Projects.Services;
 using CostControlSystem.Application.TechnicalServices.Security;
@@ -147,6 +149,7 @@ builder.Services
 // Application Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IBOQService, BOQService>();
 
 // Technical Services
 builder.Services.AddScoped<ITokenService, TokenService>();
