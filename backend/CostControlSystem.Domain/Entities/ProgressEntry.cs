@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CostControlSystem.Domain.Entities;
+﻿namespace CostControlSystem.Domain.Entities;
 
 public partial class ProgressEntry
 {
@@ -13,11 +10,17 @@ public partial class ProgressEntry
 
     public decimal QuantityDone { get; set; }
 
+    public DateOnly ExecutionDate { get; set; }
+
     public int CreatedBy { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
+    public DateTime? UpdatedAt { get; set; }
+
     public string Status { get; set; } = null!;
+
+    public string? ReviewerComment { get; set; }
 
     public int? ApprovedBy { get; set; }
 

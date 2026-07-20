@@ -26,6 +26,12 @@ public class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
               .HasDefaultValueSql("(getdate())")
               .HasColumnType("datetime");
 
+        entity.Property(e => e.ExpenseDate)
+              .HasColumnType("date");
+
+        entity.Property(e => e.UpdatedAt)
+              .HasColumnType("datetime");
+
         entity.Property(e => e.Description)
               .HasMaxLength(500);
 
@@ -36,6 +42,11 @@ public class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
               .HasMaxLength(20)
               .HasDefaultValue("Pending");
 
+        entity.Property(e => e.ReviewerComment)
+              .HasMaxLength(1000);
+
+        entity.Property(e => e.ReferenceNumber)
+              .HasMaxLength(100);
 
         entity.HasIndex(e => e.BOQItemId, "IX_Expenses_BOQItemId");
 

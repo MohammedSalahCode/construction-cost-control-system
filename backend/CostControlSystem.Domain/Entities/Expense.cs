@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CostControlSystem.Domain.Entities;
+﻿namespace CostControlSystem.Domain.Entities;
 
 public partial class Expense
 {
@@ -17,11 +14,19 @@ public partial class Expense
 
     public string ExpenseType { get; set; } = null!;
 
+    public DateOnly ExpenseDate { get; set; }
+
     public string Status { get; set; } = null!;
 
     public int CreatedBy { get; set; }
 
     public DateTime CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+
+    public string? ReviewerComment { get; set; }
+
+    public string? ReferenceNumber { get; set; }
 
     public int? ApprovedBy { get; set; }
 

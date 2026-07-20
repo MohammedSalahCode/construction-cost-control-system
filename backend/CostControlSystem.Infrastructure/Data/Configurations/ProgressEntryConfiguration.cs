@@ -24,12 +24,20 @@ public class ProgressEntryConfiguration : IEntityTypeConfiguration<ProgressEntry
               .HasDefaultValueSql("(getdate())")
               .HasColumnType("datetime");
 
+        entity.Property(e => e.ExecutionDate)
+              .HasColumnType("date");
+
+        entity.Property(e => e.UpdatedAt)
+              .HasColumnType("datetime");
+
         entity.Property(e => e.QuantityDone)
               .HasColumnType("decimal(18, 2)");
 
         entity.Property(e => e.Status)
               .HasMaxLength(20);
 
+        entity.Property(e => e.ReviewerComment)
+              .HasMaxLength(1000);
 
         entity.HasIndex(e => e.BOQItemId, "IX_ProgressEntries_BOQItemId");
 
