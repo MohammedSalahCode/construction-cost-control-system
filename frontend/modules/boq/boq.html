@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <base href="../../">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Construction Cost Control & Performance Monitoring System">
+    <meta name="author" content="Mohammed Salah">
+    <title>BOQ | Construction Cost Control System</title>
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendor styles-->
+    <link rel="stylesheet" href="vendors/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="css/vendors/simplebar.css">
+    <link rel="stylesheet" href="vendors/@coreui/icons/css/free.min.css">
+    <!-- Main styles for this application-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <script src="js/color-modes.js"></script>
+</head>
+
+<body>
+    <div id="sidebarContainer"></div>
+
+    <div class="wrapper d-flex flex-column min-vh-100">
+        <header class="header header-sticky p-0 mb-4">
+            <div class="container-fluid border-bottom px-4">
+
+                <button class="header-toggler" type="button"
+                    onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"
+                    style="margin-inline-start: -14px">
+                    <svg class="icon icon-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path fill="var(--ci-primary-color, currentcolor)"
+                            d="M80 96h352v32H80zm0 144h352v32H80zm0 144h352v32H80z" class="ci-primary" />
+                    </svg>
+                </button>
+
+                <ul class="header-nav">
+
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button"
+                            aria-expanded="false" data-coreui-toggle="dropdown">
+                            <i class="icon icon-lg cil-contrast theme-icon-active"></i>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end" style="--cui-dropdown-min-width: 8rem">
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center" type="button"
+                                    data-coreui-theme-value="light">
+                                    <i class="icon icon-lg me-3 cil-sun"></i>
+                                    <span data-i18n="layout.theme.light">Light</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center" type="button"
+                                    data-coreui-theme-value="dark">
+                                    <i class="icon icon-lg me-3 cil-moon"></i>
+                                    <span data-i18n="layout.theme.dark">Dark</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center active" type="button"
+                                    data-coreui-theme-value="auto">
+                                    <i class="icon icon-lg me-3 cil-contrast"></i>
+                                    <span data-i18n="layout.theme.auto">Auto</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+
+                        <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button"
+                            data-coreui-toggle="dropdown" aria-expanded="false">
+
+                            <svg width="20" height="20" viewBox="0 -960 960 960" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M323-111.5Q250-143 196-197t-85-127.5Q80-398 80-482t31-156.5Q142-711 196-765t127-84.5Q396-880 480-880t157 30.5Q710-819 764-765t85 126.5Q880-566 880-482t-31 157.5Q818-251 764-197t-127 85.5Q564-80 480-80t-157-31.5ZM480-138q35-36 58.5-82.5T577-331H384q14 60 37.5 108t58.5 85Zm-85-12q-25-38-43-82t-30-99H172q38 71 88 111.5T395-150Zm171-1q72-23 129.5-69T788-331H639q-13 54-30.5 98T566-151ZM152-391h159q-3-27-3.5-48.5T307-482q0-25 1-44.5t4-43.5H152q-7 24-9.5 43t-2.5 45q0 26 2.5 46.5T152-391Zm221 0h215q4-31 5-50.5t1-40.5q0-20-1-38.5t-5-49.5H373q-4 31-5 49.5t-1 38.5q0 21 1 40.5t5 50.5Zm275 0h160q7-24 9.5-44.5T820-482q0-26-2.5-45t-9.5-43H649q3 35 4 53.5t1 34.5q0 22-1.5 41.5T648-391Zm-10-239h150q-33-69-90.5-115T565-810q25 37 42.5 80T638-630Zm-254 0h194q-11-53-37-102.5T480-820q-32 27-54 71t-42 119Zm-212 0h151q11-54 28-96.5t43-82.5q-75 19-131 64t-91 115Z"
+                                    fill="currentColor"></path>
+                            </svg>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <button id="languageEnglish" class="dropdown-item active" type="button"
+                                    data-language="en">🇺🇸 English</button>
+                            </li>
+                            <li>
+                                <button id="languageArabic" class="dropdown-item" type="button"
+                                    data-language="ar">العربية 🇸🇦</button>
+                            </li>
+                        </ul>
+
+                    </li>
+
+                    <li class="nav-item py-1">
+                        <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link py-0 pe-0 d-flex align-items-center" data-coreui-toggle="dropdown" href="#"
+                            role="button" aria-haspopup="true" aria-expanded="false">
+                            <div class="avatar avatar-md"><img id="currentUserAvatar" class="avatar-img"
+                                    src="assets/images/avatars/default.jpg" alt="User"></div>
+                            <svg class="ms-2 text-body-secondary " xmlns="http://www.w3.org/2000/svg" width="20"
+                                height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end pt-0">
+                            <div class="px-3 py-2">
+                                <div id="currentUserName" class="fw-bold fs-6 text-nowrap">User</div>
+                                <div id="currentUserRole" class="small text-body-secondary">Administrator</div>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a class="dropdown-item" href="#">
+                                <i class="icon me-2 cil-user"></i>
+                                <span data-i18n="layout.userMenu.profile">Profile</span>
+                            </a>
+
+                            <a class="dropdown-item" href="#">
+                                <i class="icon me-2 cil-settings"></i>
+                                <span data-i18n="layout.userMenu.settings">Settings</span>
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a id="logoutButton" class="dropdown-item" href="#">
+                                <i class="icon me-2 cil-account-logout"></i>
+                                <span data-i18n="layout.userMenu.logout">Logout</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="container-fluid px-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb my-0">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <span data-i18n="boq.page.title">BOQ</span>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+
+        </header>
+        <div class="body flex-grow-1">
+            <div class="container-lg px-4">
+
+                <!-- Page Content -->
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h2 class="mb-1" data-i18n="boq.page.title">BOQ</h2>
+                        <p class="text-body-secondary mb-0" data-i18n="boq.page.description">Project bill of quantities and related information.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div>
+                                <div class="small text-body-secondary" data-i18n="boq.summary.project">Project</div>
+                                <div id="currentProjectName" class="fw-semibold">No Project</div>
+                            </div>
+
+                            <div class="text-center">
+                                <div class="small text-body-secondary" data-i18n="boq.summary.status">BOQ Status</div>
+                                <span id="boqStatusBadge" class="badge bg-warning"
+                                    data-i18n="boq.summary.unlocked">Draft</span>
+                            </div>
+
+                            <div class="text-end">
+                                <div class="small text-body-secondary" data-i18n="boq.summary.items">Items</div>
+                                <div id="boqItemsCount" class="fw-semibold">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="d-flex justify-content-end gap-2 mb-3">
+                            <button id="lockBOQButton" type="button" class="btn btn-outline-warning">
+                                <i class="cil-lock-locked me-2"></i>
+                                <span data-i18n="boq.page.lockButton">Lock BOQ</span>
+                            </button>
+
+                            <button id="addBOQItemButton" type="button" class="btn btn-primary">
+                                <i class="cil-plus me-2"></i>
+                                <span data-i18n="boq.page.addButton">Add Item</span>
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="width:60px" scope="col">#</th>
+                                        <th scope="col" data-i18n="boq.table.itemNumber">Item No.</th>
+                                        <th scope="col" data-i18n="boq.table.itemName">Item Name</th>
+                                        <th scope="col" data-i18n="boq.table.unit">Unit</th>
+                                        <th scope="col" data-i18n="boq.table.quantity">Quantity</th>
+                                        <th scope="col" data-i18n="boq.table.unitPrice">Unit Price (SAR)</th>
+                                        <th scope="col" data-i18n="boq.table.totalPrice">Total Price (SAR)</th>
+                                        <th scope="col" style="width:140px" data-i18n="boq.table.actions">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="boqTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer px-4">
+            <div>Construction Cost Control System &copy; 2026</div>
+        </footer>
+
+    </div>
+
+    <!-- BOQ Modal -->
+
+    <div class="modal fade" id="boqModal" tabindex="-1" aria-labelledby="boqModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="boqModalTitle" data-i18n="boq.modal.addTitle">Add BOQ Item</h5>
+                    <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- alert -->
+                    <div id="boqAlert" class="alert alert-danger d-none mb-3" role="alert"></div>
+                    <form id="boqForm">
+                        <input type="hidden" id="boqId">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="itemNumber" data-i18n="boq.modal.itemNumber">Item Number</label>
+                                <input id="itemNumber" type="text" class="form-control" maxlength="20" required>
+                                <div class="form-text" data-i18n="boq.modal.itemNumberHint">Example: 1.1, 1.5.1</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="unit" data-i18n="boq.modal.unit">Unit</label>
+                                <select id="unit" class="form-select" required>
+                                    <option value="" selected disabled data-i18n="boq.modal.selectUnit">Select Unit</option>
+                                    <option value="L.M.">L.M.</option>
+                                    <option value="m²">m²</option>
+                                    <option value="m³">m³</option>
+                                    <option value="kg">kg</option>
+                                    <option value="ton">ton</option>
+                                    <option value="No.">No.</option>
+                                    <option value="L.S.">L.S.</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="itemName" data-i18n="boq.modal.itemName">Item Name</label>
+                            <input id="itemName" type="text" class="form-control" maxlength="200" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="quantity" data-i18n="boq.modal.quantity">Quantity</label>
+                                <input id="quantity" type="number" class="form-control" min="1" step="0.001" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="unitPrice" data-i18n="boq.modal.unitPrice">Unit Price (SAR)</label>
+                                <input id="unitPrice" type="number" class="form-control" min="0" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="card bg-body-tertiary border-0 mb-3">
+                            <div class="card-body text-center">
+                                <div class="small text-body-secondary" data-i18n="boq.table.totalPrice">Total Price (SAR)</div>
+                                <div class="fs-4 fw-semibold" id="totalPrice" aria-live="polite">0.00</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-0">
+                            <label class="form-label" for="notes" data-i18n="boq.modal.notes">Notes</label>
+                            <textarea id="notes" class="form-control" rows="3" maxlength="500"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal" data-i18n="boq.modal.cancel">Cancel</button>
+                    <button id="saveBOQButton" type="submit" class="btn btn-primary" form="boqForm">
+                        <span id="saveBOQSpinner" class="spinner-border spinner-border-sm me-2 d-none" aria-hidden="true"></span>
+                        <span id="saveBOQButtonText" data-i18n="boq.modal.create">Create</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+    <script src="vendors/simplebar/js/simplebar.min.js"></script>
+    <script>
+        const header = document.querySelector("header.header");
+
+        document.addEventListener("scroll", () => {
+            if (header) {
+                header.classList.toggle("shadow-sm", document.documentElement.scrollTop > 0);
+            }
+        });
+    </script>
+    <script type="module" src="modules/boq/boq.js"></script>
+</body>
+
+</html>

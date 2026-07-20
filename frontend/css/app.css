@@ -220,3 +220,12 @@ html[lang="ar"] body {
 /* ==========================================================
    Reports
 ========================================================== */
+
+
+
+/* Fix RTL select arrow position */
+html[dir="rtl"] select.form-select {
+    background-position: left 0.75rem center;
+    padding-right: 0.75rem;
+    padding-left: 2.25rem;
+}

@@ -34,14 +34,10 @@ const ar = {
         sidebar: {
             currentProject: "المشروع الحالي",
             selectProject: "اختر مشروعًا",
-
             main: "الرئيسية",
             dashboard: "لوحة التحكم",
-
             projectsSection:"المشاريع",
             projectList:"قائمة المشاريع",
-
-            currentProject:"المشروع الحالي",
             overview:"نظرة عامة",
             boq: "بنود الكميات",
             progress: "التقدم",
@@ -50,12 +46,11 @@ const ar = {
             projectEvents: "الأحداث",
             recommendations: "التوصيات",
             reports: "التقارير",
-
             administration: "الإدارة",
             users: "المستخدمون",
         },
         
-            breadcrumb: {
+        breadcrumb: {
             dashboard: "لوحة التحكم"
         }
     },
@@ -97,7 +92,82 @@ const ar = {
             updatedSuccessfully: "تم تحديث المشروع بنجاح."
         }
 
-    }
+    },
+
+
+    boq: {
+
+        page: {
+            title: "BOQ",
+            description: "بنود الكميات والبيانات المرتبطة بها.",
+            addButton: "إضافة بند",
+            lockButton: "اعتماد BOQ"
+        },
+
+        summary: {
+            project: "المشروع",
+            status: "حالة الــ BOQ",
+            items: "عدد البنود",
+            draft: "مسودة",
+            approved: "معتمد"
+        },
+
+        table: {
+            itemNumber: "رقم البند",
+            itemName: "اسم البند",
+            unit: "الوحدة",
+            quantity: "الكمية",
+            unitPrice: "سعر الوحدة (ر.س)",
+            totalPrice: "الإجمالي (ر.س)",
+            actions: "الإجراءات"
+        },
+
+        modal: {
+
+            addTitle: "إضافة بند",
+            editTitle: "تعديل البند",
+            itemNumber: "رقم البند",
+            itemNumberHint: "مثال: 1، 1.1، 1.5.1",
+            itemName: "اسم البند",
+            unit: "الوحدة",
+            quantity: "الكمية",
+            unitPrice: "سعر الوحدة (ر.س)",
+            notes: "ملاحظات",
+            create: "إنشاء",
+            saveChanges: "حفظ التعديلات",
+            cancel: "إلغاء",
+            selectUnit: "اختر الوحدة"
+        },
+
+        confirm: {
+            deleteTitle: "حذف بند BOQ",
+            deleteMessage: "هل أنت متأكد من حذف هذا البند؟ لا يمكن التراجع عن هذه العملية.",
+            confirmButton: "حذف",
+            cancelButton: "إلغاء",
+            lockTitle: "اعتماد الـ BOQ",
+            lockMessage: "هل أنت متأكد من اعتماد الـ BOQ؟ بعد الاعتماد لن يكون بالإمكان إضافة أو تعديل أو حذف البنود.",
+            lockButton: "اعتماد"
+        },
+
+        messages: {
+            createdSuccessfully: "تمت إضافة البند بنجاح.",
+            updatedSuccessfully: "تم تحديث البند بنجاح.",
+            deletedSuccessfully: "تم حذف البند بنجاح.",
+            approvedSuccessfully: "تم اعتماد الـ BOQ بنجاح.",
+            approved: "اعتماد BOQ",
+            addItemBeforeApproval: "أضف بندًا واحدًا على الأقل قبل اعتماد الـ BOQ."
+        }
+
+    },
+
+    common: {
+
+        edit: "تعديل",
+        delete: "حذف",
+        cancel: "إلغاء",
+        approve: "اعتماد"
+
+    },
 
 };
 

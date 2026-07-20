@@ -110,7 +110,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#"><span class="nav-icon"><i class="icon cil-list"></i></span>
+            <a class="nav-link" href="../../modules/boq/boq.html"><span class="nav-icon"><i class="icon cil-list"></i></span>
                 <span data-i18n="layout.sidebar.boq">BOQ</span>
             </a>
         </li>
@@ -178,5 +178,25 @@
                 type="button"
                 data-coreui-toggle="unfoldable">
         </button>
+    </div>
+</div>
+
+<!-- Shared Confirmation Modal -->
+
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalTitle">Confirm</h5>
+                <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmModalMessage" class="mb-0">Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmCancelButton" type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Cancel</button>
+                <button id="confirmOkButton" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
     </div>
 </div>
