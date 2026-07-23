@@ -36,6 +36,9 @@ public class ProgressEntryConfiguration : IEntityTypeConfiguration<ProgressEntry
         entity.Property(e => e.Status)
               .HasMaxLength(20);
 
+        entity.Property(e => e.Notes)
+              .HasMaxLength(1000);
+
         entity.Property(e => e.ReviewerComment)
               .HasMaxLength(1000);
 

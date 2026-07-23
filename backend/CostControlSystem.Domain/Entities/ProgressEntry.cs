@@ -20,6 +20,8 @@ public partial class ProgressEntry
 
     public string Status { get; set; } = null!;
 
+    public string? Notes { get; set; }
+
     public string? ReviewerComment { get; set; }
 
     public int? ApprovedBy { get; set; }

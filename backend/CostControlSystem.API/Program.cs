@@ -13,6 +13,8 @@ using CostControlSystem.Application.BOQ.Interfaces;
 using CostControlSystem.Application.BOQ.Services;
 using CostControlSystem.Application.Projects.Interfaces;
 using CostControlSystem.Application.Projects.Services;
+using CostControlSystem.Application.Progress.Interfaces;
+using CostControlSystem.Application.Progress.Services;
 using CostControlSystem.Application.TechnicalServices.Security;
 using CostControlSystem.Infrastructure.Data;
 
@@ -150,6 +152,7 @@ builder.Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IBOQService, BOQService>();
+builder.Services.AddScoped<IProgressService, ProgressService>();
 
 // Technical Services
 builder.Services.AddScoped<ITokenService, TokenService>();
