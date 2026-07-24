@@ -8,6 +8,7 @@ import {
 } from "./projects.service.js";
 import { showSuccess } from "../../shared/ui/toast.js";
 import { getTranslation } from "../../shared/localization/i18n.js";
+import { showAlert, hideAlert } from "../../shared/ui/alert.js";
 
 let projectModal;
 
@@ -48,6 +49,8 @@ function bindEvents() {
 }
 
 function openCreateProjectModal() {
+    
+    hideAlert("projectAlert");
 
     clearProjectForm();
 
@@ -93,6 +96,8 @@ async function handleProjectFormSubmit(event) {
     saveProjectButton.disabled = true;
     saveProjectSpinner.classList.remove("d-none");
 
+    hideAlert("projectAlert");
+
     try {
 
         if (projectId) {
@@ -115,6 +120,23 @@ async function handleProjectFormSubmit(event) {
                 ? getTranslation("projects.messages.updatedSuccessfully") ?? "Project updated successfully."
                 : getTranslation("projects.messages.createdSuccessfully") ?? "Project created successfully."
         );
+
+    }
+    catch (error) {
+
+        if (error.errors) {
+
+            const validationMessage =
+                Object.values(error.errors)[0][0];
+
+            showAlert("projectAlert", validationMessage);
+
+        }
+        else {
+
+            showAlert("projectAlert", error.message);
+
+        }
 
     }
     finally {
@@ -180,6 +202,8 @@ async function handleEditProject(event) {
     const project = await getProjectById(projectId);
 
     populateProjectForm(project);
+    
+    hideAlert("projectAlert");
 
     projectModal.show();
 

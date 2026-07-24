@@ -58,6 +58,11 @@ namespace CostControlSystem.Application.Projects.Services
 
         public async Task<ProjectResponseDto> CreateAsync(CreateProjectRequestDto dto, int currentUserId)
         {
+            if (dto.EndDate < dto.StartDate)
+            {
+                throw new BusinessRuleException("Project end date cannot be earlier than the start date.");
+            }
+
             var project = new Project
             {
                 Name = dto.Name,
@@ -88,6 +93,11 @@ namespace CostControlSystem.Application.Projects.Services
             if (project == null)
             {
                 throw new NotFoundException($"Project with id {id} was not found.");
+            }
+
+            if (dto.EndDate < project.StartDate)
+            {
+                throw new BusinessRuleException("Project end date cannot be earlier than the start date.");
             }
 
             project.Name = dto.Name;

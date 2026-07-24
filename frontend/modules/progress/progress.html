@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <meta name="description" content="Construction Cost Control & Performance Monitoring System">
     <meta name="author" content="Mohammed Salah">
-    <title>BOQ | Construction Cost Control System</title>
+    <title>Progress | Construction Cost Control System</title>
     <meta name="theme-color" content="#ffffff">
     <!-- Vendor styles-->
     <link rel="stylesheet" href="vendors/simplebar/css/simplebar.css">
@@ -138,80 +138,86 @@
                     </li>
                 </ul>
             </div>
-
-            <div class="container-fluid px-4">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb my-0">
-                        <li class="breadcrumb-item active" aria-current="page">
-                            <span data-i18n="boq.page.title">BOQ</span>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-
         </header>
+        
         <div class="body flex-grow-1">
             <div class="container-lg px-4">
 
                 <!-- Page Content -->
 
+                <!-- Progress Page Header -->
                 <div class="row mb-4">
                     <div class="col-12">
-                        <h2 class="mb-1" data-i18n="boq.page.title">BOQ</h2>
-                        <p class="text-body-secondary mb-0" data-i18n="boq.page.description">Project bill of quantities and related information.</p>
+                        <h2 class="mb-1" data-i18n="progress.page.title">Progress Tracking</h2>
+                        <p class="text-body-secondary mb-0" data-i18n="progress.page.description">Track project execution progress and review submitted progress records.</p>
                     </div>
                 </div>
 
-                <div class="card">
+                <!-- BOQ Progress Summary Card -->
+                <div class="card mb-4">
+
                     <div class="card-header">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div     class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                             <div>
-                                <div class="small text-body-secondary" data-i18n="boq.summary.project">Project</div>
+                                <div class="small text-body-secondary" data-i18n="boq.summary.project">Project
+                                </div>
                                 <div id="currentProjectName" class="fw-semibold">No Project</div>
                             </div>
 
-                            <div class="text-center">
-                                <div class="small text-body-secondary" data-i18n="boq.summary.status">BOQ Status</div>
-                                <span id="boqStatusBadge" class="badge bg-warning"
-                                    data-i18n="boq.summary.unlocked">Draft</span>
-                            </div>
-
                             <div class="text-end">
-                                <div class="small text-body-secondary" data-i18n="boq.summary.items">Items</div>
-                                <div id="boqItemsCount" class="fw-semibold">0</div>
+                                <div class="small text-body-secondary" data-i18n="boq.summary.items">
+                                    BOQ Items
+                                </div>
+                                <div id="progressItemsCount" class="fw-semibold">0</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <div class="d-flex justify-content-end gap-2 mb-3">
-                            <button id="lockBOQButton" type="button" class="btn btn-outline-warning">
-                                <i class="cil-lock-locked me-2"></i>
-                                <span data-i18n="boq.page.lockButton">Lock BOQ</span>
-                            </button>
-
-                            <button id="addBOQItemButton" type="button" class="btn btn-primary">
-                                <i class="cil-plus me-2"></i>
-                                <span data-i18n="boq.page.addButton">Add Item</span>
-                            </button>
-                        </div>
-
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
                                 <thead>
                                     <tr>
-                                        <th scope="col" style="width:60px" scope="col">#</th>
-                                        <th scope="col" data-i18n="boq.table.itemNumber">Item No.</th>
-                                        <th scope="col" data-i18n="boq.table.itemName">Item Name</th>
-                                        <th scope="col" data-i18n="boq.table.unit">Unit</th>
-                                        <th scope="col" data-i18n="boq.table.contractquantity">Contract Quantity</th>
-                                        <th scope="col" data-i18n="boq.table.unitPrice">Unit Price (SAR)</th>
-                                        <th scope="col" data-i18n="boq.table.totalPrice">Total Price (SAR)</th>
-                                        <th scope="col" style="width:140px" data-i18n="boq.table.actions">Actions</th>
+                                        <th style="width:60px">#</th>
+                                        <th data-i18n="progress.table.itemNumber">Item No.</th>
+                                        <th data-i18n="progress.table.itemName">Item Description</th>
+                                        <th data-i18n="progress.table.unit">Unit</th>
+                                        <th data-i18n="progress.table.contractQuantity">Contract Qty</th>
+                                        <th data-i18n="progress.table.executedQuantity">Executed Qty</th>
+                                        <th data-i18n="progress.table.remainingQuantity">Remaining Qty</th>
+                                        <th data-i18n="progress.table.progressPercentage">Progress %</th>
+                                        <th data-i18n="progress.table.actions">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="boqTableBody">
-                                </tbody>
+
+                                <tbody id="progressSummaryTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Entries Card -->
+                <div class="card mb-4">
+                    <div class="card-header progress-entries-table">
+                        <div class="fw-semibold" data-i18n="progress.entries.title">Progress Entries</div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th style="width:60px">#</th>
+                                        <th data-i18n="progress.entries.item">Item</th>
+                                        <th data-i18n="progress.entries.quantityDone">Executed Qty</th>
+                                        <th data-i18n="progress.entries.date">Execution Date</th>
+                                        <th data-i18n="progress.entries.status">Approval Status</th>
+                                        <th data-i18n="progress.entries.submittedBy">Submitted By</th>
+                                        <th id="progressEntriesActionsHeader"  data-i18n="progress.entries.actions">Actions</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="progressEntriesTableBody"></tbody>
                             </table>
                         </div>
                     </div>
@@ -220,89 +226,145 @@
         </div>
 
         <footer class="footer px-4">
-            <div>Construction Cost Control System &copy; 2026</div>
+            <div class="d-flex justify-content-between align-items-center w-100" dir="ltr">
+                <span>Construction Cost Control System &copy; 2026</span>
+                <span>Version 1.0.0</span>
+            </div>
         </footer>
 
     </div>
 
-    <!-- BOQ Modal -->
+    <!-- Progress Modal -->
 
-    <div class="modal fade" id="boqModal" tabindex="-1" aria-labelledby="boqModalTitle" aria-hidden="true">
+    <div class="modal fade" id="progressModal" tabindex="-1" aria-labelledby="progressModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="boqModalTitle" data-i18n="boq.modal.addTitle">Add BOQ Item</h5>
-                    <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="progressModalTitle" data-i18n="progress.modal.addTitle">Record Progress
+                    </h5>
+                    <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close">
+                    </button>
                 </div>
-                <div class="modal-body">
-                    <!-- alert -->
-                    <div id="boqAlert" class="alert alert-danger d-none mb-3" role="alert"></div>
-                    <form id="boqForm">
-                        <input type="hidden" id="boqId">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" for="itemNumber" data-i18n="boq.modal.itemNumber">Item Number</label>
-                                <input id="itemNumber" type="text" class="form-control" maxlength="20" required>
-                                <div class="form-text" data-i18n="boq.modal.itemNumberHint">Example: 1.1, 1.5.1</div>
-                            </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" for="unit" data-i18n="boq.modal.unit">Unit</label>
-                                <select id="unit" class="form-select" required>
-                                    <option value="" selected disabled data-i18n="boq.modal.selectUnit">Select Unit</option>
-                                    <option value="L.M.">L.M.</option>
-                                    <option value="m²">m²</option>
-                                    <option value="m³">m³</option>
-                                    <option value="kg">kg</option>
-                                    <option value="ton">ton</option>
-                                    <option value="No.">No.</option>
-                                    <option value="L.S.">L.S.</option>
-                                </select>
+                <div class="modal-body">
+                    <!-- Alert -->
+                    <div id="progressAlert" class="alert alert-danger d-none mb-3" role="alert"></div>
+                    <!-- Selected BOQ Item -->
+                    <div class="card bg-body-tertiary border-0 mb-3">
+                        <div class="card-body">
+                            <div class="small text-body-secondary" data-i18n="progress.modal.boqItem">BOQ Item</div>
+                            <div id="progressBOQItemInfo" class="fw-semibold">
                             </div>
+                        </div>
+                    </div>
+
+                    <form id="progressForm">
+                        <input type="hidden" id="progressId">
+                        <input type="hidden" id="progressBOQItemId">
+                        <div class="mb-3">
+                            <label class="form-label" for="quantityDone"
+                                data-i18n="progress.modal.quantityDone">Executed Quantity</label>
+                            <input id="quantityDone" type="number" class="form-control" min="0.01" step="0.01" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="itemName" data-i18n="boq.modal.itemName">Item Name</label>
-                            <input id="itemName" type="text" class="form-control" maxlength="200" required>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" for="quantity" data-i18n="boq.modal.quantity">Quantity</label>
-                                <input id="quantity" type="number" class="form-control" min="1" step="0.001" required>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label" for="unitPrice" data-i18n="boq.modal.unitPrice">Unit Price (SAR)</label>
-                                <input id="unitPrice" type="number" class="form-control" min="0" step="0.01" required>
-                            </div>
-                        </div>
-
-                        <div class="card bg-body-tertiary border-0 mb-3">
-                            <div class="card-body text-center">
-                                <div class="small text-body-secondary" data-i18n="boq.table.totalPrice">Total Price (SAR)</div>
-                                <div class="fs-4 fw-semibold" id="totalPrice" aria-live="polite">0.00</div>
-                            </div>
+                            <label class="form-label" for="executionDate"
+                                data-i18n="progress.modal.executionDate">Execution Date</label>
+                            <input id="executionDate" type="date" class="form-control" required>
                         </div>
 
                         <div class="mb-0">
-                            <label class="form-label" for="notes" data-i18n="boq.modal.notes">Notes</label>
-                            <textarea id="notes" class="form-control" rows="3" maxlength="500"></textarea>
+                            <label class="form-label" for="progressNotes" data-i18n="progress.modal.siteNotes">Site Notes</label>
+                            <textarea id="progressNotes" class="form-control" rows="3" maxlength="1000"></textarea>
                         </div>
                     </form>
                 </div>
 
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal" data-i18n="boq.modal.cancel">Cancel</button>
-                    <button id="saveBOQButton" type="submit" class="btn btn-primary" form="boqForm">
-                        <span id="saveBOQSpinner" class="spinner-border spinner-border-sm me-2 d-none" aria-hidden="true"></span>
-                        <span id="saveBOQButtonText" data-i18n="boq.modal.create">Create</span>
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        data-i18n="progress.modal.cancel">Cancel</button>
+                    <button id="saveProgressButton" type="submit" class="btn btn-primary" form="progressForm">
+                        <span id="saveProgressSpinner" class="spinner-border spinner-border-sm me-2 d-none"
+                            aria-hidden="true"></span>
+                        <span id="saveProgressButtonText" data-i18n="progress.modal.record">Record Progress</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Details Modal -->
+
+    <div class="modal fade" id="progressDetailsModal" tabindex="-1" aria-labelledby="progressDetailsModalTitle"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="progressDetailsModalTitle" data-i18n="progress.details.title">Progress Details</h5>
+                    <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Alert -->
+                    <div id="progressDetailsAlert" class="alert alert-danger d-none mb-3" role="alert"></div>
+                    <!-- BOQ Item -->
+                    <div class="card bg-body-tertiary border-0 mb-3">
+                        <div class="card-body">
+                            <div class="small text-body-secondary" data-i18n="progress.modal.boqItem">BOQ Item</div>
+                            <div id="detailsBOQItemInfo" class="fw-semibold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Information -->
+
+                    <div class="card bg-body-tertiary border-0 mb-3">
+                        <div class="card-body">
+                            <label class="form-label" data-i18n="progress.entries.status">Approval Status</label>
+                            <div id="detailsProgressStatus" class="fw-bold"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" data-i18n="progress.modal.quantityDone">Executed Quantity</label>
+                            <div id="detailsQuantityDone" class="form-control bg-body-tertiary"></div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" data-i18n="progress.modal.executionDate">Execution Date</label>
+                            <div id="detailsExecutionDate" class="form-control bg-body-tertiary"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" data-i18n="progress.modal.siteNotes">Site Notes</label>
+                        <div id="detailsSiteNotes" class="form-control bg-body-tertiary" style="min-height: 90px;"></div>
+                    </div>
+
+                    <div class="mb-0">
+                        <label class="form-label" data-i18n="progress.details.reviewerComment">Project Manager Comment</label>
+                        <textarea id="detailsReviewerComment" class="form-control" rows="3"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button id="rejectProgressButton" type="button" class="btn btn-danger">
+                        <span data-i18n="common.reject">Reject</span>
+                    </button>
+                    <button id="approveProgressButton" type="button" class="btn btn-success">
+                        <span data-i18n="common.approve">Approve</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Toast Container -->
     <div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
     <!-- CoreUI and necessary plugins-->
@@ -317,7 +379,7 @@
             }
         });
     </script>
-    <script type="module" src="modules/boq/boq.js"></script>
+    <script type="module" src="modules/progress/progress.js"></script>
 </body>
 
 </html>

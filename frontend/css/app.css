@@ -3,6 +3,8 @@
    Application Styles
 ========================================================== */
 
+/* Fonts
+---------------------------------------------------------- */
 
 @font-face {
     font-family: "IBM Plex Sans Arabic";
@@ -37,22 +39,17 @@
 }
 
 
-html[lang="ar"],
-html[lang="ar"] body {
-    font-family: "IBM Plex Sans Arabic", "Helvetica Neue", Arial, sans-serif;
-}
-
 :root {
     --cui-primary: #2563a8;
     --cui-primary-rgb: 37, 99, 168;
 }
 
-.sidebar-nav {
-    --cui-sidebar-nav-link-padding-y: 0.45rem;
-    --cui-sidebar-nav-title-padding-y: 0.4rem;
-    --cui-sidebar-nav-title-margin-top: 0.5rem;
-    --cui-sidebar-nav-link-icon-margin: 0.6rem;
-}
+/* ==========================================================
+   Components
+========================================================== */
+
+/* Buttons
+---------------------------------------------------------- */
 
 .btn-primary {
     --cui-btn-bg: #2563a8;
@@ -66,7 +63,6 @@ html[lang="ar"] body {
     --cui-btn-disabled-border-color: #2563a8;
 }
 
-
 [data-coreui-theme=dark] .btn-primary {
     --cui-btn-bg: #3373c0;
     --cui-btn-border-color: #3373c0;
@@ -78,7 +74,6 @@ html[lang="ar"] body {
     --cui-btn-disabled-bg: #3373c0;
     --cui-btn-disabled-border-color: #3373c0;
 }
-
 
 .btn-outline-primary {
     --cui-btn-color: #2563a8;
@@ -111,15 +106,45 @@ html[lang="ar"] body {
     --cui-gradient: none;
 }
 
+
+/* Cards
+---------------------------------------------------------- */
+
+.card {
+
+    box-shadow: 0 0 1px rgba(33, 37, 41, 0.125), 0 1px 3px rgba(33, 37, 41, 0.2);
+}
+
+
+/* Tables
+---------------------------------------------------------- */
+
+.table {
+    --cui-table-striped-bg: rgb(248 248 249);
+}
+
+[data-coreui-theme="dark"] .table {
+    --cui-table-striped-bg: rgba(255, 255, 255, 0.025);
+}
+
+.progress-entries-table {
+    padding-block: 0.9rem;
+}
+
 /* ==========================================================
    Layout
 ========================================================== */
 
 
+/* Sidebar
+---------------------------------------------------------- */
 
-/* ==========================================================
-   Sidebar
-========================================================== */
+.sidebar-nav {
+    --cui-sidebar-nav-link-padding-y: 0.45rem;
+    --cui-sidebar-nav-title-padding-y: 0.4rem;
+    --cui-sidebar-nav-title-margin-top: 0.5rem;
+    --cui-sidebar-nav-link-icon-margin: 0.6rem;
+}
 
 .sidebar-brand {
     width: 100%;
@@ -157,13 +182,10 @@ html[lang="ar"] body {
 }
 
 
-/* ================
-   Project Selector
-=================== */
+/*  Project Selector
+---------------------------------------------------------- */
 
-/* Behavior */
-
-/* Default state - Warning */
+/* Default */
 .sidebar-project-selector {
     background-color: rgba(255, 193, 7, 0.1);
     border: 1px solid #f9b11573 ;
@@ -179,7 +201,7 @@ html[lang="ar"] body {
 }
 
 
-/* Selected project state - Success  */
+/* Selected */
 .sidebar-project-selector.project-selected {
     background-color: rgb(25 135 84 / 17%);
     border: 1px solid #1b9e3e78 !important;
@@ -191,7 +213,7 @@ html[lang="ar"] body {
 }
 
 
-/* Responsive behavior */
+/* Responsive */
 .sidebar-project-selector .project-selector-narrow {
     display: none;
 }
@@ -206,22 +228,23 @@ html[lang="ar"] body {
 
 
 /* ==========================================================
-   Dashboard
+   Pages
 ========================================================== */
 
+
+/* KPI */
+
+/* Reports */
 
 
 /* ==========================================================
-   KPI Cards
+   Localization
 ========================================================== */
 
-
-
-/* ==========================================================
-   Reports
-========================================================== */
-
-
+html[lang="ar"],
+html[lang="ar"] body {
+    font-family: "IBM Plex Sans Arabic", "Helvetica Neue", Arial, sans-serif;
+}
 
 /* Fix RTL select arrow position */
 html[dir="rtl"] select.form-select {

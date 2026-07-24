@@ -35,15 +35,15 @@ const ar = {
             currentProject: "المشروع الحالي",
             selectProject: "اختر مشروعًا",
             main: "الرئيسية",
-            dashboard: "لوحة التحكم",
+            dashboard: "لوحة المعلومات",
             projectsSection:"المشاريع",
             projectList:"قائمة المشاريع",
             overview:"نظرة عامة",
-            boq: "بنود الكميات",
-            progress: "التقدم",
-            expenses: "المصروفات",
+            boq: "جدول الكميات",
+            progress: "متابعة التنفيذ",
+            expenses: "إدارة المصروفات",
             costAnalysis: "تحليل التكلفة",
-            projectEvents: "الأحداث",
+            projectEvents: "سجل الأحداث",
             recommendations: "التوصيات",
             reports: "التقارير",
             administration: "الإدارة",
@@ -76,12 +76,10 @@ const ar = {
         modal: {
             addTitle: "إضافة مشروع",
             editTitle: "تعديل المشروع",
-
             projectName: "اسم المشروع",
             description: "الوصف",
             startDate: "تاريخ البداية",
             endDate: "تاريخ النهاية",
-
             create: "إنشاء",
             saveChanges: "حفظ التعديلات",
             cancel: "إلغاء"
@@ -107,16 +105,16 @@ const ar = {
         summary: {
             project: "المشروع",
             status: "حالة الــ BOQ",
-            items: "عدد البنود",
+            items: "عدد بنود",
             draft: "مسودة",
             approved: "معتمد"
         },
 
         table: {
             itemNumber: "رقم البند",
-            itemName: "اسم البند",
+            itemName: "وصف البند",
             unit: "الوحدة",
-            quantity: "الكمية",
+            contractquantity: "الكمية التعاقدية",
             unitPrice: "سعر الوحدة (ر.س)",
             totalPrice: "الإجمالي (ر.س)",
             actions: "الإجراءات"
@@ -160,13 +158,82 @@ const ar = {
 
     },
 
+
+    progress: {
+
+        page: {
+            title: "متابعة التنفيذ",
+            description: "متابعة تقدم تنفيذ أعمال المشروع واعتماد سجلات التنفيذ."
+        },
+
+        table: {
+            itemNumber: "رقم البند",
+            itemName: "وصف  البند",
+            unit: "الوحدة",
+            contractQuantity: "الكمية التعاقدية",
+            executedQuantity: "الكمية المنفذة",
+            remainingQuantity: "الكمية المتبقية",
+            progressPercentage: "نسبة الإنجاز",
+            actions: "الإجراءات",
+            recordProgress: "تسجيل التنفيذ"
+        },
+
+        entries: {
+            title: "سجلات التنفيذ",
+            item: "البند",
+            quantityDone: "الكمية المنفذة",
+            date: "تاريخ التنفيذ",
+            status: "حالة الاعتماد",
+            submittedBy: "مقدم الطلب",
+            actions: "الإجراءات"
+        },
+
+        modal: {
+            addTitle: "تسجيل التنفيذ",
+            editTitle: "تعديل التنفيذ",
+            boqItem: "البند",
+            quantityDone: "الكمية المنفذة",
+            executionDate: "تاريخ التنفيذ",
+            siteNotes: "ملاحظات مهندس الموقع",
+            create: "تسجيل",
+            update: "تحديث",
+            cancel: "إلغاء"
+        },
+
+        details: {
+            title: "تفاصيل التنفيذ",
+            reviewerComment: "تعليق مدير المشروع",
+        },
+
+        messages: {
+            createdSuccessfully: "تم تسجيل التنفيذ بنجاح.",
+            updatedSuccessfully: "تم تحديث سجل التنفيذ بنجاح.",
+            approvedSuccessfully: "تم اعتماد سجل التنفيذ بنجاح.",
+            reviewerCommentRequired: "يرجى إدخال  سبب الرفض.",
+            rejectedSuccessfully: "تم رفض سجل التنفيذ بنجاح."
+        },
+
+        confirm: {
+            approveTitle: "اعتماد سجل التنفيذ",
+            approveMessage: "هل أنت متأكد من اعتماد سجل التنفيذ؟ بعد الاعتماد سيتم تحديث كميات التنفيذ المعتمدة.",
+            approveButton: "اعتماد",
+            rejectTitle: "رفض سجل التنفيذ",
+            rejectMessage: "هل أنت متأكد من رفض سجل التنفيذ؟ سيتم إرجاع السجل للتعديل."
+        }
+    },
+
+
     common: {
 
         edit: "تعديل",
         delete: "حذف",
         cancel: "إلغاء",
-        approve: "اعتماد"
-
+        approve: "اعتماد",
+        pending: "قيد المراجعة",
+        approved: "معتمد",
+        rejected: "مرفوض",
+        reject: "رفض",
+        view: "عرض",
     },
 
 };

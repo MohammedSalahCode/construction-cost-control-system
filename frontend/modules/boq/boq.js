@@ -16,6 +16,7 @@ import {
 import { showSuccess, showError } from "../../shared/ui/toast.js";
 import { showAlert, hideAlert } from "../../shared/ui/alert.js";
 import { showConfirm } from "../../shared/ui/confirm.js";
+import { formatQuantity, formatCurrency } from "../../shared/utils/format.js";
 
 let boqModal;
 
@@ -23,7 +24,7 @@ initializeBOQ();
 
 async function initializeBOQ() {
     
-    setCurrentProjectId(1);
+    setCurrentProjectId(2);
 
     requireAuthentication();
 
@@ -291,21 +292,6 @@ function renderBOQItems(boqItems) {
         tableBody.appendChild(row);
 
     }
-
-}
-
-function formatQuantity(value) {
-
-    return Number(value).toLocaleString();
-
-}
-
-function formatCurrency(value) {
-
-    return Number(value).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    });
 
 }
 

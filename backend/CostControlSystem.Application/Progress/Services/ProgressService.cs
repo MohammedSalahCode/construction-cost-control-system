@@ -131,6 +131,11 @@ namespace CostControlSystem.Application.Progress.Services
                 throw new NotFoundException($"BOQ item with id {boqItemId} was not found.");
             }
 
+            if (dto.ExecutionDate > DateOnly.FromDateTime(DateTime.Today))
+            {
+                throw new BusinessRuleException("Execution date cannot be in the future.");
+            }
+
             if (!boqItem.IsLocked)
             {
                 throw new BusinessRuleException("Progress cannot be recorded until the BOQ item is approved.");
@@ -174,6 +179,11 @@ namespace CostControlSystem.Application.Progress.Services
             if (progress == null)
             {
                 throw new NotFoundException($"Progress entry with id {id} was not found.");
+            }
+
+            if (dto.ExecutionDate > DateOnly.FromDateTime(DateTime.Today))
+            {
+                throw new BusinessRuleException("Execution date cannot be in the future.");
             }
 
             if (progress.Status != ApprovalStatus.Rejected)
