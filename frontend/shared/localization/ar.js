@@ -184,7 +184,7 @@ const ar = {
             quantityDone: "الكمية المنفذة",
             date: "تاريخ التنفيذ",
             status: "حالة الاعتماد",
-            submittedBy: "مقدم الطلب",
+            submittedBy: "مقدم السجل ",
             actions: "الإجراءات"
         },
 
@@ -215,7 +215,7 @@ const ar = {
 
         confirm: {
             approveTitle: "اعتماد سجل التنفيذ",
-            approveMessage: "هل أنت متأكد من اعتماد سجل التنفيذ؟ بعد الاعتماد سيتم تحديث كميات التنفيذ المعتمدة.",
+            approveMessage: "هل أنت متأكد من اعتماد سجل التنفيذ؟ بعد الاعتماد ستُضاف الكمية المنفذة إلى إجمالي الكميات المنفذة المعتمدة.",
             approveButton: "اعتماد",
             rejectTitle: "رفض سجل التنفيذ",
             rejectMessage: "هل أنت متأكد من رفض سجل التنفيذ؟ سيتم إرجاع السجل للتعديل."
@@ -223,7 +223,89 @@ const ar = {
     },
 
 
-    common: {
+    expenses: {
+
+        page: {
+            title: "مصروفات المشروع",
+            description: "تسجيل ومراجعة واعتماد مصروفات المشروع."
+        },
+
+        table: {
+            items: "عدد بنود BOQ",
+            itemNumber: "رقم البند",
+            itemName: "وصف  البند",
+            unit: "الوحدة",
+            unitPrice: "سعر الوحدة (ر.س)",
+            contractQuantity: "الكمية التعاقدية",
+            contractValue: "قيمة البند (ر.س)",
+            totalApprovedExpenses: "المصروفات / قيمة البند",
+            actions: "الإجراءات",
+            recordExpense: "تسجيل مصروف مباشر",
+            recordGeneralExpense: "تسجيل مصروف عام"
+        },
+
+        entries: {
+            title: "سجل المصروفات",
+            expenseType: "نوع المصروف",
+            item: "البند",
+            amount: "المبلغ",
+            expenseDate: "تاريخ المصروف",
+            status: "حالة الاعتماد",
+            submittedBy: "مقدم السجل",
+            actions: "الإجراءات"
+        },
+
+        modal: {
+            directTitle : "تسجيل مصروف مباشر",
+            generalTitle:"تسجيل مصروف عام",
+            editTitle: "تعديل المصروف",
+            editDirectTitle: "تعديل المصروف المباشر",
+            editGeneralTitle: "تعديل المصروف العام",
+            expenseType: "نوع المصروف",
+            selectType: "اختر نوع المصروف",
+            direct: "مصروف مباشر",
+            indirect: "مصروف غير مباشر",
+            overhead: "مصروفات عامة وإدارية",
+            boqItem: "البند",
+            amount: "المبلغ",
+            expenseDate: "تاريخ المصروف",
+            referenceNumber: "رقم المستند المرجعي",
+            description: "الوصف",
+            create: "تسجيل",
+            update: "تحديث",
+            cancel: "إلغاء",
+        },
+
+        details: {
+            title: "تفاصيل المصروف",
+            reviewerComment: "تعليق المدير المالي",
+            ofItemValue:"من قيمة البند"
+        },
+
+        messages: {
+            createdSuccessfully: "تم تسجيل المصروف بنجاح.",
+            updatedSuccessfully: "تم تحديث سجل المصروف بنجاح.",
+            approvedSuccessfully: "تم اعتماد سجل المصروف بنجاح.",
+            reviewerCommentRequired: "يرجى إدخال سبب الرفض.",
+            rejectedSuccessfully: "تم رفض سجل المصروف بنجاح."
+        },
+
+        confirm: {
+            approveTitle: "اعتماد سجل المصروف",
+            approveMessage: "هل أنت متأكد من اعتماد سجل المصروف؟ بعد الاعتماد سيتم احتساب المصروف ضمن التكلفة الفعلية.",
+            approveButton: "اعتماد",
+            rejectTitle: "رفض سجل المصروف",
+            rejectMessage: "هل أنت متأكد من رفض سجل المصروف؟ سيتم إرجاع السجل للتعديل."
+        }
+    },
+
+
+    currency: {
+
+        symbol: "(ر.س)"
+    },
+
+        common: {
 
         edit: "تعديل",
         delete: "حذف",
@@ -234,6 +316,7 @@ const ar = {
         rejected: "مرفوض",
         reject: "رفض",
         view: "عرض",
+        update: "تحديث"
     },
 
 };

@@ -5,7 +5,8 @@ namespace CostControlSystem.Application.Progress.DTOs.Requests
     public class CreateProgressRequestDto
     {
         [Required]
-        [Range(typeof(decimal), "0.01", "999999999999999.99")]
+        [Range(typeof(decimal), "0.01", "1000000",
+            ErrorMessage = "Executed quantity must be between 0.01 and 1,000,000.")]
         public decimal QuantityDone { get; set; }
 
         [Required]

@@ -5,7 +5,8 @@ namespace CostControlSystem.Application.Finance.DTOs.Requests
     public class UpdateExpenseRequestDto
     {
         [Required]
-        [Range(typeof(decimal), "0.01", "9999999999999999.99")]
+        [Range(typeof(decimal), "0.01", "1000000000",
+            ErrorMessage = "Expense amount must be between 0.01 and 1,000,000,000.")]
         public decimal Amount { get; set; }
 
         [Required]

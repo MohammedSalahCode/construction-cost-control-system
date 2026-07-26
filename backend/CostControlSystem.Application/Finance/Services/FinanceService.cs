@@ -81,7 +81,7 @@ namespace CostControlSystem.Application.Finance.Services
             return await _context.Expenses
                 .AsNoTracking()
                 .Where(e => e.ProjectId == projectId)
-                .OrderByDescending(e => e.ExpenseDate)
+                .OrderByDescending(e => e.CreatedAt)
                 .Select(e => new ExpenseListItemResponseDto
                 {
                     Id = e.Id,
@@ -109,6 +109,7 @@ namespace CostControlSystem.Application.Finance.Services
                 {
                     Id = e.Id,
                     ExpenseType = e.ExpenseType,
+                    BOQItemId = e.BOQItemId,
                     ItemNumber = e.BOQItem == null ? null : e.BOQItem.ItemNumber,
                     ItemName = e.BOQItem == null ? null : e.BOQItem.ItemName,
                     Amount = e.Amount,
@@ -138,6 +139,11 @@ namespace CostControlSystem.Application.Finance.Services
             if (!projectExists)
             {
                 throw new NotFoundException($"Project with id {projectId} was not found.");
+            }
+
+            if (dto.ExpenseDate > DateOnly.FromDateTime(DateTime.Today))
+            {
+                throw new BusinessRuleException("Expense date cannot be in the future.");
             }
 
             if (dto.ExpenseType != ExpenseTypes.Direct &&
@@ -205,6 +211,11 @@ namespace CostControlSystem.Application.Finance.Services
             if (expense == null)
             {
                 throw new NotFoundException($"Expense entry with id {id} was not found.");
+            }
+
+            if (dto.ExpenseDate > DateOnly.FromDateTime(DateTime.Today))
+            {
+                throw new BusinessRuleException("Expense date cannot be in the future.");
             }
 
             if (expense.Status != ApprovalStatus.Rejected)

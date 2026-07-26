@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
 
+        public int? BOQItemId { get; set; }
+
         public string ExpenseType { get; set; } = string.Empty;
 
         public string? ItemNumber { get; set; }
