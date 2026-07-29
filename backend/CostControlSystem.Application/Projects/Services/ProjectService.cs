@@ -4,6 +4,7 @@ using CostControlSystem.Application.Projects.Interfaces;
 using CostControlSystem.Application.Exceptions;
 using CostControlSystem.Domain.Entities;
 using CostControlSystem.Infrastructure.Data;
+using CostControlSystem.Shared.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace CostControlSystem.Application.Projects.Services
@@ -27,8 +28,10 @@ namespace CostControlSystem.Application.Projects.Services
                     Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
+                    Status = p.Status,
                     StartDate = p.StartDate,
-                    EndDate = p.EndDate
+                    EndDate = p.EndDate,
+                    BOQItemsCount = p.BOQItems.Count
                 })
                 .ToListAsync();
         }
@@ -43,8 +46,10 @@ namespace CostControlSystem.Application.Projects.Services
                     Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
+                    Status = p.Status,
                     StartDate = p.StartDate,
-                    EndDate = p.EndDate
+                    EndDate = p.EndDate,
+                    BOQItemsCount = p.BOQItems.Count
                 })
                 .FirstOrDefaultAsync();
 
@@ -67,6 +72,7 @@ namespace CostControlSystem.Application.Projects.Services
             {
                 Name = dto.Name,
                 Description = dto.Description,
+                Status = ProjectStatus.BOQPreparation,
                 StartDate = dto.StartDate,
                 EndDate = dto.EndDate,
                 CreatedBy = currentUserId,
@@ -80,6 +86,7 @@ namespace CostControlSystem.Application.Projects.Services
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
+                Status = project.Status,
                 StartDate = project.StartDate,
                 EndDate = project.EndDate,
             };
@@ -111,6 +118,7 @@ namespace CostControlSystem.Application.Projects.Services
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
+                Status = project.Status,
                 StartDate = project.StartDate,
                 EndDate = project.EndDate,
             };

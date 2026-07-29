@@ -25,6 +25,9 @@ public class ProjectConfiguration : IEntityTypeConfiguration<Project>
         entity.Property(e => e.Name)
               .HasMaxLength(150);
 
+        entity.Property(e => e.Status)
+              .HasMaxLength(30)
+              .HasDefaultValue("BOQ Preparation");
 
         entity.HasOne(d => d.CreatedByUser)
               .WithMany(p => p.Projects)

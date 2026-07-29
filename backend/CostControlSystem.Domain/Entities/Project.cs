@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CostControlSystem.Domain.Entities;
+﻿namespace CostControlSystem.Domain.Entities;
 
 public partial class Project
 {
@@ -10,6 +7,8 @@ public partial class Project
     public string Name { get; set; } = null!;
 
     public string? Description { get; set; }
+
+    public string Status { get; set; } = null!;
 
     public DateOnly StartDate { get; set; }
 

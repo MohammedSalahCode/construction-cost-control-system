@@ -141,6 +141,14 @@ namespace CostControlSystem.Application.Progress.Services
                 throw new BusinessRuleException("Progress cannot be recorded until the BOQ item is approved.");
             }
 
+            var project = await _context.Projects
+                .FirstAsync(p => p.Id == boqItem.ProjectId);
+
+            if (project.Status != ProjectStatus.InExecution)
+            {
+                throw new BusinessRuleException("Progress can only be recorded for projects in execution.");
+            }
+
             var approvedQuantity = await _context.ProgressEntries
                 .Where(p =>
                     p.BOQItemId == boqItemId &&
@@ -193,7 +201,15 @@ namespace CostControlSystem.Application.Progress.Services
 
             if (!progress.BOQItem.IsLocked)
             {
-                throw new BusinessRuleException("Progress cannot be recorded until the BOQ item is approved.");
+                throw new BusinessRuleException("Progress cannot be updated until the BOQ item is approved.");
+            }
+
+            var project = await _context.Projects
+                .FirstAsync(p => p.Id == progress.ProjectId);
+
+            if (project.Status != ProjectStatus.InExecution)
+            {
+                throw new BusinessRuleException("Progress can only be updated for projects in execution.");
             }
 
             var approvedQuantity = await _context.ProgressEntries

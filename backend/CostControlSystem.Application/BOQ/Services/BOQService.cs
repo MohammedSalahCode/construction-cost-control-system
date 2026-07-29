@@ -4,6 +4,7 @@ using CostControlSystem.Application.BOQ.Interfaces;
 using CostControlSystem.Application.Exceptions;
 using CostControlSystem.Domain.Entities;
 using CostControlSystem.Infrastructure.Data;
+using CostControlSystem.Shared.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace CostControlSystem.Application.BOQ.Services
@@ -249,36 +250,57 @@ namespace CostControlSystem.Application.BOQ.Services
 
         public async Task LockProjectBoqAsync(int projectId)
         {
-            var projectExists = await _context.Projects
-                .AnyAsync(project => project.Id == projectId);
+            await using var transaction = await _context.Database.BeginTransactionAsync();
 
-            if (!projectExists)
+            try
             {
-                throw new NotFoundException($"Project with id {projectId} was not found.");
+                var project = await _context.Projects
+                    .FirstOrDefaultAsync(project => project.Id == projectId);
+
+                if (project == null)
+                {
+                    throw new NotFoundException($"Project with id {projectId} was not found.");
+                }
+
+                if (project.Status != ProjectStatus.BOQPreparation)
+                {
+                    throw new BusinessRuleException("Only projects in BOQ Preparation status can approve BOQ.");
+                }
+
+                var boqItemsExist = await _context.BOQItems
+                    .AnyAsync(item => item.ProjectId == projectId);
+
+                if (!boqItemsExist)
+                {
+                    throw new BusinessRuleException("Cannot approve BOQ because it has no items.");
+                }
+
+                var allItemsLocked = await _context.BOQItems
+                    .Where(item => item.ProjectId == projectId)
+                    .AllAsync(item => item.IsLocked);
+
+                if (allItemsLocked)
+                {
+                    throw new BusinessRuleException("BOQ is already approved.");
+                }
+
+                await _context.BOQItems
+                    .Where(item => item.ProjectId == projectId)
+                    .ExecuteUpdateAsync(setters => setters.SetProperty(item => item.IsLocked, true));
+
+
+                project.Status = ProjectStatus.InExecution;
+
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
             }
-
-
-            var boqItems = await _context.BOQItems
-                .Where(item => item.ProjectId == projectId)
-                .ToListAsync();
-
-            if (!boqItems.Any())
+            catch
             {
-                throw new BusinessRuleException("Cannot lock BOQ because it has no items.");
+                await transaction.RollbackAsync();
+                throw;
             }
-
-
-            if (boqItems.All(item => item.IsLocked))
-            {
-                throw new BusinessRuleException("BOQ is already locked.");
-            }
-
-
-            await _context.BOQItems
-                .Where(item => item.ProjectId == projectId)
-                .ExecuteUpdateAsync(setters => setters.SetProperty(item => item.IsLocked, true));
         }
-
 
         private static void NormalizeBoqItem(CreateBOQItemRequestDto dto)
         {

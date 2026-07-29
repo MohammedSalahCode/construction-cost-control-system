@@ -133,12 +133,17 @@ namespace CostControlSystem.Application.Finance.Services
 
         public async Task<ExpenseListItemResponseDto> CreateAsync(int projectId, CreateExpenseRequestDto dto, int currentUserId)
         {
-            var projectExists = await _context.Projects
-                .AnyAsync(project => project.Id == projectId);
+            var project = await _context.Projects
+                .FirstOrDefaultAsync(project => project.Id == projectId);
 
-            if (!projectExists)
+            if (project == null)
             {
                 throw new NotFoundException($"Project with id {projectId} was not found.");
+            }
+
+            if (project.Status != ProjectStatus.InExecution)
+            {
+                throw new BusinessRuleException("Expenses can only be recorded for projects in execution.");
             }
 
             if (dto.ExpenseDate > DateOnly.FromDateTime(DateTime.Today))
@@ -223,6 +228,14 @@ namespace CostControlSystem.Application.Finance.Services
                 throw new BusinessRuleException("Only rejected expense entries can be updated.");
             }
 
+            var project = await _context.Projects
+                .FirstAsync(p => p.Id == expense.ProjectId);
+
+            if (project.Status != ProjectStatus.InExecution)
+            {
+                throw new BusinessRuleException("Expenses can only be updated for projects in execution.");
+            }
+
             if (dto.ExpenseType != ExpenseTypes.Direct &&
                 dto.ExpenseType != ExpenseTypes.Indirect &&
                 dto.ExpenseType != ExpenseTypes.Overhead)
@@ -256,7 +269,7 @@ namespace CostControlSystem.Application.Finance.Services
 
                 if (!boqItem.IsLocked)
                 {
-                    throw new BusinessRuleException("Expenses cannot be recorded until the BOQ item is approved.");
+                    throw new BusinessRuleException("Expenses cannot be updated until the BOQ item is approved.");
                 }
             }
 
