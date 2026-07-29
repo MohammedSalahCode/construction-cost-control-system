@@ -1,11 +1,6 @@
 import { requireAuthentication } from "../../shared/auth/auth.guard.js";
 import { initializeLayout } from "../../shared/layout/layout.js";
-
-import {
-    getCurrentProjectId,
-    setCurrentProjectId
-} from "../../shared/project/project.context.js";
-
+import { getCurrentProjectId } from "../../shared/project/project.context.js";
 import {
     getBOQExpenseSummary,
     getExpenses,
@@ -15,19 +10,18 @@ import {
     approveExpense,
     rejectExpense
 } from "./expenses.service.js";
-
 import { getTranslation } from "../../shared/localization/i18n.js";
 import { showSuccess, showError } from "../../shared/ui/toast.js";
 import { showAlert, hideAlert } from "../../shared/ui/alert.js";
 import { showConfirm } from "../../shared/ui/confirm.js";
-
 import {
     formatQuantity,
     formatCurrency,
     formatDate
 } from "../../shared/utils/format.js";
-
 import { initializeTooltips } from "../../shared/ui/tooltip.js";
+import { requireProject } from "../../shared/project/project.guard.js";
+import { PROJECT_CHANGED_EVENT } from "../../shared/project/project.events.js";
 
 let directExpenseModal;
 let generalExpenseModal;
@@ -38,8 +32,10 @@ let currentExpenseId;
 initializeExpenses();
 
 async function initializeExpenses() {
-    setCurrentProjectId(1);
+
     requireAuthentication();
+
+    requireProject();
 
     await initializeLayout();
 
@@ -49,6 +45,18 @@ async function initializeExpenses() {
 
     bindEvents();
 
+    bindProjectEvents();
+
+    await loadExpenseSummary();
+    await loadExpenses();
+}
+
+
+function bindProjectEvents() {
+    window.addEventListener(PROJECT_CHANGED_EVENT, handleProjectChanged);
+}
+
+async function handleProjectChanged() {
     await loadExpenseSummary();
     await loadExpenses();
 }
@@ -423,9 +431,6 @@ function renderExpenseSummary(summary) {
     initializeTooltips();
 
 }
-
-
-
 
 function renderExpenseRatioCell(totalApproved, contractValue) {
 

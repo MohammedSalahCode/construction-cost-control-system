@@ -42,12 +42,17 @@ async function onLoginSubmitted(event) {
 
         await login(loginRequest);
  
-        window.location.href = appConfig.routes.dashboard;
+        window.location.replace(appConfig.routes.dashboard);
 
     }
     catch (error) {
 
-        showError("Invalid email or password.");
+        if (error instanceof TypeError) {
+            showError("Unable to connect to the server. Please try again later.");
+            return;
+        }
+
+        showError(error.message);
 
     }
     finally {

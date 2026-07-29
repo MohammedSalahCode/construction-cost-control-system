@@ -1,28 +1,27 @@
-const STORAGE_KEY = "currentProjectId";
+const STORAGE_KEY = "currentProject";
 
-let currentProjectId = localStorage.getItem(STORAGE_KEY) || null;
+let currentProject = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
 
+export function setCurrentProject(project) {
 
-export function setCurrentProjectId(id) {
+    currentProject = project;
 
-    currentProjectId = id;
-
-    if (id === null || id === undefined) {
-
+    if (!project) {
         localStorage.removeItem(STORAGE_KEY);
-
     }
     else {
-
-        localStorage.setItem(STORAGE_KEY, id);
-
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(project));
     }
-    
 }
 
+export function getCurrentProject() {
+
+    return currentProject;
+
+}
 
 export function getCurrentProjectId() {
 
-    return currentProjectId;
+    return currentProject?.id || null;
 
 }

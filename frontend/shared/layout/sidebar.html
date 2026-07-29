@@ -32,36 +32,21 @@
         </div>
 
         <div class="dropdown">
-           <button class="btn dropdown-toggle w-100 text-start"
-                id="projectSelectorButton"
-                type="button"
-                data-coreui-toggle="dropdown"
-                aria-expanded="false">
-
-                <span id="projectSelectorLabel" data-i18n="layout.sidebar.selectProject">
-                    Select Project
-                </span>
+           <button class="btn dropdown-toggle w-100 text-start d-flex align-items-center"
+            id="projectSelectorButton"
+            type="button"
+            data-coreui-toggle="dropdown"
+             aria-expanded="false">
+             
+                <span
+                id="projectSelectorLabel"
+                class="flex-grow-1 text-truncate"
+                data-i18n="layout.sidebar.selectProject"
+                data-coreui-toggle="tooltip">
+                Select Project</span>
             </button>
 
-            <ul class="dropdown-menu dropdown-menu-dark w-100">
-                <li>
-                    <button class="dropdown-item" data-project-id="1" data-project-name="Factory Project">
-                        Factory Project
-                    </button>
-                </li>
-
-                <li>
-                    <button class="dropdown-item" type="button" data-project-id="2" data-project-name="Residential Tower">
-                        Residential Tower
-                    </button>
-                </li>
-
-                <li>
-                    <button class="dropdown-item" type="button" data-project-id="3" data-project-name="Airport Expansion">
-                        Airport Expansion
-                    </button>
-                </li>
-
+            <ul id="projectSelectorMenu" class="dropdown-menu dropdown-menu-dark w-100">
             </ul>
         </div>
 
@@ -100,7 +85,7 @@
 
         <!-- CURRENT PROJECT -->
 
-        <li class="nav-title" data-i18n="layout.sidebar.currentProject">Current Project</li>
+        <li id="currentProjectTitle" class="nav-title" data-i18n="layout.sidebar.currentProject">Current Project</li>
 
         <li class="nav-item">
             <a class="nav-link" href="#">

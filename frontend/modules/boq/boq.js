@@ -1,9 +1,6 @@
 import { requireAuthentication } from "../../shared/auth/auth.guard.js";
 import { initializeLayout } from "../../shared/layout/layout.js";
-import {
-    getCurrentProjectId,
-    setCurrentProjectId
-} from "../../shared/project/project.context.js";
+import { getCurrentProjectId } from "../../shared/project/project.context.js";
 import { getTranslation } from "../../shared/localization/i18n.js";
 import {
     getBOQItems,
@@ -17,16 +14,19 @@ import { showSuccess, showError } from "../../shared/ui/toast.js";
 import { showAlert, hideAlert } from "../../shared/ui/alert.js";
 import { showConfirm } from "../../shared/ui/confirm.js";
 import { formatQuantity, formatCurrency } from "../../shared/utils/format.js";
+import { requireProject } from "../../shared/project/project.guard.js";
+import { PROJECT_CHANGED_EVENT } from "../../shared/project/project.events.js";
+import { initializeTooltips } from "../../shared/ui/tooltip.js";
 
 let boqModal;
 
 initializeBOQ();
 
 async function initializeBOQ() {
-    
-    setCurrentProjectId(2);
 
     requireAuthentication();
+
+    requireProject();
 
     await initializeLayout();
 
@@ -34,16 +34,25 @@ async function initializeBOQ() {
 
     bindEvents();
 
-    await loadBOQItems();
+    bindProjectEvents();
 
+    await loadBOQItems();
+    
+    initializeTooltips();
+}
+
+
+function bindProjectEvents() {
+    window.addEventListener(PROJECT_CHANGED_EVENT, handleProjectChanged);
+}
+
+async function handleProjectChanged() {
+    await loadBOQItems();
 }
 
 function initializeBOQModal() {
-
     const modalElement = document.getElementById("boqModal");
-
     boqModal = new coreui.Modal(modalElement);
-
 }
 
 function bindEvents() {

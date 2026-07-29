@@ -1,0 +1,1 @@
+export const PROJECT_CHANGED_EVENT = "projectChanged";

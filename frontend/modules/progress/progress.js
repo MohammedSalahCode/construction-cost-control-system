@@ -1,11 +1,6 @@
 import { requireAuthentication } from "../../shared/auth/auth.guard.js";
 import { initializeLayout } from "../../shared/layout/layout.js";
-
-import {
-    getCurrentProjectId,
-    setCurrentProjectId
-} from "../../shared/project/project.context.js";
-
+import { getCurrentProjectId } from "../../shared/project/project.context.js";
 import {
     getBOQProgressSummary,
     getProgressEntries,
@@ -15,19 +10,18 @@ import {
     approveProgress,
     rejectProgress
 } from "./progress.service.js";
-
 import { getTranslation } from "../../shared/localization/i18n.js";
 import { showSuccess, showError } from "../../shared/ui/toast.js";
 import { showAlert, hideAlert } from "../../shared/ui/alert.js";
 import { showConfirm } from "../../shared/ui/confirm.js";
-
 import {
     formatQuantity,
     formatPercentage,
     formatDate
 } from "../../shared/utils/format.js";
-
 import { initializeTooltips } from "../../shared/ui/tooltip.js";
+import { requireProject } from "../../shared/project/project.guard.js";
+import { PROJECT_CHANGED_EVENT } from "../../shared/project/project.events.js";
 
 let progressModal;
 let progressDetailsModal;
@@ -36,8 +30,10 @@ let currentProgressId;
 initializeProgress();
 
 async function initializeProgress() {
-    setCurrentProjectId(1);
+
     requireAuthentication();
+
+    requireProject();
 
     await initializeLayout();
 
@@ -46,6 +42,20 @@ async function initializeProgress() {
 
     bindEvents();
 
+    bindProjectEvents();
+
+    await loadProgressSummary();
+    await loadProgressEntries();
+
+    initializeTooltips();
+}
+
+
+function bindProjectEvents() {
+    window.addEventListener(PROJECT_CHANGED_EVENT, handleProjectChanged);
+}
+
+async function handleProjectChanged() {
     await loadProgressSummary();
     await loadProgressEntries();
 }
@@ -499,8 +509,6 @@ function renderProgressEntries(entries) {
         `;
 
         tableBody.appendChild(row);
-
-        initializeTooltips();
     }
 }
 

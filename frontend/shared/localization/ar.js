@@ -17,6 +17,15 @@ const ar = {
     },
 
 
+    dashboard: {
+        welcome: {
+            title: "مساحة عمل المشروع",
+            message: "اختر مشروعًا للدخول إلى مساحة العمل الخاصة به ومتابعة المهام المخصصة لك.",
+            loadingProjects: "جاري تحميل المشاريع..."
+        }
+    },
+
+
     layout: {
 
         theme: {
@@ -48,6 +57,7 @@ const ar = {
             reports: "التقارير",
             administration: "الإدارة",
             users: "المستخدمون",
+            loadingProjects: "جاري تحميل المشاريع..."
         },
         
         breadcrumb: {
@@ -88,8 +98,20 @@ const ar = {
         messages: {
             createdSuccessfully: "تم إنشاء المشروع بنجاح.",
             updatedSuccessfully: "تم تحديث المشروع بنجاح."
-        }
+        },
 
+        status: {
+            boqPreparation: "إعداد جدول الكميات",
+            inExecution: "قيد التنفيذ",
+            completed: "مكتمل",
+            closedOut: "مغلق نهائياً"
+        },
+        
+       card: {
+            startDate: "تاريخ البدء",
+            boqItems: "عدد بنود الكميات",
+            select: "دخول المشروع"
+        }
     },
 
 

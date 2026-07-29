@@ -1,3 +1,5 @@
+import { getLanguage } from "../localization/language.service.js";
+
 export function formatQuantity(value) {
 
     return Number(value).toLocaleString(undefined, {
@@ -29,10 +31,14 @@ export function formatDate(value) {
         return "-";
     }
 
-    const date = new Date(value);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
+    const language = getLanguage();
 
-    return `${day}/${month}/${year}`;
+    return new Intl.DateTimeFormat(
+        language === "ar" ? "ar-SA" : "en-GB",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    ).format(new Date(value));
 }

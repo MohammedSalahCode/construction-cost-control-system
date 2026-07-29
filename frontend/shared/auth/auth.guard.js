@@ -7,7 +7,7 @@ export function requireAuthentication() {
         return;
     }
 
-    window.location.href = appConfig.routes.login;
+    window.location.replace(appConfig.routes.login);
 }
 
 export function redirectIfAuthenticated() {
@@ -16,5 +16,5 @@ export function redirectIfAuthenticated() {
         return;
     }
 
-    window.location.href = appConfig.routes.dashboard;
+    window.location.replace(appConfig.routes.dashboard);
 }

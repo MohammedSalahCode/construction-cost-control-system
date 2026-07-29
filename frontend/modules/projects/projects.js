@@ -5,10 +5,11 @@ import {
     getProjectById,
     createProject,
     updateProject
-} from "./projects.service.js";
+} from "../../shared/services/projects.service.js";
 import { showSuccess } from "../../shared/ui/toast.js";
 import { getTranslation } from "../../shared/localization/i18n.js";
 import { showAlert, hideAlert } from "../../shared/ui/alert.js";
+import { initializeTooltips } from "../../shared/ui/tooltip.js";
 
 let projectModal;
 
@@ -25,6 +26,8 @@ async function initializeProjects() {
     bindEvents();
 
     await loadProjects();
+    
+    initializeTooltips();
 }
 
 
@@ -39,12 +42,9 @@ function initializeProjectModal() {
 function bindEvents() {
 
     const addProjectButton = document.getElementById("addProjectButton");
-
     addProjectButton.addEventListener("click", openCreateProjectModal);
 
-
     const projectForm = document.getElementById("projectForm");
-
     projectForm.addEventListener("submit", handleProjectFormSubmit);
 }
 
@@ -130,20 +130,15 @@ async function handleProjectFormSubmit(event) {
                 Object.values(error.errors)[0][0];
 
             showAlert("projectAlert", validationMessage);
-
         }
         else {
 
             showAlert("projectAlert", error.message);
-
         }
-
     }
     finally {
-
         saveProjectButton.disabled = false;
         saveProjectSpinner.classList.add("d-none");
-
     }
 }
 
