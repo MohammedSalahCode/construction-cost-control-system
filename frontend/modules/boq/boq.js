@@ -18,6 +18,7 @@ import { formatQuantity, formatCurrency } from "../../shared/utils/format.js";
 import { requireProject } from "../../shared/project/project.guard.js";
 import { PROJECT_CHANGED_EVENT } from "../../shared/project/project.events.js";
 import { initializeTooltips } from "../../shared/ui/tooltip.js";
+import { clearProjectsCache } from "../../shared/services/projects.service.js";
 
 let boqModal;
 
@@ -216,6 +217,7 @@ async function handleLockBOQ() {
     try {
 
         await lockBOQ(projectId);
+        clearProjectsCache();
 
         await loadBOQItems();
 

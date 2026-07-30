@@ -45,6 +45,6 @@ export async function updateProject(id, project) {
     return result;
 }
 
-function clearProjectsCache() {
+export function clearProjectsCache() {
     sessionStorage.removeItem(PROJECTS_CACHE_KEY);
 }
