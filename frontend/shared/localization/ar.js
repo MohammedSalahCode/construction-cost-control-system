@@ -57,7 +57,6 @@ const ar = {
             reports: "التقارير",
             administration: "الإدارة",
             users: "المستخدمون",
-            loadingProjects: "جاري تحميل المشاريع..."
         },
         
         breadcrumb: {

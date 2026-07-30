@@ -2,6 +2,7 @@ import { requireAuthentication } from "../../shared/auth/auth.guard.js";
 import { initializeLayout } from "../../shared/layout/layout.js";
 import { getCurrentProjectId } from "../../shared/project/project.context.js";
 import { getTranslation } from "../../shared/localization/i18n.js";
+import { initializeAppLoader, hideAppLoader} from "../../shared/layout/app-loader.js";
 import {
     getBOQItems,
     getBOQItemById,
@@ -24,21 +25,29 @@ initializeBOQ();
 
 async function initializeBOQ() {
 
-    requireAuthentication();
+    initializeAppLoader();
 
-    requireProject();
+    try {
 
-    await initializeLayout();
+        requireAuthentication();
 
-    initializeBOQModal();
+        requireProject();
 
-    bindEvents();
+        await initializeLayout();
 
-    bindProjectEvents();
+        initializeBOQModal();
 
-    await loadBOQItems();
-    
-    initializeTooltips();
+        bindEvents();
+
+        bindProjectEvents();
+
+        await loadBOQItems();
+        
+        initializeTooltips();
+    }
+    finally {
+        hideAppLoader();
+    }
 }
 
 

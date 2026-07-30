@@ -1,6 +1,7 @@
 import { requireAuthentication } from "../../shared/auth/auth.guard.js";
 import { initializeLayout } from "../../shared/layout/layout.js";
 import { getCurrentProjectId } from "../../shared/project/project.context.js";
+import { initializeAppLoader, hideAppLoader} from "../../shared/layout/app-loader.js";
 import {
     getBOQExpenseSummary,
     getExpenses,
@@ -33,22 +34,29 @@ initializeExpenses();
 
 async function initializeExpenses() {
 
-    requireAuthentication();
+    initializeAppLoader();
 
-    requireProject();
+    try {
+        requireAuthentication();
 
-    await initializeLayout();
+        requireProject();
 
-    initializeDirectExpenseModal();
-    initializeGeneralExpenseModal();
-    initializeExpenseDetailsModal();
+        await initializeLayout();
 
-    bindEvents();
+        initializeDirectExpenseModal();
+        initializeGeneralExpenseModal();
+        initializeExpenseDetailsModal();
 
-    bindProjectEvents();
+        bindEvents();
 
-    await loadExpenseSummary();
-    await loadExpenses();
+        bindProjectEvents();
+
+        await loadExpenseSummary();
+        await loadExpenses();
+    }
+    finally {
+        hideAppLoader();
+    }
 }
 
 

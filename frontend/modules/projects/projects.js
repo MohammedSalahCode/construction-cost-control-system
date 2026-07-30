@@ -1,5 +1,6 @@
 import { requireAuthentication } from "../../shared/auth/auth.guard.js";
 import { initializeLayout } from "../../shared/layout/layout.js";
+import { initializeAppLoader, hideAppLoader} from "../../shared/layout/app-loader.js";
 import {
     getProjects,
     getProjectById,
@@ -17,17 +18,24 @@ initializeProjects();
 
 async function initializeProjects() {
 
-    requireAuthentication();
+    initializeAppLoader();
 
-    await initializeLayout();
+    try {
+        requireAuthentication();
 
-    initializeProjectModal();
+        await initializeLayout();
 
-    bindEvents();
+        initializeProjectModal();
 
-    await loadProjects();
-    
-    initializeTooltips();
+        bindEvents();
+
+        await loadProjects();
+
+        initializeTooltips();
+    }
+    finally {
+        hideAppLoader();
+    }
 }
 
 

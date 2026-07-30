@@ -1,6 +1,7 @@
 import { requireAuthentication } from "../../shared/auth/auth.guard.js";
 import { initializeLayout } from "../../shared/layout/layout.js";
 import { getCurrentProjectId } from "../../shared/project/project.context.js";
+import { initializeAppLoader, hideAppLoader} from "../../shared/layout/app-loader.js";
 import {
     getBOQProgressSummary,
     getProgressEntries,
@@ -22,6 +23,10 @@ import {
 import { initializeTooltips } from "../../shared/ui/tooltip.js";
 import { requireProject } from "../../shared/project/project.guard.js";
 import { PROJECT_CHANGED_EVENT } from "../../shared/project/project.events.js";
+import {
+    showComponentLoader,
+    hideComponentLoader
+} from "../../shared/ui/component-loader.js";
 
 let progressModal;
 let progressDetailsModal;
@@ -31,23 +36,33 @@ initializeProgress();
 
 async function initializeProgress() {
 
-    requireAuthentication();
+    initializeAppLoader();
 
-    requireProject();
+    try {
+    
+        requireAuthentication();
 
-    await initializeLayout();
+        requireProject();
 
-    initializeProgressModal();
-    initializeProgressDetailsModal();
+        await initializeLayout();
 
-    bindEvents();
+        initializeProgressModal();
+        initializeProgressDetailsModal();
 
-    bindProjectEvents();
+        bindEvents();
 
-    await loadProgressSummary();
-    await loadProgressEntries();
+        bindProjectEvents();
 
-    initializeTooltips();
+        await Promise.all([
+            loadProgressSummary(),
+            loadProgressEntries()
+        ]);
+
+        initializeTooltips();
+    }
+    finally {
+        hideAppLoader();
+    }
 }
 
 
@@ -56,8 +71,10 @@ function bindProjectEvents() {
 }
 
 async function handleProjectChanged() {
-    await loadProgressSummary();
-    await loadProgressEntries();
+    await Promise.all([
+        loadProgressSummary(),
+        loadProgressEntries()
+    ]);
 }
 
 function initializeProgressModal() {
@@ -124,7 +141,6 @@ async function handleProgressFormSubmit(event) {
 
         clearProgressForm();
 
-        await loadProgressSummary();
         await loadProgressEntries();
 
         showSuccess(
@@ -317,8 +333,11 @@ async function handleApproveProgress() {
         }
 
         await approveProgress(currentProgressId);
-        await loadProgressSummary();
-        await loadProgressEntries();
+        
+        await Promise.all([
+            loadProgressSummary(),
+            loadProgressEntries()
+        ]);
 
         showSuccess( getTranslation("progress.messages.approvedSuccessfully") ?? "Execution record approved successfully");
     }
@@ -332,6 +351,8 @@ async function handleApproveProgress() {
 
 async function loadProgressSummary() {
 
+    showComponentLoader("progressSummaryCard");
+
     const projectId = getCurrentProjectId();
 
     try {
@@ -342,7 +363,9 @@ async function loadProgressSummary() {
     catch (error) {
         showError(error.message);
     }
-
+    finally {
+        hideComponentLoader("progressSummaryCard");
+    }
 }
 
 async function handleRejectProgress() {
@@ -374,7 +397,6 @@ async function handleRejectProgress() {
     try {
 
         await rejectProgress(currentProgressId, { reviewerComment });
-        await loadProgressSummary();
         await loadProgressEntries();
 
         showSuccess(getTranslation("progress.messages.rejectedSuccessfully") ?? "Execution record rejected successfully");
@@ -426,6 +448,8 @@ function renderProgressSummary(summary) {
 
 async function loadProgressEntries() {
 
+    showComponentLoader("progressEntriesCard");
+
     const projectId = getCurrentProjectId();
 
     try {
@@ -434,6 +458,9 @@ async function loadProgressEntries() {
     }
     catch (error) {
         showError(error.message);
+    }
+    finally {
+        hideComponentLoader("progressEntriesCard");
     }
 }
 

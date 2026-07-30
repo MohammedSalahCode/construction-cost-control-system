@@ -167,45 +167,27 @@ function bindProjectEvents() {
 
 async function loadProjects() {
 
-    const label = document.getElementById("projectSelectorLabel");
+    const projects = await getProjects();
+    const menu = document.getElementById("projectSelectorMenu");
 
-    if (label) {
-        label.innerHTML = `
-            <span class="spinner-border spinner-border-sm me-2"></span>
-            <span>
-                ${getTranslation("layout.sidebar.loadingProjects") ?? "Loading projects..."}
-            </span>
+    if (!menu) {
+        return;
+    }
+    menu.innerHTML = "";
+    projects.forEach(project => {
+        const item = document.createElement("li");
+        item.innerHTML = `
+            <button class="dropdown-item w-100 text-truncate"
+                    type="button"
+                    data-project-id="${project.id}"
+                    data-project-name="${project.name}"
+                    data-coreui-toggle="tooltip"
+                    title="${project.name}">
+                ${project.name}
+            </button>
         `;
-    }
-
-    try {
-        const projects = await getProjects();
-        const menu = document.getElementById("projectSelectorMenu");
-
-        if (!menu) {
-            return;
-        }
-        menu.innerHTML = "";
-        projects.forEach(project => {
-            const item = document.createElement("li");
-            item.innerHTML = `
-                <button class="dropdown-item w-100 text-truncate"
-                        type="button"
-                        data-project-id="${project.id}"
-                        data-project-name="${project.name}"
-                        data-coreui-toggle="tooltip"
-                        title="${project.name}">
-                    ${project.name}
-                </button>
-            `;
-            menu.appendChild(item);
-        });
-    }
-    catch (error) {
-        if (label) {
-            label.textContent = error.message;
-        }
-    }
+        menu.appendChild(item);
+    });
 }
 
 function bindProjectSelector() {

@@ -2,6 +2,7 @@ import { requireAuthentication } from "../../shared/auth/auth.guard.js";
 import { initializeLayout } from "../../shared/layout/layout.js";
 import { PROJECT_CHANGED_EVENT } from "../../shared/project/project.events.js";
 import { getProjects } from "../../shared/services/projects.service.js";
+import { initializeAppLoader, hideAppLoader} from "../../shared/layout/app-loader.js";
 import {
     getCurrentProjectId,
     setCurrentProject
@@ -16,17 +17,27 @@ initializeDashboard();
 
 async function initializeDashboard() {
 
-    requireAuthentication();
+    initializeAppLoader();
+    
+    try {
+        requireAuthentication();
 
-    await initializeLayout();
+        await initializeLayout();
 
-    await loadProjectCards();
+        await loadProjectCards();
 
-    bindProjectEvents();
+        bindProjectEvents();
 
-    updateDashboardState();
+        updateDashboardState();
 
-    initializeTooltips();
+        initializeTooltips();
+    }
+    catch (error) {
+        showError(error.message);
+    }
+    finally {
+        hideAppLoader();
+    }
 }
 
 
@@ -67,29 +78,8 @@ async function loadProjectCards() {
         return;
     }
 
-    container.innerHTML = `
-        <div class="col-12 text-center py-4">
-            <span class="spinner-border" role="status"></span>
-            <div class="mt-2">
-                <span>
-                    ${getTranslation("layout.sidebar.loadingProjects") ?? "Loading projects..."}
-                </span>
-            </div>
-        </div>
-    `;
-
-    let projects;
-
-    try {
-        projects = await getProjects();
-    }
-    catch(error) {
-
-        showError(error.message);
-        container.innerHTML = "";
-        return;
-    }
-
+    const projects = await getProjects();
+    
     container.innerHTML = "";
 
     projects.forEach((project) => {
