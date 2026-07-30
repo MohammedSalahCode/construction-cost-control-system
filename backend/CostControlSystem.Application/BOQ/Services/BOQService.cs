@@ -250,56 +250,61 @@ namespace CostControlSystem.Application.BOQ.Services
 
         public async Task LockProjectBoqAsync(int projectId)
         {
-            await using var transaction = await _context.Database.BeginTransactionAsync();
+            var strategy = _context.Database.CreateExecutionStrategy();
 
-            try
+            await strategy.ExecuteAsync(async () =>
             {
-                var project = await _context.Projects
-                    .FirstOrDefaultAsync(project => project.Id == projectId);
+                await using var transaction = await _context.Database.BeginTransactionAsync();
 
-                if (project == null)
+                try
                 {
-                    throw new NotFoundException($"Project with id {projectId} was not found.");
-                }
+                    var project = await _context.Projects
+                        .FirstOrDefaultAsync(project => project.Id == projectId);
 
-                if (project.Status != ProjectStatus.BOQPreparation)
+                    if (project == null)
+                    {
+                        throw new NotFoundException($"Project with id {projectId} was not found.");
+                    }
+
+                    if (project.Status != ProjectStatus.BOQPreparation)
+                    {
+                        throw new BusinessRuleException("Only projects in BOQ Preparation status can approve BOQ.");
+                    }
+
+                    var boqItemsExist = await _context.BOQItems
+                        .AnyAsync(item => item.ProjectId == projectId);
+
+                    if (!boqItemsExist)
+                    {
+                        throw new BusinessRuleException("Cannot approve BOQ because it has no items.");
+                    }
+
+                    var allItemsLocked = await _context.BOQItems
+                        .Where(item => item.ProjectId == projectId)
+                        .AllAsync(item => item.IsLocked);
+
+                    if (allItemsLocked)
+                    {
+                        throw new BusinessRuleException("BOQ is already approved.");
+                    }
+
+                    await _context.BOQItems
+                        .Where(item => item.ProjectId == projectId)
+                        .ExecuteUpdateAsync(setters => setters.SetProperty(item => item.IsLocked, true));
+
+
+                    project.Status = ProjectStatus.InExecution;
+
+                    await _context.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+                }
+                catch
                 {
-                    throw new BusinessRuleException("Only projects in BOQ Preparation status can approve BOQ.");
+                    await transaction.RollbackAsync();
+                    throw;
                 }
-
-                var boqItemsExist = await _context.BOQItems
-                    .AnyAsync(item => item.ProjectId == projectId);
-
-                if (!boqItemsExist)
-                {
-                    throw new BusinessRuleException("Cannot approve BOQ because it has no items.");
-                }
-
-                var allItemsLocked = await _context.BOQItems
-                    .Where(item => item.ProjectId == projectId)
-                    .AllAsync(item => item.IsLocked);
-
-                if (allItemsLocked)
-                {
-                    throw new BusinessRuleException("BOQ is already approved.");
-                }
-
-                await _context.BOQItems
-                    .Where(item => item.ProjectId == projectId)
-                    .ExecuteUpdateAsync(setters => setters.SetProperty(item => item.IsLocked, true));
-
-
-                project.Status = ProjectStatus.InExecution;
-
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
+            });
         }
 
         private static void NormalizeBoqItem(CreateBOQItemRequestDto dto)
