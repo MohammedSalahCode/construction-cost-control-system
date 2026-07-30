@@ -1,5 +1,5 @@
 import { appConfig } from "../config/app.config.js";
-import { getAccessToken } from "../auth/token.storage.js";
+import { getAccessToken, clearSession } from "../auth/token.storage.js";
 
 export async function get(endpoint) {
 
@@ -42,6 +42,18 @@ async function request(method, endpoint, data = null) {
         `${appConfig.apiBaseUrl}${endpoint}`,
         options
     );
+
+    // Temporary handling: redirect to login when access token expires
+    // TODO: Add Access Token Renewal Flow
+    if (response.status === 401) {
+
+        if (!window.location.pathname.includes("login.html")) {
+
+            clearSession();
+            window.location.replace(appConfig.routes.login);
+            return;
+        }
+    }
 
     if (response.status === 204) {
 
