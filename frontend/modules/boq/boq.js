@@ -196,8 +196,9 @@ async function handleLockBOQ() {
             getTranslation("boq.confirm.lockTitle") ?? "Approve BOQ",
 
         message:
-            getTranslation("boq.confirm.lockMessage") ?? "Are you sure you want to approve this BOQ? After approval, you will no longer be able to add, edit, or delete BOQ items.",
-
+            getTranslation("boq.confirm.lockMessage") ??
+            "Are you sure you want to approve this BOQ?\nThe project will move to \"In Execution\" status and BOQ items will be locked.\nAfter approval:\n- BOQ items cannot be added, edited, or deleted.\n- Progress tracking and expenses recording can be started.",
+        
         confirmText:
             getTranslation("boq.confirm.lockButton") ?? "Approve",
 
