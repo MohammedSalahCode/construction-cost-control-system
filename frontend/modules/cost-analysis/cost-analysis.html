@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <base href="../../">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Construction Cost Control & Performance Monitoring System">
+    <meta name="author" content="Mohammed Salah">
+    <title>Cost Analysis | Construction Cost Control System</title>
+    <meta name="theme-color" content="#ffffff">
+    <!-- Vendor styles-->
+    <link rel="stylesheet" href="vendors/simplebar/css/simplebar.css">
+    <link rel="stylesheet" href="css/vendors/simplebar.css">
+    <link rel="stylesheet" href="vendors/@coreui/icons/css/free.min.css">
+    <!-- Main styles for this application-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+    <script src="js/color-modes.js"></script>
+</head>
+
+<body>
+    <!-- App Loader -->
+    <div id="appLoader" class="app-loader">
+        <div class="text-center">
+            <div class="spinner-border spinner-border-sm" role="status"></div>
+            <p id="loaderText" class="mt-3 mb-0">جارٍ تحميل مساحة العمل...</p>
+        </div>
+    </div>
+
+    <div id="sidebarContainer">
+        <div class="sidebar-placeholder"></div>
+    </div>
+
+    <div class="wrapper d-flex flex-column min-vh-100">
+        <header class="header header-sticky p-0 mb-4">
+            <div class="container-fluid border-bottom px-4">
+                <button class="header-toggler" type="button"
+                    onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"
+                    style="margin-inline-start: -14px">
+                    <svg class="icon icon-lg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path fill="var(--ci-primary-color, currentcolor)"
+                            d="M80 96h352v32H80zm0 144h352v32H80zm0 144h352v32H80z" class="ci-primary" />
+                    </svg>
+                </button>
+
+                <ul class="header-nav">
+
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button"
+                            aria-expanded="false" data-coreui-toggle="dropdown">
+                            <i class="icon icon-lg cil-contrast theme-icon-active"></i>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end" style="--cui-dropdown-min-width: 8rem">
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center" type="button"
+                                    data-coreui-theme-value="light">
+                                    <i class="icon icon-lg me-3 cil-sun"></i>
+                                    <span data-i18n="layout.theme.light">Light</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center" type="button"
+                                    data-coreui-theme-value="dark">
+                                    <i class="icon icon-lg me-3 cil-moon"></i>
+                                    <span data-i18n="layout.theme.dark">Dark</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item d-flex align-items-center active" type="button"
+                                    data-coreui-theme-value="auto">
+                                    <i class="icon icon-lg me-3 cil-contrast"></i>
+                                    <span data-i18n="layout.theme.auto">Auto</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+
+                        <button class="btn btn-link nav-link py-2 px-2 d-flex align-items-center" type="button"
+                            data-coreui-toggle="dropdown" aria-expanded="false">
+
+                            <svg width="20" height="20" viewBox="0 -960 960 960" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M323-111.5Q250-143 196-197t-85-127.5Q80-398 80-482t31-156.5Q142-711 196-765t127-84.5Q396-880 480-880t157 30.5Q710-819 764-765t85 126.5Q880-566 880-482t-31 157.5Q818-251 764-197t-127 85.5Q564-80 480-80t-157-31.5ZM480-138q35-36 58.5-82.5T577-331H384q14 60 37.5 108t58.5 85Zm-85-12q-25-38-43-82t-30-99H172q38 71 88 111.5T395-150Zm171-1q72-23 129.5-69T788-331H639q-13 54-30.5 98T566-151ZM152-391h159q-3-27-3.5-48.5T307-482q0-25 1-44.5t4-43.5H152q-7 24-9.5 43t-2.5 45q0 26 2.5 46.5T152-391Zm221 0h215q4-31 5-50.5t1-40.5q0-20-1-38.5t-5-49.5H373q-4 31-5 49.5t-1 38.5q0 21 1 40.5t5 50.5Zm275 0h160q7-24 9.5-44.5T820-482q0-26-2.5-45t-9.5-43H649q3 35 4 53.5t1 34.5q0 22-1.5 41.5T648-391Zm-10-239h150q-33-69-90.5-115T565-810q25 37 42.5 80T638-630Zm-254 0h194q-11-53-37-102.5T480-820q-32 27-54 71t-42 119Zm-212 0h151q11-54 28-96.5t43-82.5q-75 19-131 64t-91 115Z"
+                                    fill="currentColor"></path>
+                            </svg>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <button id="languageEnglish" class="dropdown-item active" type="button"
+                                    data-language="en">🇺🇸 English</button>
+                            </li>
+                            <li>
+                                <button id="languageArabic" class="dropdown-item" type="button"
+                                    data-language="ar">العربية 🇸🇦</button>
+                            </li>
+                        </ul>
+
+                    </li>
+
+                    <li class="nav-item py-1">
+                        <div class="vr h-100 mx-2 text-body text-opacity-75"></div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link py-0 pe-0 d-flex align-items-center" data-coreui-toggle="dropdown" href="#"
+                            role="button" aria-haspopup="true" aria-expanded="false">
+                            <div class="avatar avatar-md"><img id="currentUserAvatar" class="avatar-img"
+                                    src="assets/images/avatars/default.jpg" alt="User"></div>
+                            <svg class="ms-2 text-body-secondary " xmlns="http://www.w3.org/2000/svg" width="20"
+                                height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end pt-0">
+                            <div class="px-3 py-2">
+                                <div id="currentUserName" class="fw-bold fs-6 text-nowrap">User</div>
+                                <div id="currentUserRole" class="small text-body-secondary">Administrator</div>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a class="dropdown-item" href="#">
+                                <i class="icon me-2 cil-user"></i>
+                                <span data-i18n="layout.userMenu.profile">Profile</span>
+                            </a>
+
+                            <a class="dropdown-item" href="#">
+                                <i class="icon me-2 cil-settings"></i>
+                                <span data-i18n="layout.userMenu.settings">Settings</span>
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a id="logoutButton" class="dropdown-item" href="#">
+                                <i class="icon me-2 cil-account-logout"></i>
+                                <span data-i18n="layout.userMenu.logout">Logout</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="body flex-grow-1">
+            <div class="container-fluid px-3">
+
+                <!-- Page Content -->
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h2 class="mb-1" data-i18n="costAnalysis.page.title">Cost Analysis</h2>
+                        <p class="text-body-secondary mb-0" data-i18n="costAnalysis.page.description">Analyze project
+                            cost performance and profitability.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <!-- Project Summary -->
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div>
+                                <div class="small text-body-secondary" data-i18n="boq.summary.project">Project</div>
+                                <div id="currentProjectName" class="fw-semibold">No Project</div>
+                            </div>
+
+                            <div class="text-end">
+                                <div class="small text-body-secondary" data-i18n="boq.summary.items">BOQ Items
+                                </div>
+                                <div id="itemAnalysisItemsCount" class="fw-semibold">0</div>
+                            </div>
+                        </div>
+
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs card-header-tabs mt-3" id="costAnalysisTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="overview-tab" data-coreui-toggle="tab"
+                                    data-coreui-target="#overview" type="button" role="tab">
+                                    <span data-i18n="costAnalysis.tabs.overview">Overview</span>
+                                </button>
+                            </li>
+
+                            <li class="nav-item " role="presentation">
+                                <button class="nav-link" id="item-analysis-tab" data-coreui-toggle="tab"
+                                    data-coreui-target="#item-analysis" type="button" role="tab">
+                                    <span data-i18n="costAnalysis.tabs.itemAnalysis">Item Analysis</span>
+                                </button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="trend-tab" data-coreui-toggle="tab"
+                                    data-coreui-target="#trend" type="button" role="tab">
+                                    <span data-i18n="costAnalysis.tabs.trendForecast">Trend &
+                                        Forecast</span>
+                                </button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="reports-tab" data-coreui-toggle="tab"
+                                    data-coreui-target="#reports" type="button" role="tab">
+                                    <span data-i18n="costAnalysis.tabs.reports">Reports</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="costAnalysisContent" class="card-body p-0">
+                        <div class="tab-content">
+
+                            <!-- ================= -->
+                            <!-- Overview -->
+                            <!-- ================= -->
+
+                            <div class="tab-pane fade show active p-4" id="overview" role="tabpanel">
+
+                            </div>
+
+                            <!-- ================= -->
+                            <!-- Item Analysis -->
+                            <!-- ================= -->
+
+                            <div class="tab-pane fade p-4" id="item-analysis" role="tabpanel">
+
+                                <div id="itemAnalysisDataContainer">
+                                    <!-- Alert -->
+                                    <div id="customDateAlert" class="alert alert-danger d-none mb-3" role="alert"></div>
+
+                                    <!-- Period Selection -->
+                                    <div class="mb-4 p-3 rounded bg-body-tertiary">
+                                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
+
+                                            <!-- Period Selector -->
+                                            <div>
+                                                <div class="fw-semibold" data-i18n="costAnalysis.period.title">
+                                                    Analysis Period
+                                                </div>
+
+                                                <div class="small text-body-secondary mb-2"
+                                                    data-i18n="costAnalysis.period.description">
+                                                    Select the period for cost performance review
+                                                </div>
+
+                                                <div class="d-flex flex-wrap gap-2" id="itemAnalysisPeriods">
+                                                    <button type="button"
+                                                        class="btn btn-ghost-primary fw-semibold active"
+                                                        data-period="Cumulative"
+                                                        data-i18n="costAnalysis.period.cumulative">
+                                                        Cumulative
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-ghost-primary fw-semibold"
+                                                        data-period="CurrentWeek"
+                                                        data-i18n="costAnalysis.period.currentWeek">
+                                                        Current Week
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-ghost-primary fw-semibold"
+                                                        data-period="CurrentMonth"
+                                                        data-i18n="costAnalysis.period.currentMonth">
+                                                        Current Month
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-ghost-primary fw-semibold"
+                                                        data-period="Custom" data-i18n="costAnalysis.period.custom">
+                                                        Custom Date
+                                                    </button>
+                                                </div>
+
+                                                <!-- Custom Date Range -->
+                                                <div id="customDateRange" class="d-none flex-wrap gap-3 mt-3">
+                                                    <div>
+                                                        <label for="customStartDate"
+                                                            class="form-label small text-body-secondary mb-1"
+                                                            data-i18n="costAnalysis.period.from">
+                                                            From
+                                                        </label>
+
+                                                        <input type="date" id="customStartDate"
+                                                            class="form-control form-control-sm">
+                                                    </div>
+
+                                                    <div>
+                                                        <label for="customEndDate"
+                                                            class="form-label small text-body-secondary mb-1"
+                                                            data-i18n="costAnalysis.period.to">
+                                                            To
+                                                        </label>
+
+                                                        <input type="date" id="customEndDate"
+                                                            class="form-control form-control-sm">
+                                                    </div>
+
+                                                    <div class="d-flex align-items-end">
+                                                        <button type="button" id="applyCustomPeriod"
+                                                            class="btn btn-sm btn-primary"
+                                                            data-i18n="costAnalysis.period.apply">
+                                                            Apply
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Selected Period Range -->
+                                            <div id="itemAnalysisPeriodRangeContainer"
+                                                class="d-flex align-items-center gap-2 text-body-secondary ms-auto">
+                                                <i class="cil-calendar"></i>
+
+                                                <span data-i18n="costAnalysis.period.analysisPeriod" class="small">
+                                                    Analysis Period
+                                                </span>
+                                                <span id="itemAnalysisPeriodRange" class="fw-semibold "></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Item Filters -->
+                                    <div class="mb-4">
+                                        <div class="mb-2">
+                                            <div class="fw-semibold" data-i18n="costAnalysis.filters.title">
+                                                Item Filters
+                                            </div>
+
+                                            <div class="small text-body-secondary"
+                                                data-i18n="costAnalysis.filters.description">
+                                                Select the items you want to display
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-wrap gap-2" id="itemAnalysisFilters">
+                                            <button id="filterAll" class="btn btn-sm btn-outline-primary active"
+                                                type="button" data-i18n="costAnalysis.filters.allItems">
+                                                All Items
+                                            </button>
+
+                                            <button id="filterOverBudget" class="btn btn-outline-primary" type="button"
+                                                data-i18n="costAnalysis.filters.costOverrun"
+                                                data-coreui-toggle="tooltip" data-coreui-placement="top"
+                                                data-coreui-trigger="hover"
+                                                title="Actual cost is higher than the planned cost for the executed quantity in the selected period"
+                                                data-i18n-title="costAnalysis.tooltips.costOverrun">
+                                                Cost Overrun
+                                            </button>
+
+                                            <button id="filterCostExceedsRevenue" class="btn btn-outline-primary"
+                                                type="button" data-i18n="costAnalysis.filters.costExceedsRevenue"
+                                                data-coreui-toggle="tooltip" data-coreui-placement="top"
+                                                data-coreui-trigger="hover"
+                                                title="Actual cost is higher than the earned revenue in the selected period"
+                                                data-i18n-title="costAnalysis.tooltips.costExceedsRevenue">
+                                                Cost Exceeds Revenue
+                                            </button>
+
+                                            <button id="filterProgressWithoutCost" class="btn btn-outline-primary"
+                                                type="button" data-i18n="costAnalysis.filters.progressWithoutCost"
+                                                data-coreui-toggle="tooltip" data-coreui-placement="top"
+                                                data-coreui-trigger="hover"
+                                                title="The item has progress in the selected period but no actual cost recorded"
+                                                data-i18n-title="costAnalysis.tooltips.progressWithoutCost">
+                                                Progress Without Cost
+                                            </button>
+
+                                            <button id="filterNoProgressInPeriod" class="btn btn-outline-primary"
+                                                type="button" data-i18n="costAnalysis.filters.noProgressInPeriod"
+                                                data-coreui-toggle="tooltip" data-coreui-placement="top"
+                                                data-coreui-trigger="hover"
+                                                title="The item is not completed and has no progress during the selected period"
+                                                data-i18n-title="costAnalysis.tooltips.noProgressInPeriod">
+                                                No Progress in Period
+                                            </button>
+
+                                            <button id="filterInProgress" class="btn btn-outline-primary" type="button"
+                                                data-i18n="costAnalysis.filters.inProgress">
+                                                In Progress
+                                            </button>
+
+                                            <button id="filterCompleted" class="btn btn-outline-primary" type="button"
+                                                data-i18n="costAnalysis.filters.completed">
+                                                Completed
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Item Analysis Table -->
+                                    <div id="itemAnalysisTableContainer">
+                                        <!-- Table Alert -->
+                                        <div id="itemAnalysisAlert" class="alert alert-danger d-none mb-3" role="alert">
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table id="itemAnalysisTable" class="table table-hover align-middle mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-i18n="costAnalysis.table.itemNumber">Item No.</th>
+                                                        <th data-i18n="costAnalysis.table.itemName">Item</th>
+                                                        <th data-i18n="costAnalysis.table.contractQuantity">Contract Qty
+                                                        </th>
+                                                        <th class="period-column"
+                                                            data-i18n="costAnalysis.table.periodExecutedQuantity">
+                                                            Period Qty
+                                                        </th>
+                                                        <th class="period-column"
+                                                            data-i18n="costAnalysis.table.periodProgress">
+                                                            Period %
+                                                        </th>
+                                                        <th data-i18n="costAnalysis.table.cumulativeExecutedQuantity">
+                                                            Cumulative Qty
+                                                        </th>
+                                                        <th data-i18n="costAnalysis.table.cumulativeProgress">
+                                                            Cumulative %
+                                                        </th>
+                                                        <th data-i18n="costAnalysis.table.contractValue">
+                                                            Contract Value
+                                                        </th>
+                                                        <th data-i18n="costAnalysis.table.earnedRevenue">
+                                                            Earned Revenue
+                                                        </th>
+                                                        <th data-i18n="costAnalysis.table.budgetUnitCost">
+                                                            Budget Unit Cost
+                                                        </th>
+                                                        <th data-i18n="costAnalysis.table.periodPlannedCost">Planned Cost</th>
+                                                        <th data-i18n="costAnalysis.table.actualCost">Actual Cost</th>
+                                                        <th data-i18n="costAnalysis.table.profit">Profit</th>
+                                                        <th data-i18n="costAnalysis.table.margin">Profit Margin %</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="itemAnalysisTableBody"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================= -->
+                            <!-- Trend & Forecast -->
+                            <!-- ================= -->
+
+                            <div class="tab-pane fade p-4" id="trend" role="tabpanel">
+
+                            </div>
+
+                            <!-- ================= -->
+                            <!-- Reports -->
+                            <!-- ================= -->
+
+                            <div class="tab-pane fade p-4" id="reports" role="tabpanel">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="footer px-4">
+            <div class="d-flex justify-content-between align-items-center w-100" dir="ltr">
+                <span>Construction Cost Control System &copy; 2026</span>
+                <span>Version 1.0.0</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container position-fixed top-0 end-0 p-3"></div>
+    <!-- CoreUI and necessary plugins-->
+    <script src="vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+    <script src="vendors/simplebar/js/simplebar.min.js"></script>
+    <script>
+        const header = document.querySelector("header.header");
+        document.addEventListener("scroll", () => {
+            if (header) {
+                header.classList.toggle("shadow-sm", document.documentElement.scrollTop > 0);
+            }
+        });
+    </script>
+    <script type="module" src="modules/cost-analysis/cost-analysis.js"></script>
+</body>
+
+</html>
