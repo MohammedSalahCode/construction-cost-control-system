@@ -17,6 +17,8 @@ using CostControlSystem.Application.Progress.Interfaces;
 using CostControlSystem.Application.Progress.Services;
 using CostControlSystem.Application.Finance.Interfaces;
 using CostControlSystem.Application.Finance.Services;
+using CostControlSystem.Application.CostAnalysis.Interfaces;
+using CostControlSystem.Application.CostAnalysis.Services;
 using CostControlSystem.Application.TechnicalServices.Security;
 using CostControlSystem.Infrastructure.Data;
 
@@ -162,6 +164,7 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IBOQService, BOQService>();
 builder.Services.AddScoped<IProgressService, ProgressService>();
 builder.Services.AddScoped<IFinanceService, FinanceService>();
+builder.Services.AddScoped<ICostAnalysisService, CostAnalysisService>();
 
 // Technical Services
 builder.Services.AddScoped<ITokenService, TokenService>();
