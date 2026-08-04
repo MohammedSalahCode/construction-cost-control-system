@@ -358,7 +358,6 @@ async function loadProgressSummary() {
     try {
         const summary = await getBOQProgressSummary(projectId);
         renderProgressSummary(summary);
-        document.getElementById("progressItemsCount").textContent = summary.length;
     }
     catch (error) {
         showError(error.message);
@@ -408,7 +407,6 @@ async function handleRejectProgress() {
 }
 
 function renderProgressSummary(summary) {
-
     const tableBody = document.getElementById("progressSummaryTableBody");
     tableBody.replaceChildren();
 
@@ -423,7 +421,15 @@ function renderProgressSummary(summary) {
         row.innerHTML = `
             <td>${index++}</td>
             <td>${item.itemNumber}</td>
-            <td>${item.itemName}</td>
+            <td>
+                <div
+                    class="progress-item-name"
+                        data-coreui-toggle="tooltip"
+                        data-coreui-placement="top"
+                        data-coreui-title="${item.itemName}">
+                        ${item.itemName}
+                </div>
+            </td>
             <td>${item.unit}</td>
             <td>${formatQuantity(item.contractQuantity)}</td>
             <td>${formatQuantity(item.executedQuantity)}</td>
@@ -480,7 +486,11 @@ function renderProgressEntries(entries) {
 
             <td>
                 <div class="fw-semibold">${entry.itemNumber}</div>
-                <div class="small text-body-secondary">
+                <div
+                    class="progress-item-name small text-body-secondary"
+                    data-coreui-toggle="tooltip"
+                    data-coreui-placement="top"
+                    data-coreui-title="${entry.itemName}">
                     ${entry.itemName}
                 </div>
             </td>

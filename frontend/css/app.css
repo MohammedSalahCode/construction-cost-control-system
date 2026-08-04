@@ -42,8 +42,14 @@
 :root {
     --cui-primary: #2563a8;
     --cui-primary-rgb: 37, 99, 168;
+    --cui-link-color: #2563a8;
+    --cui-link-hover-color: #1f5089;
 }
 
+[data-coreui-theme="dark"] {
+    --cui-link-color: #5b9bd5;
+    --cui-link-hover-color: #7ab3e3;
+}
 
 /* ==========================================================
    Shared UI Components
@@ -107,6 +113,42 @@
     --cui-gradient: none;
 }
 
+.btn-ghost-primary {
+    --cui-btn-color: #2563a8;
+    --cui-btn-border-color: transparent;
+    --cui-btn-hover-bg: #2563a8;
+    --cui-btn-hover-border-color: #2563a8;
+    --cui-btn-hover-color: #fff;
+    --cui-btn-active-bg: #1f5089;
+    --cui-btn-active-border-color: #1c497d;
+    --cui-btn-active-color: #fff;
+    --cui-btn-disabled-color: #2563a8;
+    --cui-btn-disabled-bg: transparent;
+    --cui-btn-disabled-border-color: transparent;
+}
+
+[data-coreui-theme="dark"] .btn-ghost-primary {
+    --cui-btn-color: #3373c0;
+    --cui-btn-border-color: transparent;
+    --cui-btn-hover-bg: #3373c0;
+    --cui-btn-hover-border-color: #3373c0;
+    --cui-btn-hover-color: #fff;
+    --cui-btn-active-bg: #2c63a3;
+    --cui-btn-active-border-color: #285a93;
+    --cui-btn-active-color: #fff;
+    --cui-btn-disabled-color: #3373c0;
+    --cui-btn-disabled-bg: transparent;
+    --cui-btn-disabled-border-color: transparent;
+}
+
+#itemAnalysisPeriods .btn {
+    font-size: 0.95rem;
+}
+
+#itemAnalysisFilters .btn {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.83rem;
+}
 
 /* Cards
 ---------------------------------------------------------- */
@@ -190,6 +232,33 @@
 
 .progress-entries-table {
     padding-block: 0.9rem;
+}
+
+#itemAnalysisTableContainer .table {
+    font-size: 0.94rem;
+}
+
+#itemAnalysisTableContainer .table th,
+#itemAnalysisTableContainer .table td {
+    padding: 0.65rem 0.5rem;
+}
+
+#itemAnalysisTableContainer .table th {
+    font-size: 0.85rem;
+    line-height: 1.2;
+}
+
+#itemAnalysisTableContainer .badge {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.2rem;
+}
+
+#itemAnalysisTableContainer .table th:nth-child(2),
+#itemAnalysisTableContainer .table td:nth-child(2) {
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Loaders
@@ -326,14 +395,24 @@
    Pages
 ========================================================== */
 
+.boq-item-name,
+.expense-item-name,
+.progress-item-name {
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* BOQ */
+
+.boq-table thead th {
+    background-color: var(--cui-secondary-bg);
+    color: var(--cui-body-color);
+    font-weight: 600;
+}
 
 /* Dashboard */
-
-
-/* Progress */
-
-
-/* Finance */
 
 
 /* Reports */

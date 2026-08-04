@@ -139,18 +139,8 @@
             </li>
           </ul>
         </div>
-
-        <div class="container-fluid px-4">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb my-0">
-                <li class="breadcrumb-item active" aria-current="page">
-                  <span data-i18n="projects.page.title">Projects</span>
-                </li>
-            </ol>
-          </nav>
-        </div>
-
       </header>
+
       <div class="body flex-grow-1">
         <div class="container-lg px-4">
           <!-- Page Content -->
@@ -181,17 +171,15 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead>
                             <tr>
-                              <th data-i18n="projects.table.id">ID</th>
+                              <th>#</th>
                               <th data-i18n="projects.table.name">Name</th>
+                              <th data-i18n="projects.table.status">status</th>
                               <th data-i18n="projects.table.startDate">Start Date</th>
                               <th data-i18n="projects.table.endDate">End Date</th>
                               <th data-i18n="projects.table.actions">Actions</th>
                             </tr>
                         </thead>
-
-                        <tbody id="projectsTableBody">
-                        </tbody>
-
+                        <tbody id="projectsTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -201,7 +189,10 @@
       </div>
 
       <footer class="footer px-4">
-        <div>Construction Cost Control System &copy; 2026</div>
+          <div class="d-flex justify-content-between align-items-center w-100" dir="ltr">
+              <span>Construction Cost Control System &copy; 2026</span>
+              <span>Version 1.0.0</span>
+          </div>
       </footer>
 
     </div>
@@ -226,7 +217,16 @@
                         <input type="text" class="form-control" id="projectName" maxlength="150" required>
                     </div>
 
-                    <div class="mb-3"> <label for="projectDescription" class="form-label" data-i18n="projects.modal.description">Description</label>
+                    <div class="mb-3">
+                      <label for="projectDescription" class="form-label">
+                        <span data-i18n="projects.modal.description">
+                            Description
+                        </span>
+
+                      <span class="text-body-secondary fw-normal small">
+                          (<span data-i18n="common.optional">Optional</span>)
+                      </span>
+                    </label>
                         <textarea class="form-control" id="projectDescription" rows="3" maxlength="500"></textarea>
                     </div>
 
@@ -236,8 +236,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="projectEndDate" class="form-label"  data-i18n="projects.modal.endDate">End Date</label>
-                        <input type="date" class="form-control" id="projectEndDate">
+                      <label for="projectEndDate" class="form-label">
+                        <span data-i18n="projects.modal.endDate">End Date</span>
+                        <span class="text-body-secondary fw-normal small">
+                            (<span data-i18n="common.optional">Optional</span>)
+                        </span>
+                      </label>
+                      <input type="date" class="form-control" id="projectEndDate">
                     </div>
                 </form>
             </div>

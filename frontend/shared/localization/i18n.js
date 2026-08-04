@@ -12,6 +12,7 @@ export function initializeLocalization() {
 
     applyPlaceholders();
 
+    applyTitles();
 }
 
 
@@ -56,6 +57,25 @@ export function applyPlaceholders() {
 
         if (translation !== null) {
             element.placeholder = translation;
+        }
+
+    });
+
+}
+
+
+export function applyTitles() {
+
+    const elements = document.querySelectorAll("[data-i18n-title]");
+
+    elements.forEach(element => {
+
+        const key = element.dataset.i18nTitle;
+
+        const translation = getTranslation(key);
+
+        if (translation !== null) {
+            element.title = translation;
         }
 
     });

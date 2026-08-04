@@ -18,6 +18,12 @@ const ar = {
 
 
     dashboard: {
+
+        page: {
+            title: "داشبورد",
+            description: "أهم مستجدات المشروع والتنبيهات التي تتطلب الانتباه"
+        },
+
         welcome: {
             title: "مساحة عمل المشروع",
             message: "اختر مشروعًا للدخول إلى مساحة العمل الخاصة به ومتابعة المهام المخصصة لك.",
@@ -44,27 +50,21 @@ const ar = {
             currentProject: "المشروع الحالي",
             selectProject: "اختر مشروعًا",
             main: "الرئيسية",
-            dashboard: "لوحة المعلومات",
-            projectsSection:"المشاريع",
-            projectList:"قائمة المشاريع",
-            overview:"نظرة عامة",
+            dashboard: "داشبورد",
+            projectsSection: "المشاريع",
+            projectList: "قائمة المشاريع",
+            overview: "نظرة عامة",
             boq: "جدول الكميات",
             progress: "متابعة التنفيذ",
             expenses: "إدارة المصروفات",
             costAnalysis: "تحليل التكلفة",
-            projectEvents: "سجل الأحداث",
-            recommendations: "التوصيات",
-            reports: "التقارير",
+            projectLog: "سجل المشروع",
             administration: "الإدارة",
-            users: "المستخدمون",
-        },
-        
-        breadcrumb: {
-            dashboard: "لوحة التحكم"
+            users: "المستخدمون"
         }
     },
 
-    
+
     projects: {
 
         page: {
@@ -76,6 +76,7 @@ const ar = {
         table: {
             id: "المعرف",
             name: "اسم المشروع",
+            status:"حالة المشروع",
             startDate: "تاريخ البداية",
             endDate: "تاريخ النهاية",
             actions: "الإجراءات",
@@ -105,8 +106,8 @@ const ar = {
             completed: "مكتمل",
             closedOut: "مغلق نهائياً"
         },
-        
-       card: {
+
+        card: {
             startDate: "تاريخ البدء",
             boqItems: "عدد بنود الكميات",
             select: "دخول المشروع"
@@ -117,64 +118,74 @@ const ar = {
     boq: {
 
         page: {
-            title: "BOQ",
-            description: "بنود الكميات والبيانات المرتبطة بها.",
+            title: "جدول الكميات",
+            description: "إدارة بنود جدول الكميات وقيمها التعاقدية",
             addButton: "إضافة بند",
-            lockButton: "اعتماد BOQ"
+            lockButton: "اعتماد جدول الكميات"
         },
 
         summary: {
             project: "المشروع",
-            status: "حالة الــ BOQ",
-            items: "عدد بنود",
+            status: "حالة جدول الكميات",
+            items: "عدد البنود",
+            totalValue: "إجمالي القيمة",
             draft: "مسودة",
             approved: "معتمد"
+
         },
 
         table: {
+            title: "بنود جدول الكميات",
+            description: "البنود والقيم التعاقدية المسجلة للمشروع.",
             itemNumber: "رقم البند",
             itemName: "وصف البند",
             unit: "الوحدة",
             contractquantity: "الكمية التعاقدية",
-            unitPrice: "سعر الوحدة (ر.س)",
-            totalPrice: "الإجمالي (ر.س)",
+            unitPrice: "سعر الوحدة",
+            totalPrice: "إجمالي القيمة",
             actions: "الإجراءات"
         },
 
         modal: {
-
-            addTitle: "إضافة بند",
-            editTitle: "تعديل البند",
+            addTitle: "إضافة بند إلى جدول الكميات",
+            editTitle: "تعديل بند جدول الكميات",
             itemNumber: "رقم البند",
             itemNumberHint: "مثال: 1، 1.1، 1.5.1",
-            itemName: "اسم البند",
+            itemName: "وصف البند",
             unit: "الوحدة",
             quantity: "الكمية",
             unitPrice: "سعر الوحدة (ر.س)",
             notes: "ملاحظات",
-            create: "إنشاء",
+            create: "إضافة البند",
             saveChanges: "حفظ التعديلات",
             cancel: "إلغاء",
             selectUnit: "اختر الوحدة"
         },
 
         confirm: {
-            deleteTitle: "حذف بند BOQ",
+            deleteTitle: "حذف بند",
             deleteMessage: "هل أنت متأكد من حذف هذا البند؟ لا يمكن التراجع عن هذه العملية.",
             confirmButton: "حذف",
             cancelButton: "إلغاء",
-            lockTitle: "اعتماد الـ BOQ",
-            lockMessage: "هل أنت متأكد من اعتماد الـ BOQ؟\nسيتم نقل المشروع إلى حالة \"قيد التنفيذ\" وتثبيت بنود الـ BOQ.\nبعد الاعتماد:\n- لن يكون بالإمكان إضافة أو تعديل أو حذف بنود الـ BOQ.\n- يمكن البدء بتسجيل تقدم التنفيذ والمصروفات.",
+            lockTitle: "اعتماد جدول الكميات",
+            lockMessage:
+                "هل أنت متأكد من اعتماد جدول الكميات؟\n" +
+                "سيتم نقل المشروع إلى حالة \"قيد التنفيذ\" وتثبيت بنود جدول الكميات.\n" +
+                "بعد الاعتماد:\n" +
+                "- لن يكون بالإمكان إضافة أو تعديل أو حذف بنود جدول الكميات.\n" +
+                "- يمكن البدء بتسجيل تقدم التنفيذ والمصروفات.",
             lockButton: "اعتماد"
         },
 
         messages: {
-            createdSuccessfully: "تمت إضافة البند بنجاح.",
-            updatedSuccessfully: "تم تحديث البند بنجاح.",
-            deletedSuccessfully: "تم حذف البند بنجاح.",
-            approvedSuccessfully: "تم اعتماد الـ BOQ بنجاح.",
-            approved: "اعتماد BOQ",
-            addItemBeforeApproval: "أضف بندًا واحدًا على الأقل قبل اعتماد الـ BOQ."
+            createdSuccessfully: "تمت إضافة البند بنجاح",
+            updatedSuccessfully: "تم حفظ تعديلات البند بنجاح",
+            deletedSuccessfully: "تم حذف البند بنجاح",
+            approvedSuccessfully: "تم اعتماد جدول الكميات بنجاح",
+            approved: "معتمد",
+            addItemBeforeApproval: "أضف بندًا واحدًا على الأقل قبل اعتماد جدول الكميات",
+            noItems: "لا توجد بنود في جدول الكميات",
+            noItemsDescription: "أضف أول بند لبدء إعداد جدول كميات المشروع."
         }
 
     },
@@ -223,7 +234,7 @@ const ar = {
 
         details: {
             title: "تفاصيل التنفيذ",
-            reviewerComment: "تعليق مدير المشروع",
+            reviewerComment: "تعليق مدير المشروع"
         },
 
         messages: {
@@ -252,7 +263,6 @@ const ar = {
         },
 
         table: {
-            items: "عدد بنود BOQ",
             itemNumber: "رقم البند",
             itemName: "وصف  البند",
             unit: "الوحدة",
@@ -277,8 +287,8 @@ const ar = {
         },
 
         modal: {
-            directTitle : "تسجيل مصروف مباشر",
-            generalTitle:"تسجيل مصروف عام",
+            directTitle: "تسجيل مصروف مباشر",
+            generalTitle: "تسجيل مصروف عام",
             editTitle: "تعديل المصروف",
             editDirectTitle: "تعديل المصروف المباشر",
             editGeneralTitle: "تعديل المصروف العام",
@@ -294,13 +304,13 @@ const ar = {
             description: "الوصف",
             create: "تسجيل",
             update: "تحديث",
-            cancel: "إلغاء",
+            cancel: "إلغاء"
         },
 
         details: {
             title: "تفاصيل المصروف",
             reviewerComment: "تعليق المدير المالي",
-            ofItemValue:"من قيمة البند"
+            ofItemValue: "من قيمة البند"
         },
 
         messages: {
@@ -326,8 +336,91 @@ const ar = {
         symbol: "(ر.س)"
     },
 
-        common: {
 
+    costAnalysis: {
+        page: {
+            title: "تحليل التكاليف",
+            description: "تحليل أداء التكاليف وقياس ربحية المشروع."
+        },
+
+        tabs: {
+            overview: "الملخص",
+            itemAnalysis: "تحليل البنود",
+            trendForecast: "الاتجاهات والتوقعات",
+            reports: "التقارير"
+        },
+
+        period: {
+            title: "فترة التحليل",
+            description: "اختر الفترة التي تريد مراجعة أداء التكاليف خلالها",
+            cumulative: "تراكمي",
+            currentWeek: "الأسبوع الجاري",
+            currentMonth: "الشهر الجاري",
+            custom: "تاريخ مخصص",
+            from: "من",
+            to: "الي",
+            apply: "تطبيق الفترة",
+            analysisPeriod: "فترة التحليل"
+        },
+
+        table: {
+            itemNumber: "رقم البند",
+            itemName: "البند",
+            contractQuantity: "الكمية التعاقدية",
+            periodExecutedQuantity: "كمية الفترة",
+            periodProgress: "إنجاز الفترة %",
+            cumulativeExecutedQuantity: "الكمية التراكمية",
+            cumulativeProgress: "الإنجاز التراكمي %",
+            contractValue: "قيمة العقد",
+            earnedRevenue: "الإيراد المكتسب",
+            budgetUnitCost: "تكلفة الوحدة المخططة",
+            periodPlannedCost: "التكلفة المخططة",
+            actualCost: "التكلفة الفعلية",
+            profit: "الربح",
+            margin: "هامش الربح %"
+        },
+
+        filters: {
+            title: "تصفية البنود",
+            description: "اختر البنود التي تريد عرضها",
+            allItems: "جميع البنود",
+            costOverrun: "تجاوز التكلفة المخططة",
+            costExceedsRevenue: "التكلفة الفعلية تتجاوز الإيراد",
+            progressWithoutCost: "تقدّم بدون تكلفة",
+            noProgressInPeriod: "لا تقدّم خلال الفترة",
+            inProgress: "قيد التنفيذ",
+            completed: "مكتمل"
+        },
+
+        tooltips: {
+            costOverrun: "التكلفة الفعلية أعلى من التكلفة المخططة للكمية المنفذة خلال الفترة",
+            costExceedsRevenue: "التكلفة الفعلية أعلى من الإيراد المكتسب للكمية المنفذة خلال الفترة",
+            progressWithoutCost: "تم تسجيل تقدّم خلال الفترة دون تسجيل تكلفة فعلية",
+            noProgressInPeriod: "لم يتم تسجيل تقدّم خلال الفترة، والبند غير مكتمل"
+        },
+
+        confirm: {
+            addBudgetTitle: "إضافة تكلفة الوحدة المخططة",
+            addBudgetMessage: "سيتم حفظ تكلفة الوحدة المخططة لهذا البند. بعد الحفظ لن يكون بالإمكان تعديلها من هذه الشاشة. هل تريد المتابعة؟"
+        },
+
+        messages: {
+            noItems: "لا توجد بنود BOQ لعرضها",
+            invalidBudgetUnitCost: "يرجى إدخال قيمة صحيحة لتكلفة الوحدة المخططة",
+            budgetAdded: "تمت إضافة تكلفة الوحدة المخططة بنجاح",
+            selectDateRange: "يجب تحديد تاريخ البداية والنهاية للفترة المخصصة",
+            invalidCustomPeriod: {
+                startEndOnlyCustom: "لا يمكن تحديد تاريخ البداية والنهاية إلا للفترة المخصصة",
+                startEndRequired: "يجب تحديد تاريخ البداية والنهاية للفترة المخصصة",
+                startBeforeProject: "لا يمكن أن يسبق تاريخ البداية تاريخ بدء المشروع",
+                startAfterEnd: "لا يمكن أن يتجاوز تاريخ البداية تاريخ النهاية",
+                endInFuture: "لا يمكن أن يتجاوز تاريخ النهاية تاريخ اليوم"
+            }
+        }
+    },
+
+
+    common: {
         edit: "تعديل",
         delete: "حذف",
         cancel: "إلغاء",
@@ -337,7 +430,14 @@ const ar = {
         rejected: "مرفوض",
         reject: "رفض",
         view: "عرض",
-        update: "تحديث"
+        update: "تحديث",
+        confirm: "تأكيد",
+        optional:"اختياري",
+        currency: "ر.س",
+        errors: {
+            unexpected: "حدث خطأ غير متوقع",
+            forbidden: "ليس لديك صلاحية لتنفيذ هذا الإجراء"
+        }
     },
 
 };

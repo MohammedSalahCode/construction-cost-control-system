@@ -2,7 +2,7 @@ import { requireAuthentication } from "../../shared/auth/auth.guard.js";
 import { initializeLayout } from "../../shared/layout/layout.js";
 import { PROJECT_CHANGED_EVENT } from "../../shared/project/project.events.js";
 import { getProjects } from "../../shared/services/projects.service.js";
-import { initializeAppLoader, hideAppLoader} from "../../shared/layout/app-loader.js";
+import { initializeAppLoader, hideAppLoader } from "../../shared/layout/app-loader.js";
 import {
     getCurrentProjectId,
     setCurrentProject
@@ -18,7 +18,7 @@ initializeDashboard();
 async function initializeDashboard() {
 
     initializeAppLoader();
-    
+
     try {
         requireAuthentication();
 
@@ -79,7 +79,7 @@ async function loadProjectCards() {
     }
 
     const projects = await getProjects();
-    
+
     container.innerHTML = "";
 
     projects.forEach((project) => {
@@ -148,7 +148,7 @@ async function loadProjectCards() {
 
         const statusBadge = card.querySelector(".project-status-badge");
         statusBadge.outerHTML = renderProjectStatusBadge(project.status);
-        
+
         const button = card.querySelector(".select-project-btn");
 
         button.addEventListener("click", () => {

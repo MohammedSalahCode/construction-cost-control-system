@@ -7,6 +7,7 @@ import {
     getCurrentProject,
     getCurrentProjectId
 } from "../project/project.context.js";
+import { initializeTooltips } from "../../shared/ui/tooltip.js";
 import { getTranslation } from "../localization/i18n.js";
 import { PROJECT_CHANGED_EVENT } from "../project/project.events.js";
 import { getProjects } from "../services/projects.service.js";
@@ -18,6 +19,8 @@ export async function initializeLayout() {
     initializeSidebarUI();
 
     initializeLocalization();
+
+    initializeTooltips();
 
     initializeCurrentUser();
 
@@ -151,7 +154,7 @@ async function initializeProjectSelector() {
 
     updateProjectSelectorUI();
     updateCurrentProjectTitle();
-
+    updateCurrentProjectName();
 }
 
 function bindProjectEvents() {
@@ -161,6 +164,7 @@ function bindProjectEvents() {
         () => {
             updateProjectSelectorUI();
             updateCurrentProjectTitle();
+            updateCurrentProjectName();
         }
     );
 }
@@ -268,4 +272,15 @@ function updateCurrentProjectTitle() {
 
 function clearProjectSelection() {
     setCurrentProject(null);
+}
+
+function updateCurrentProjectName() {
+
+    const element = document.getElementById("currentProjectName");
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent = getCurrentProject()?.name ?? "No Project";
 }

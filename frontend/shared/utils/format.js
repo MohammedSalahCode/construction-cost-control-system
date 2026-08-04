@@ -34,7 +34,7 @@ export function formatDate(value) {
     const language = getLanguage();
 
     return new Intl.DateTimeFormat(
-        language === "ar" ? "ar-SA" : "en-GB",
+        language === "ar" ? "ar-SA-u-nu-latn" : "en-GB",
         {
             day: "2-digit",
             month: "short",

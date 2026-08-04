@@ -389,7 +389,6 @@ async function loadExpenseSummary() {
     try {
         const summary = await getBOQExpenseSummary(projectId);
         renderExpenseSummary(summary);
-        document.getElementById("expenseItemsCount").textContent = summary.length;
     }
     catch (error) {
         showError(error.message);
@@ -414,7 +413,15 @@ function renderExpenseSummary(summary) {
         row.innerHTML = `
             <td>${index++}</td>
             <td>${item.itemNumber}</td>
-            <td>${item.itemName}</td>
+            <td>
+                <div
+                    class="expense-item-name"
+                        data-coreui-toggle="tooltip"
+                        data-coreui-placement="top"
+                        data-coreui-title="${item.itemName}">
+                        ${item.itemName}
+                </div>
+            </td>
             <td>${item.unit}</td>
             <td>${item.contractQuantity}</td>
             <td>${formatCurrency(item.unitPrice)}</td>
@@ -427,6 +434,7 @@ function renderExpenseSummary(summary) {
                     class="btn btn-outline-primary btn-sm px-2 py-1 expense-add-button"
                     data-boq-item-id="${item.boqItemId}">
                     <i class="cil-plus"></i>
+                    <span>
                     ${getTranslation("expenses.modal.directTitle") ?? "Record Direct Expense"}
                     </span>
                 </button>
@@ -437,7 +445,6 @@ function renderExpenseSummary(summary) {
     }
 
     initializeTooltips();
-
 }
 
 function renderExpenseRatioCell(totalApproved, contractValue) {
@@ -483,26 +490,23 @@ async function loadExpenses() {
 }
 
 function renderExpenses(expenses) {
-
     const tableBody = document.getElementById("expensesTableBody");
-
     tableBody.replaceChildren();
-
     let index = 1;
-
     for (const expense of expenses) {
-
         const row = document.createElement("tr");
-
         row.innerHTML = `
-
             <td>${index++}</td>
             <td>
                 ${
                     expense.itemNumber
                         ? `
-                            <div class="small text-body-secondary">${expense.itemNumber}</div>
-                            <div class="fw-semibold">
+                            <div class="fw-semibold">${expense.itemNumber}</div>
+                            <div
+                                class="expense-item-name small text-body-secondary"
+                                data-coreui-toggle="tooltip"
+                                data-coreui-placement="top"
+                                data-coreui-title="${expense.itemName}">
                                 ${expense.itemName}
                             </div>
                           `
