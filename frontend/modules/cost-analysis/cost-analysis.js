@@ -10,6 +10,7 @@ import { initializeAppLoader, hideAppLoader } from "../../shared/layout/app-load
 import { getCurrentProjectId } from "../../shared/project/project.context.js";
 import { PROJECT_CHANGED_EVENT } from "../../shared/project/project.events.js";
 import {
+    getOverview,
     getItemAnalysis,
     createEstimatedCost
 } from "./cost-analysis.service.js";
@@ -32,6 +33,7 @@ let customStartDate = null;
 let customEndDate = null;
 let isCustomDateRangeVisible = false;
 let itemAnalysisRequestId = 0;
+let overviewRequestId = 0;
 
 initializeCostAnalysis();
 
@@ -45,7 +47,7 @@ async function initializeCostAnalysis() {
         await initializeLayout();
         bindEvents();
         bindProjectEvents();
-        await loadItemAnalysis();
+        await loadActiveTab();
     }
     catch (error) {
         showError(error.message);
@@ -55,9 +57,245 @@ async function initializeCostAnalysis() {
     }
 }
 
+async function loadActiveTab() {
+    const activeTab = document.querySelector("#costAnalysisTabs .nav-link.active");
+
+    if (!activeTab) {
+        return;
+    }
+
+    const targetId = activeTab.getAttribute("data-coreui-target");
+
+    if (targetId === "#overview") {
+        await loadOverview();
+        return;
+    }
+
+    if (targetId === "#item-analysis") {
+        await loadItemAnalysis();
+        return;
+    }
+
+    if (targetId === "#trend") {
+        return;
+    }
+
+    if (targetId === "#reports") {
+        return;
+    }
+}
+
+async function loadOverview() {
+    const container = document.getElementById("overviewDataContainer");
+    if (!container) {
+        return;
+    }
+
+    showComponentLoader("overviewDataContainer");
+    setAnalysisControlsDisabled(true);
+    const requestId = ++overviewRequestId;
+
+    try {
+        const projectId = getCurrentProjectId();
+        const response = await getOverview(projectId, currentPeriod, customStartDate, customEndDate);
+
+        // Ignore old response
+        if (requestId !== overviewRequestId) {
+            return;
+        }
+        renderOverview(response);
+        updateCostAnalysisPeriodRange(response.startDate, response.endDate);
+    }
+    finally {
+        if (requestId === overviewRequestId) {
+            hideComponentLoader("overviewDataContainer");
+            setAnalysisControlsDisabled(false);
+        }
+    }
+}
+
+function renderOverview(data) {
+    if (!data) {
+        return;
+    }
+
+    document.getElementById("overviewContractValue").textContent = formatCurrency(data.contractValue);
+    document.getElementById("overviewEarnedRevenue").textContent = formatCurrency(data.earnedRevenue);
+    document.getElementById("overviewActualCost").textContent = formatCurrency(data.actualCost);
+
+    document.getElementById("overviewGrossProfit").textContent = formatCurrency(data.grossProfit);
+    document.getElementById("overviewGrossProfitMargin").textContent =
+        data.grossProfitMarginPercentage == null
+            ? "-"
+            : formatPercentage(data.grossProfitMarginPercentage);
+
+    document.getElementById("overviewNetProfit").textContent = formatCurrency(data.netProfit);
+    document.getElementById("overviewNetProfitMargin").textContent =
+        data.netProfitMarginPercentage == null
+            ? "-"
+            : formatPercentage(data.netProfitMarginPercentage);
+
+
+    updateProfitState(data.grossProfit, "overviewGrossProfit");
+    updateProfitMarginState(data.grossProfitMarginPercentage, "overviewGrossProfitMargin");
+
+    updateProfitState(data.netProfit, "overviewNetProfit");
+    updateProfitMarginState(data.netProfitMarginPercentage, "overviewNetProfitMargin");
+
+    document.getElementById("overviewProgress").textContent = formatPercentage(data.overallProgressPercentage);
+    document.getElementById("overviewProgressBar").style.width = `${Math.min(Math.max(data.overallProgressPercentage, 0), 100)}%`;
+    document.getElementById("overviewCompletedItems").textContent = data.completedItems;
+    document.getElementById("overviewInProgressItems").textContent = data.inProgressItems;
+    document.getElementById("overviewNotStartedItems").textContent = data.notStartedItems;
+
+    document.getElementById("overviewBudget").textContent = formatCurrency(data.budget);
+    document.getElementById("overviewPeriodPlannedCost").textContent = formatCurrency(data.periodPlannedCost);
+    document.getElementById("overviewCostActualCost").textContent = formatCurrency(data.actualCost);
+    document.getElementById("overviewCostVariance").textContent = formatCurrency(data.costVariance);
+    document.getElementById("overviewCpi").textContent =
+        data.cpi == null
+            ? "-"
+            : data.cpi.toFixed(2);
+
+    updateProfitState(data.costVariance, "overviewCostVariance");
+    updateCpiState(data.cpi);
+
+    document.getElementById("overviewDirectCost").textContent = formatCurrency(data.directCost);
+    document.getElementById("overviewIndirectCost").textContent = formatCurrency(data.indirectCost);
+    document.getElementById("overviewOverhead").textContent = formatCurrency(data.overhead);
+
+    renderCostStructure(data);
+    renderOverviewAlerts(data.alerts);
+}
+
+function updateProfitState(value, elementId) {
+    const element = document.getElementById(elementId);
+    if (!element) {
+        return;
+    }
+
+    element.classList.remove("text-success", "text-danger", "text-body");
+
+    if (value > 0) { element.classList.add("text-success"); }
+    else if (value < 0) { element.classList.add("text-danger"); }
+    else { element.classList.add("text-body"); }
+}
+
+function updateProfitMarginState(value, elementId) {
+    const element = document.getElementById(elementId);
+    if (!element) {
+        return;
+    }
+
+    element.classList.remove("text-success", "text-danger", "text-body");
+
+    if (value == null) {
+        element.classList.add("text-body");
+        return;
+    }
+
+    if (value > 0) { element.classList.add("text-success"); }
+    else if (value < 0) { element.classList.add("text-danger"); }
+    else { element.classList.add("text-body"); }
+}
+
+function updateCpiState(value) {
+    const element = document.getElementById("overviewCpi");
+    if (!element) {
+        return;
+    }
+
+    element.classList.remove("text-success", "text-danger", "text-body");
+
+    if (value == null) {
+        element.classList.add("text-body");
+        return;
+    }
+
+    if (value >= 1) { element.classList.add("text-success"); }
+    else { element.classList.add("text-danger"); }
+}
+
+function renderCostStructure(data) {
+    const total = data.directCost + data.indirectCost + data.overhead;
+
+    const directPercentage = total === 0 ? 0 : (data.directCost / total) * 100;
+    const indirectPercentage = total === 0 ? 0 : (data.indirectCost / total) * 100;
+    const overheadPercentage = total === 0 ? 0 : (data.overhead / total) * 100;
+
+    document.getElementById("overviewDirectCostBar").style.width = `${directPercentage}%`;
+    document.getElementById("overviewIndirectCostBar").style.width = `${indirectPercentage}%`;
+    document.getElementById("overviewOverheadBar").style.width = `${overheadPercentage}%`;
+}
+
+function renderOverviewAlerts(alerts) {
+    const container = document.getElementById("overviewAlerts");
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+    const alertDefinitions = [
+        {
+            count: alerts?.costOverruns ?? 0,
+            icon: "cil-warning",
+            englishMessage: "Cost overruns detected: {count}",
+            translationKey: "costAnalysis.overview.alerts.costOverruns"
+        },
+        {
+            count: alerts?.progressWithoutCost ?? 0,
+            icon: "cil-chart-line",
+            englishMessage: "Progress recorded without cost: {count}",
+            translationKey: "costAnalysis.overview.alerts.progressWithoutCost"
+        },
+        {
+            count: alerts?.missingEstimatedCost ?? 0,
+            icon: "cil-calculator",
+            englishMessage: "Items missing estimated cost: {count}",
+            translationKey: "costAnalysis.overview.alerts.missingEstimatedCost"
+        },
+        {
+            count: alerts?.lossRisk ?? 0,
+            icon: "cil-warning",
+            englishMessage: "Items at loss risk: {count}",
+            translationKey: "costAnalysis.overview.alerts.lossRisk"
+        }
+    ];
+
+    const activeAlerts = alertDefinitions.filter(alert => alert.count > 0);
+    if (activeAlerts.length === 0) {
+        container.innerHTML = `
+            <div class="d-flex align-items-center gap-2 text-success">
+                <i class="cil-check-circle fs-5"></i>
+                <span data-i18n="costAnalysis.overview.alerts.noAlerts">
+                    No cost control alerts detected.
+                </span>
+            </div>
+        `;
+        return;
+    }
+
+    activeAlerts.forEach(alert => {
+        const translatedMessage = getTranslation(alert.translationKey);
+        const message =
+            (translatedMessage ?? alert.englishMessage)
+                .replace("{count}", alert.count);
+
+        const row = document.createElement("div");
+        row.className = "d-flex align-items-center gap-2 py-2 border-bottom";
+        row.innerHTML = `
+            <i class="${alert.icon} text-warning"></i>
+            <span>${message}</span>
+        `;
+
+        container.appendChild(row);
+    });
+}
+
 async function loadItemAnalysis() {
     showComponentLoader("itemAnalysisDataContainer");
     const requestId = ++itemAnalysisRequestId;
+    setAnalysisControlsDisabled(true);
     try {
         const projectId = getCurrentProjectId();
         const response = await getItemAnalysis(projectId, currentPeriod, customStartDate, customEndDate);
@@ -70,15 +308,18 @@ async function loadItemAnalysis() {
         allItems = response.items;
         document.getElementById("itemAnalysisItemsCount").textContent = allItems.length;
         applyFilter(currentFilter);
-        updateItemAnalysisPeriodRange(response.startDate, response.endDate);
+        updateCostAnalysisPeriodRange(response.startDate, response.endDate);
     }
     finally {
-        hideComponentLoader("itemAnalysisDataContainer");
+        if (requestId === itemAnalysisRequestId) {
+            hideComponentLoader("itemAnalysisDataContainer");
+            setAnalysisControlsDisabled(false);
+        }
     }
 }
 
-function updateItemAnalysisPeriodRange(startDate, endDate) {
-    const periodRange = document.getElementById("itemAnalysisPeriodRange");
+function updateCostAnalysisPeriodRange(startDate, endDate) {
+    const periodRange = document.getElementById("costAnalysisPeriodRange");
 
     if (!periodRange) {
         return;
@@ -92,7 +333,7 @@ function bindEvents() {
     document.getElementById("itemAnalysisFilters")
         .addEventListener("click", handleFilterClick);
 
-    document.getElementById("itemAnalysisPeriods")
+    document.getElementById("costAnalysisPeriods")
         .addEventListener("click", handlePeriodClick);
 
     document.getElementById("itemAnalysisTableBody")
@@ -100,6 +341,16 @@ function bindEvents() {
 
     document.getElementById("applyCustomPeriod")
         .addEventListener("click", handleApplyCustomPeriod);
+
+    document.getElementById("costAnalysisTabs")
+        .addEventListener("shown.coreui.tab", handleCostAnalysisTabShown);
+}
+
+async function handleCostAnalysisTabShown(event) {
+    hideAlert("customDateAlert");
+    hideAlert("itemAnalysisAlert");
+
+    await loadActiveTab();
 }
 
 function bindProjectEvents() {
@@ -117,12 +368,12 @@ async function handleProjectChanged() {
 
     isCustomDateRangeVisible = false;
     toggleCustomDateRange(false);
-    toggleItemAnalysisPeriodRange(true);
+    toggleCostAnalysisPeriodRange(true);
 
-    document.querySelectorAll("#itemAnalysisPeriods button")
+    document.querySelectorAll("#costAnalysisPeriods button")
         .forEach(btn => btn.classList.remove("active"));
 
-    document.querySelector('#itemAnalysisPeriods button[data-period="Cumulative"]')
+    document.querySelector('#costAnalysisPeriods button[data-period="Cumulative"]')
         ?.classList.add("active");
 
     document.querySelectorAll("#itemAnalysisFilters button")
@@ -131,14 +382,14 @@ async function handleProjectChanged() {
     document.querySelector('#itemAnalysisFilters button#filterAll')
         ?.classList.add("active");
 
-    const periodRange = document.getElementById("itemAnalysisPeriodRange");
+    const periodRange = document.getElementById("costAnalysisPeriodRange");
 
     if (periodRange) {
         periodRange.textContent = "";
     }
 
     try {
-        await loadItemAnalysis();
+        await loadActiveTab();
     }
     catch (error) {
         showError(error.message);
@@ -212,7 +463,6 @@ function applyFilter(filterId) {
 }
 
 async function handlePeriodClick(event) {
-
     const button = event.target.closest("button[data-period]");
     if (!button) {
         return;
@@ -224,9 +474,9 @@ async function handlePeriodClick(event) {
         isCustomDateRangeVisible = !isCustomDateRangeVisible;
 
         toggleCustomDateRange(isCustomDateRangeVisible);
-        toggleItemAnalysisPeriodRange(!isCustomDateRangeVisible);
+        toggleCostAnalysisPeriodRange(!isCustomDateRangeVisible);
 
-        document.querySelectorAll("#itemAnalysisPeriods button")
+        document.querySelectorAll("#costAnalysisPeriods button")
             .forEach(btn => btn.classList.remove("active"));
 
         if (isCustomDateRangeVisible) {
@@ -235,28 +485,29 @@ async function handlePeriodClick(event) {
         return;
     }
     hideAlert("customDateAlert");
+    hideAlert("itemAnalysisAlert");
 
     currentPeriod = period;
     updatePeriodColumnsVisibility();
     isCustomDateRangeVisible = false;
     toggleCustomDateRange(false);
-    toggleItemAnalysisPeriodRange(true);
+    toggleCostAnalysisPeriodRange(true);
 
-    document.querySelectorAll("#itemAnalysisPeriods button")
+    document.querySelectorAll("#costAnalysisPeriods button")
         .forEach(btn => btn.classList.remove("active"));
 
     button.classList.add("active");
 
     try {
-        await loadItemAnalysis();
+        await loadActiveTab();
     }
     catch (error) {
         showError(error.message);
     }
 }
 
-function toggleItemAnalysisPeriodRange(show) {
-    const container = document.getElementById("itemAnalysisPeriodRangeContainer");
+function toggleCostAnalysisPeriodRange(show) {
+    const container = document.getElementById("costAnalysisPeriodRangeContainer");
     if (!container) {
         return;
     }
@@ -301,9 +552,9 @@ async function handleApplyCustomPeriod() {
         currentPeriod = "Custom";
         updatePeriodColumnsVisibility();
 
-        await loadItemAnalysis();
+        await loadActiveTab();
 
-        toggleItemAnalysisPeriodRange(true);
+        toggleCostAnalysisPeriodRange(true);
     }
     catch (error) {
         showAlert("customDateAlert", getErrorMessage(error));
@@ -471,5 +722,19 @@ async function handleSaveBudgetUnitCost(button) {
     }
     finally {
         button.disabled = false;
+    }
+}
+
+function setAnalysisControlsDisabled(disabled) {
+    document.querySelectorAll(
+        "#costAnalysisPeriods button, #costAnalysisTabs .nav-link"
+    ).forEach(button => {
+        button.disabled = disabled;
+    });
+
+    const customPeriod = document.getElementById("applyCustomPeriod");
+
+    if (customPeriod) {
+        customPeriod.disabled = disabled;
     }
 }

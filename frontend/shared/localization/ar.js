@@ -332,7 +332,6 @@ const ar = {
 
 
     currency: {
-
         symbol: "(ر.س)"
     },
 
@@ -340,7 +339,13 @@ const ar = {
     costAnalysis: {
         page: {
             title: "تحليل التكاليف",
-            description: "تحليل أداء التكاليف وقياس ربحية المشروع."
+            description: "تحليل أداء التكاليف والربحية ومتابعة مؤشرات المشروع"
+        },
+
+        workspace: {
+            title: "لوحة مراقبة التكاليف",
+            description: "متابعة التنفيذ وأداء التكاليف والربحية",
+            liveAnalysis: "تحليل مباشر"
         },
 
         tabs: {
@@ -348,6 +353,60 @@ const ar = {
             itemAnalysis: "تحليل البنود",
             trendForecast: "الاتجاهات والتوقعات",
             reports: "التقارير"
+        },
+
+        overview: {
+
+            financial: {
+                title: "الملخص المالي",
+                description: "الإيرادات والتكاليف والربحية للفترة المحددة",
+                contractValue: "قيمة العقد",
+                earnedRevenue: "الإيراد المكتسب",
+                actualCost: "التكلفة الفعلية",
+                grossProfit: "إجمالي الربح",
+                grossMargin: "هامش إجمالي الربح",
+                netProfit: "صافي الربح",
+                netMargin: "هامش صافي الربح"
+            },
+
+            execution: {
+                title: "حالة التنفيذ",
+                description: "حالة تنفيذ بنود المشروع بناءً على نسب الإنجاز المعتمدة",
+                overallProgress: "نسبة الإنجاز الإجمالية",
+                completed: "مكتمل",
+                inProgress: "قيد التنفيذ",
+                notStarted: "لم يبدأ"
+            },
+
+            performance: {
+                title: "أداء التكاليف",
+                description: "مقارنة التكاليف المخططة والفعلية للفترة المحددة",
+                budget: "الميزانية",
+                plannedCost: "التكلفة المقدرة للأعمال المنفذة",
+                actualCost: "التكلفة الفعلية",
+                costVariance: "انحراف التكلفة",
+                varianceDescription: "التكلفة المقدرة للأعمال المنفذة − التكلفة الفعلية",
+                cpi: "مؤشر أداء التكلفة (CPI)"
+            },
+
+            structure: {
+                title: "هيكل التكاليف",
+                description: "توزيع التكلفة الفعلية للمشروع حسب نوع التكلفة",
+                direct: "التكاليف المباشرة",
+                indirect: "التكاليف غير المباشرة",
+                overhead: "مصروفات عامة وإدارية"
+            },
+
+            alerts: {
+                title: "تنبيهات مراقبة التكاليف",
+                description: "بنود تتطلب الانتباه بناءً على مؤشرات مراقبة التكاليف الحالية",
+                costOverruns: "يوجد {count} بند تجاوزت فيه التكلفة الفعلية التكلفة المخططة",
+                progressWithoutCost: "يوجد {count} بند به تقدّم دون تسجيل تكلفة فعلية",
+                missingEstimatedCost: "يوجد {count} بند بدون تكلفة وحدة مخططة",
+                lossRisk: "يوجد {count} بند معرض لخطر الخسارة",
+                noAlerts: "لا توجد تنبيهات لمراقبة التكاليف حاليًا"
+            }
+
         },
 
         period: {

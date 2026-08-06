@@ -151,66 +151,177 @@
 
         <div class="body flex-grow-1">
             <div class="container-fluid px-3">
-
                 <!-- Page Content -->
-
                 <div class="row mb-4">
                     <div class="col-12">
-                        <h2 class="mb-1" data-i18n="costAnalysis.page.title">Cost Analysis</h2>
-                        <p class="text-body-secondary mb-0" data-i18n="costAnalysis.page.description">Analyze project
-                            cost performance and profitability.</p>
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-4">
+                            <div>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <div class="text-primary fs-4">
+                                        <i class="cil-chart-line"></i>
+                                    </div>
+                                    <h2 class="mb-0 fw-semibold" data-i18n="costAnalysis.page.title">Cost Analysis</h2>
+                                </div>
+                                <p class="text-body-secondary mb-0" data-i18n="costAnalysis.page.description">
+                                    Analyze project cost performance and profitability.
+                                </p>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center gap-3 px-3 py-2 rounded bg-body-tertiary">
+                                    <div class="text-primary fs-4">
+                                        <i class="cil-building"></i>
+                                    </div>
+                                    <div>
+                                        <div class="small text-body-secondary" data-i18n="boq.summary.project">Project
+                                        </div>
+                                        <div id="currentProjectName" class="fw-semibold">No Project</div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center gap-3 px-3 py-2 rounded bg-body-tertiary">
+                                    <div class="text-primary fs-4">
+                                        <i class="cil-list-rich"></i>
+                                    </div>
+                                    <div>
+                                        <div class="small text-body-secondary" data-i18n="boq.summary.items">BOQ Items
+                                        </div>
+                                        <div id="itemAnalysisItemsCount" class="fw-semibold">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <!-- Project Summary -->
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="card border-0 shadow-sm">
+
+                    <!-- Workspace Header -->
+                    <div class="card-body border-bottom">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
                             <div>
-                                <div class="small text-body-secondary" data-i18n="boq.summary.project">Project</div>
-                                <div id="currentProjectName" class="fw-semibold">No Project</div>
+                                <div class="small text-body-secondary" data-i18n="costAnalysis.workspace.title">Cost
+                                    Control Workspace</div>
+                                <div class="fw-semibold" data-i18n="costAnalysis.workspace.description">Monitor
+                                    execution, cost performance and profitability</div>
                             </div>
 
-                            <div class="text-end">
-                                <div class="small text-body-secondary" data-i18n="boq.summary.items">BOQ Items
-                                </div>
-                                <div id="itemAnalysisItemsCount" class="fw-semibold">0</div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge bg-body-tertiary text-body-secondary fw-normal">
+                                    <i class="cil-chart-line me-1"></i>
+                                    <span data-i18n="costAnalysis.workspace.liveAnalysis">Live Analysis</span>
+                                </span>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Tabs -->
-                        <ul class="nav nav-tabs card-header-tabs mt-3" id="costAnalysisTabs" role="tablist">
+                    <!-- Analysis Period -->
+                    <div class="card-body">
+                        <!-- Alert -->
+                        <div id="customDateAlert" class="alert alert-danger d-none w-100 mb-3" role="alert"></div>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
+                            <!-- Period Selector -->
+                            <div>
+                                <div class="fw-semibold" data-i18n="costAnalysis.period.title">Analysis Period</div>
+                                <div class="small text-body-secondary mb-2" data-i18n="costAnalysis.period.description">
+                                    Select the period for cost performance review</div>
+                                <div class="d-flex flex-wrap gap-2" id="costAnalysisPeriods">
+                                    <button type="button" class="btn btn-sm btn-ghost-primary fw-semibold active"
+                                        data-period="Cumulative" data-i18n="costAnalysis.period.cumulative">
+                                        Cumulative
+                                    </button>
+
+                                    <button type="button" class="btn btn-sm btn-ghost-primary fw-semibold"
+                                        data-period="CurrentWeek" data-i18n="costAnalysis.period.currentWeek">
+                                        Current Week
+                                    </button>
+
+                                    <button type="button" class="btn btn-sm btn-ghost-primary fw-semibold"
+                                        data-period="CurrentMonth" data-i18n="costAnalysis.period.currentMonth">
+                                        Current Month
+                                    </button>
+
+                                    <button type="button" class="btn btn-sm btn-ghost-primary fw-semibold"
+                                        data-period="Custom" data-i18n="costAnalysis.period.custom">
+                                        Custom Date
+                                    </button>
+                                </div>
+
+                                <!-- Custom Date Range -->
+                                <div id="customDateRange" class="d-none flex-wrap gap-3 mt-3">
+                                    <div>
+                                        <label for="customStartDate" class="form-label small text-body-secondary mb-1"
+                                            data-i18n="costAnalysis.period.from">From</label>
+                                        <input type="date" id="customStartDate" class="form-control form-control-sm">
+                                    </div>
+
+                                    <div>
+                                        <label for="customEndDate" class="form-label small text-body-secondary mb-1"
+                                            data-i18n="costAnalysis.period.to">To</label>
+                                        <input type="date" id="customEndDate" class="form-control form-control-sm">
+                                    </div>
+
+                                    <div class="d-flex align-items-end">
+                                        <button type="button" id="applyCustomPeriod" class="btn btn-sm btn-primary"
+                                            data-i18n="costAnalysis.period.apply">
+                                            Apply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Selected Period -->
+                            <div id="costAnalysisPeriodRangeContainer"
+                                class="d-flex align-items-center gap-2 text-body-secondary ms-auto">
+                                <i class="cil-calendar"></i>
+                                <span data-i18n="costAnalysis.period.analysisPeriod" class="small">
+                                    Analysis Period
+                                </span>
+
+                                <span id="costAnalysisPeriodRange" class="fw-semibold"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="pt-2">
+                        <ul class="nav nav-tabs" id="costAnalysisTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="overview-tab" data-coreui-toggle="tab"
-                                    data-coreui-target="#overview" type="button" role="tab">
+                                <button class="nav-link active px-3 py-2 fw-semibold" id="overview-tab"
+                                    data-coreui-toggle="tab" data-coreui-target="#overview" type="button" role="tab">
+                                    <i class="cil-speedometer me-2"></i>
                                     <span data-i18n="costAnalysis.tabs.overview">Overview</span>
                                 </button>
                             </li>
 
-                            <li class="nav-item " role="presentation">
-                                <button class="nav-link" id="item-analysis-tab" data-coreui-toggle="tab"
-                                    data-coreui-target="#item-analysis" type="button" role="tab">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link px-3 py-2 fw-semibold" id="item-analysis-tab"
+                                    data-coreui-toggle="tab" data-coreui-target="#item-analysis" type="button"
+                                    role="tab">
+                                    <i class="cil-list-rich me-2"></i>
                                     <span data-i18n="costAnalysis.tabs.itemAnalysis">Item Analysis</span>
                                 </button>
                             </li>
 
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="trend-tab" data-coreui-toggle="tab"
+                                <button class="nav-link px-3 py-2 fw-semibold" id="trend-tab" data-coreui-toggle="tab"
                                     data-coreui-target="#trend" type="button" role="tab">
-                                    <span data-i18n="costAnalysis.tabs.trendForecast">Trend &
-                                        Forecast</span>
+                                    <i class="cil-chart-line me-2"></i>
+                                    <span data-i18n="costAnalysis.tabs.trendForecast">Trend & Forecast</span>
                                 </button>
                             </li>
 
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="reports-tab" data-coreui-toggle="tab"
+                                <button class="nav-link px-3 py-2 fw-semibold" id="reports-tab" data-coreui-toggle="tab"
                                     data-coreui-target="#reports" type="button" role="tab">
+                                    <i class="cil-description me-2"></i>
                                     <span data-i18n="costAnalysis.tabs.reports">Reports</span>
                                 </button>
                             </li>
                         </ul>
                     </div>
 
+                    <!-- Tab Content -->
                     <div id="costAnalysisContent" class="card-body p-0">
                         <div class="tab-content">
 
@@ -219,7 +330,425 @@
                             <!-- ================= -->
 
                             <div class="tab-pane fade show active p-4" id="overview" role="tabpanel">
+                                <div id="overviewDataContainer">
+                                    <!-- Financial Overview -->
+                                    <div class="card border-0 mb-4 cost-analysis-overview-card">
+                                        <div class="card-body p-4">
+                                            <div class="mb-4">
+                                                <div class="fw-semibold"
+                                                    data-i18n="costAnalysis.overview.financial.title">
+                                                    Financial Overview
+                                                </div>
 
+                                                <div class="small text-body-secondary"
+                                                    data-i18n="costAnalysis.overview.financial.description">
+                                                    Project revenue, cost and profitability for the selected period
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md-6 col-xl-4">
+                                                    <div class="p-3 rounded bg-body-tertiary h-100">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="text-primary">
+                                                                <i class="cil-description"></i>
+                                                            </div>
+                                                            <div class="small text-body-secondary"
+                                                                data-i18n="costAnalysis.overview.financial.contractValue">
+                                                                Contract Value</div>
+                                                        </div>
+                                                        <div id="overviewContractValue" class="fs-4 fw-semibold">-</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-6 col-xl-4">
+                                                    <div class="p-3 rounded bg-body-tertiary h-100">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="text-primary">
+                                                                <i class="cil-money"></i>
+                                                            </div>
+                                                            <div class="small text-body-secondary"
+                                                                data-i18n="costAnalysis.overview.financial.earnedRevenue">
+                                                                Earned Revenue
+                                                            </div>
+                                                        </div>
+                                                        <div id="overviewEarnedRevenue" class="fs-4 fw-semibold">
+                                                            -
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-6 col-xl-4">
+                                                    <div class="p-3 rounded bg-body-tertiary h-100">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="text-primary">
+                                                                <i class="cil-calculator"></i>
+                                                            </div>
+                                                            <div class="small text-body-secondary"
+                                                                data-i18n="costAnalysis.overview.financial.actualCost">
+                                                                Actual Cost
+                                                            </div>
+                                                        </div>
+                                                        <div id="overviewActualCost" class="fs-4 fw-semibold">
+                                                            -
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-6 col-xl-6">
+                                                    <div class="p-3 rounded bg-body-tertiary h-100">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="text-primary">
+                                                                <i class="cil-chart-line"></i>
+                                                            </div>
+                                                            <div class="small text-body-secondary"
+                                                                data-i18n="costAnalysis.overview.financial.grossProfit">
+                                                                Gross Profit
+                                                            </div>
+                                                        </div>
+                                                        <div id="overviewGrossProfit" class="fs-4 fw-semibold">
+                                                            -
+                                                        </div>
+                                                        <div class="small text-body-secondary mt-1">
+                                                            <span
+                                                                data-i18n="costAnalysis.overview.financial.grossMargin">
+                                                                Gross Margin
+                                                            </span>
+                                                            <span id="overviewGrossProfitMargin"
+                                                                class="fw-semibold ms-1">
+                                                                -
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-6 col-xl-6">
+                                                    <div class="p-3 rounded bg-body-tertiary h-100">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="text-primary">
+                                                                <i class="cil-money"></i>
+                                                            </div>
+                                                            <div class="small text-body-secondary"
+                                                                data-i18n="costAnalysis.overview.financial.netProfit">
+                                                                Net Profit
+                                                            </div>
+                                                        </div>
+                                                        <div id="overviewNetProfit" class="fs-4 fw-semibold">
+                                                            -
+                                                        </div>
+                                                        <div class="small text-body-secondary mt-1">
+                                                            <span data-i18n="costAnalysis.overview.financial.netMargin">
+                                                                Net Margin
+                                                            </span>
+                                                            <span id="overviewNetProfitMargin" class="fw-semibold ms-1">
+                                                                -
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Execution Status -->
+                                    <div class="card border-0 mb-4 cost-analysis-overview-card">
+                                        <div class="card-body">
+                                            <div class="mb-4">
+                                                <div class="fw-semibold"
+                                                    data-i18n="costAnalysis.overview.execution.title">
+                                                    Execution Status
+                                                </div>
+
+                                                <div class="small text-body-secondary"
+                                                    data-i18n="costAnalysis.overview.execution.description">
+                                                    Project BOQ item execution status based on approved progress
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <span class="small text-body-secondary"
+                                                        data-i18n="costAnalysis.overview.execution.overallProgress">
+                                                        Overall Progress
+                                                    </span>
+                                                    <span id="overviewProgress" class="fw-semibold">
+                                                        -
+                                                    </span>
+                                                </div>
+
+                                                <div class="progress" style="height: 8px;">
+                                                    <div id="overviewProgressBar" class="progress-bar"
+                                                        role="progressbar" style="width: 0%;">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md-4">
+                                                    <div class="p-3 rounded bg-body-tertiary">
+                                                        <div class="small text-body-secondary"
+                                                            data-i18n="costAnalysis.overview.execution.completed">
+                                                            Completed
+                                                        </div>
+
+                                                        <div id="overviewCompletedItems" class="fs-4 fw-semibold mt-1">
+                                                            -
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-4">
+                                                    <div class="p-3 rounded bg-body-tertiary">
+                                                        <div class="small text-body-secondary"
+                                                            data-i18n="costAnalysis.overview.execution.inProgress">
+                                                            In Progress
+                                                        </div>
+
+                                                        <div id="overviewInProgressItems" class="fs-4 fw-semibold mt-1">
+                                                            -
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-4">
+                                                    <div class="p-3 rounded bg-body-tertiary">
+                                                        <div class="small text-body-secondary"
+                                                            data-i18n="costAnalysis.overview.execution.notStarted">
+                                                            Not Started
+                                                        </div>
+
+                                                        <div id="overviewNotStartedItems" class="fs-4 fw-semibold mt-1">
+                                                            -
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cost Performance -->
+                                    <div class="card border-0 mb-4 cost-analysis-overview-card">
+                                        <div class="card-body p-4">
+                                            <!-- Section Header -->
+                                            <div
+                                                class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+                                                <div>
+                                                    <div class="fw-semibold"
+                                                        data-i18n="costAnalysis.overview.performance.title">
+                                                        Cost Performance
+                                                    </div>
+
+                                                    <div class="small text-body-secondary"
+                                                        data-i18n="costAnalysis.overview.performance.description">
+                                                        Compare planned and actual cost for the selected period
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-primary fs-4"><i class="cil-chart-line"></i></div>
+                                            </div>
+
+                                            <div class="row g-3">
+                                                <div class="col-12 col-md-6 col-xl-3">
+                                                    <div class="p-3 rounded bg-body-tertiary h-100">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="text-primary">
+                                                                <i class="cil-calculator"></i>
+                                                            </div>
+
+                                                            <div class="small text-body-secondary"
+                                                                data-i18n="costAnalysis.overview.performance.budget">
+                                                                Budget
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="overviewBudget" class="fs-5 fw-semibold">
+                                                            -
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-6 col-xl-3">
+                                                    <div class="p-3 rounded bg-body-tertiary h-100">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="text-primary">
+                                                                <i class="cil-list-rich"></i>
+                                                            </div>
+
+                                                            <div class="small text-body-secondary"
+                                                                data-i18n="costAnalysis.overview.performance.plannedCost">
+                                                                Estimated Cost for Executed Work
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="overviewPeriodPlannedCost" class="fs-5 fw-semibold">
+                                                            -
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-6 col-xl-3">
+                                                    <div class="p-3 rounded bg-body-tertiary h-100">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="text-primary">
+                                                                <i class="cil-money"></i>
+                                                            </div>
+
+                                                            <div class="small text-body-secondary"
+                                                                data-i18n="costAnalysis.overview.performance.actualCost">
+                                                                Actual Cost
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="overviewCostActualCost" class="fs-5 fw-semibold">
+                                                            -
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-md-6 col-xl-3">
+                                                    <div class="p-3 rounded bg-body-tertiary h-100">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <div class="text-primary">
+                                                                <i class="cil-speedometer"></i>
+                                                            </div>
+                                                            <div class="small text-body-secondary"
+                                                                data-i18n="costAnalysis.overview.performance.cpi">
+                                                                CPI
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="overviewCpi" class="fs-5 fw-semibold">-</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <div class="p-4 rounded bg-body-tertiary">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="text-primary fs-3">
+                                                            <i class="cil-chart"></i>
+                                                        </div>
+
+                                                        <div>
+                                                            <div class="fw-semibold"
+                                                                data-i18n="costAnalysis.overview.performance.costVariance">
+                                                                Cost Variance
+                                                            </div>
+                                                            <div class="small text-body-secondary">
+                                                                <span
+                                                                    data-i18n="costAnalysis.overview.performance.varianceDescription">
+                                                                    Estimated Cost for Executed Work − Actual Cost
+                                                                </span>
+                                                            </div>
+
+                                                            <div id="overviewCostVariance"
+                                                                class="fs-3 fw-semibold mt-2">
+                                                                -
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cost Structure -->
+                                    <div class="card border-0 mb-4 cost-analysis-overview-card">
+                                        <div class="card-body">
+                                            <div class="mb-4">
+                                                <div class="fw-semibold"
+                                                    data-i18n="costAnalysis.overview.structure.title">
+                                                    Cost Structure
+                                                </div>
+
+                                                <div class="small text-body-secondary"
+                                                    data-i18n="costAnalysis.overview.structure.description">
+                                                    Distribution of actual project cost by cost type
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-4">
+                                                <!-- Direct Cost -->
+                                                <div class="col-12 col-md-4">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span class="small fw-semibold"
+                                                            data-i18n="costAnalysis.overview.structure.direct">
+                                                            Direct Cost
+                                                        </span>
+                                                        <span id="overviewDirectCost" class="small fw-semibold">-</span>
+                                                    </div>
+
+                                                    <div class="progress" style="height: 8px;">
+                                                        <div id="overviewDirectCostBar" class="progress-bar"
+                                                            role="progressbar" style="width: 0%;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Indirect Cost -->
+                                                <div class="col-12 col-md-4">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span class="small fw-semibold"
+                                                            data-i18n="costAnalysis.overview.structure.indirect">
+                                                            Indirect Cost
+                                                        </span>
+
+                                                        <span id="overviewIndirectCost"
+                                                            class="small fw-semibold">-</span>
+                                                    </div>
+
+                                                    <div class="progress" style="height: 8px;">
+                                                        <div id="overviewIndirectCostBar"
+                                                            class="progress-bar opacity-75" role="progressbar"
+                                                            style="width: 0%;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Overhead -->
+                                                <div class="col-12 col-md-4">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span class="small fw-semibold"
+                                                            data-i18n="costAnalysis.overview.structure.overhead">
+                                                            Overhead
+                                                        </span>
+
+                                                        <span id="overviewOverhead" class="small fw-semibold">
+                                                            -
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="progress" style="height: 8px;">
+                                                        <div id="overviewOverheadBar" class="progress-bar opacity-50"
+                                                            role="progressbar" style="width: 0%;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Cost Control Alerts -->
+                                    <div class="card border-0 mb-4 cost-analysis-overview-card">
+                                        <div class="card-body">
+                                            <div class="mb-4">
+                                                <div class="fw-semibold" data-i18n="costAnalysis.overview.alerts.title">
+                                                    Cost Control Alerts
+                                                </div>
+
+                                                <div class="small text-body-secondary"
+                                                    data-i18n="costAnalysis.overview.alerts.description">
+                                                    Items requiring attention based on current cost control
+                                                    indicators
+                                                </div>
+                                            </div>
+
+                                            <div id="overviewAlerts">
+                                                <div class="text-body-secondary">-</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- ================= -->
@@ -227,99 +756,7 @@
                             <!-- ================= -->
 
                             <div class="tab-pane fade p-4" id="item-analysis" role="tabpanel">
-
                                 <div id="itemAnalysisDataContainer">
-                                    <!-- Alert -->
-                                    <div id="customDateAlert" class="alert alert-danger d-none mb-3" role="alert"></div>
-
-                                    <!-- Period Selection -->
-                                    <div class="mb-4 p-3 rounded bg-body-tertiary">
-                                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
-
-                                            <!-- Period Selector -->
-                                            <div>
-                                                <div class="fw-semibold" data-i18n="costAnalysis.period.title">
-                                                    Analysis Period
-                                                </div>
-
-                                                <div class="small text-body-secondary mb-2"
-                                                    data-i18n="costAnalysis.period.description">
-                                                    Select the period for cost performance review
-                                                </div>
-
-                                                <div class="d-flex flex-wrap gap-2" id="itemAnalysisPeriods">
-                                                    <button type="button"
-                                                        class="btn btn-ghost-primary fw-semibold active"
-                                                        data-period="Cumulative"
-                                                        data-i18n="costAnalysis.period.cumulative">
-                                                        Cumulative
-                                                    </button>
-
-                                                    <button type="button" class="btn btn-ghost-primary fw-semibold"
-                                                        data-period="CurrentWeek"
-                                                        data-i18n="costAnalysis.period.currentWeek">
-                                                        Current Week
-                                                    </button>
-
-                                                    <button type="button" class="btn btn-ghost-primary fw-semibold"
-                                                        data-period="CurrentMonth"
-                                                        data-i18n="costAnalysis.period.currentMonth">
-                                                        Current Month
-                                                    </button>
-
-                                                    <button type="button" class="btn btn-ghost-primary fw-semibold"
-                                                        data-period="Custom" data-i18n="costAnalysis.period.custom">
-                                                        Custom Date
-                                                    </button>
-                                                </div>
-
-                                                <!-- Custom Date Range -->
-                                                <div id="customDateRange" class="d-none flex-wrap gap-3 mt-3">
-                                                    <div>
-                                                        <label for="customStartDate"
-                                                            class="form-label small text-body-secondary mb-1"
-                                                            data-i18n="costAnalysis.period.from">
-                                                            From
-                                                        </label>
-
-                                                        <input type="date" id="customStartDate"
-                                                            class="form-control form-control-sm">
-                                                    </div>
-
-                                                    <div>
-                                                        <label for="customEndDate"
-                                                            class="form-label small text-body-secondary mb-1"
-                                                            data-i18n="costAnalysis.period.to">
-                                                            To
-                                                        </label>
-
-                                                        <input type="date" id="customEndDate"
-                                                            class="form-control form-control-sm">
-                                                    </div>
-
-                                                    <div class="d-flex align-items-end">
-                                                        <button type="button" id="applyCustomPeriod"
-                                                            class="btn btn-sm btn-primary"
-                                                            data-i18n="costAnalysis.period.apply">
-                                                            Apply
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Selected Period Range -->
-                                            <div id="itemAnalysisPeriodRangeContainer"
-                                                class="d-flex align-items-center gap-2 text-body-secondary ms-auto">
-                                                <i class="cil-calendar"></i>
-
-                                                <span data-i18n="costAnalysis.period.analysisPeriod" class="small">
-                                                    Analysis Period
-                                                </span>
-                                                <span id="itemAnalysisPeriodRange" class="fw-semibold "></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <!-- Item Filters -->
                                     <div class="mb-4">
                                         <div class="mb-2">
@@ -424,7 +861,8 @@
                                                         <th data-i18n="costAnalysis.table.budgetUnitCost">
                                                             Budget Unit Cost
                                                         </th>
-                                                        <th data-i18n="costAnalysis.table.periodPlannedCost">Planned Cost</th>
+                                                        <th data-i18n="costAnalysis.table.periodPlannedCost">Planned
+                                                            Cost</th>
                                                         <th data-i18n="costAnalysis.table.actualCost">Actual Cost</th>
                                                         <th data-i18n="costAnalysis.table.profit">Profit</th>
                                                         <th data-i18n="costAnalysis.table.margin">Profit Margin %</th>
@@ -452,11 +890,9 @@
                             <div class="tab-pane fade p-4" id="reports" role="tabpanel">
 
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
