@@ -11,13 +11,13 @@ namespace CostControlSystem.API.Controllers
     [ApiController]
     public class CostAnalysisController : ControllerBase
     {
-
         private readonly ICostAnalysisService _costAnalysisService;
 
         public CostAnalysisController(ICostAnalysisService costAnalysisService)
         {
             _costAnalysisService = costAnalysisService;
         }
+
 
         [HttpGet("projects/{projectId:int}/cost-analysis/items")]
         public async Task<ActionResult<ItemAnalysisResultDto>> GetItemAnalysis(
@@ -27,6 +27,19 @@ namespace CostControlSystem.API.Controllers
             [FromQuery] DateOnly? endDate = null)
         {
             var result = await _costAnalysisService.GetItemAnalysisAsync(projectId, period, startDate, endDate);
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("projects/{projectId:int}/cost-analysis/overview")]
+        public async Task<ActionResult<CostAnalysisOverviewDto>> GetOverview(
+            int projectId,
+            [FromQuery] CostAnalysisPeriod period = CostAnalysisPeriod.Cumulative,
+            [FromQuery] DateOnly? startDate = null,
+            [FromQuery] DateOnly? endDate = null)
+        {
+            var result = await _costAnalysisService.GetOverviewAsync(projectId, period, startDate, endDate);
 
             return Ok(result);
         }

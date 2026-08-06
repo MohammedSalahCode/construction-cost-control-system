@@ -10,5 +10,12 @@ namespace CostControlSystem.Application.CostAnalysis.Interfaces
             CostAnalysisPeriod period,
             DateOnly? startDate = null,
             DateOnly? endDate = null);
+
+
+        Task<CostAnalysisOverviewDto> GetOverviewAsync(
+            int projectId,
+            CostAnalysisPeriod period,
+            DateOnly? startDate = null,
+            DateOnly? endDate = null);
     }
 }
